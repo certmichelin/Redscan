@@ -1,0 +1,259 @@
+#
+# Docker compose file for REDSCAN.
+# Warning : The following port are reserved to dockprom monitoring 
+# - 3000
+# - 9090
+# - 9093
+# - 9091
+#
+version: "3.8"
+services:
+
+  redscan-alerts:
+    image: docker.pkg.github.com/certmichelin/redscan-alerts/redscan-alerts:2.0.2
+    env_file:
+      - data/environments/red.env
+      - data/environments/alerts.env
+    volumes:
+      - ./logs:/logs
+      - ./conf/redscan-alerts:/conf
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+
+  redscan-vulnerability:
+    image: docker.pkg.github.com/certmichelin/redscan-vulnerability/redscan-vulnerability:2.0.0
+    env_file:
+      - data/environments/red.env
+    volumes:
+      - ./logs:/logs
+      - ./conf/redscan-vulnerability:/conf
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+
+  redscan-cache:
+    image: docker.pkg.github.com/certmichelin/redscan-cache/redscan-cache:2.0.1
+    volumes:
+      - ./logs:/logs
+      - ./conf/redscan-cache:/conf
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+
+  redscan-cname:
+    image: docker.pkg.github.com/certmichelin/redscan-cname/redscan-cname:2.0.1
+    env_file:
+      - data/environments/red.env
+    volumes:
+      - ./logs:/logs
+      - ./conf/redscan-cname:/conf
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+
+  redscan-exploretld:
+    image: docker.pkg.github.com/certmichelin/redscan-exploretld/redscan-exploretld:2.0.1
+    env_file:
+      - data/environments/red.env
+    volumes:
+      - ./logs:/logs
+      - ./conf/redscan-exploretld:/conf
+      - ./data/wordlists:/wordlists
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+
+  redscan-gitgrabber:
+    image: docker.pkg.github.com/certmichelin/redscan-gitgrabber/redscan-gitgrabber:2.0.2
+    env_file:
+      - data/environments/red.env
+    volumes:
+      - ./logs:/logs
+      - ./conf/redscan-gitgrabber/log4j2:/conf
+      - ./conf/redscan-gitgrabber/app/config.py:/usr/bin/gitgrabber/config.py
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+
+  redscan-ip:
+    image: docker.pkg.github.com/certmichelin/redscan-ip/redscan-ip:2.0.1
+    env_file:
+      - data/environments/red.env
+    volumes:
+      - ./logs:/logs
+      - ./conf/redscan-ip:/conf
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+
+  redscan-masscan:
+    image: docker.pkg.github.com/certmichelin/redscan-masscan/redscan-masscan:2.0.2
+    env_file:
+      - data/environments/red.env
+    volumes:
+      - ./logs:/logs
+      - ./conf/redscan-masscan:/conf
+      - ./data/wordlists:/wordlists
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+
+  redscan-nmapservice:
+    image: docker.pkg.github.com/certmichelin/redscan-nmapservice/redscan-nmapservice:2.0.5
+    env_file:
+      - data/environments/red.env
+    volumes:
+      - ./logs:/logs
+      - ./conf/redscan-nmapservice:/conf
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+
+
+  redscan-shodan:
+    image: docker.pkg.github.com/certmichelin/redscan-shodan/redscan-shodan:2.0.1
+    env_file:
+      - data/environments/red.env
+    volumes:
+      - ./logs:/logs
+      - ./conf/redscan-shodan:/conf
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+
+  redscan-subfinder:
+    image: docker.pkg.github.com/certmichelin/redscan-subfinder/redscan-subfinder:2.0.5
+    env_file:
+      - data/environments/red.env
+    volumes:
+      - ./logs:/logs
+      - ./conf/redscan-subfinder/log4j2:/conf
+      - ./conf/redscan-subfinder/app:/root/.config/subfinder
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+
+  redscan-magellan:
+    image: docker.pkg.github.com/certmichelin/redscan-magellan/redscan-magellan:2.1.1
+    ports:
+      # - "exposé:inner"
+      - "8888:8888"
+    env_file:
+      - data/environments/red.env
+      - data/environments/magellan.env
+    volumes:
+      - ./logs:/logs
+      - ./conf/redscan-magellan:/conf
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+
+  redscan-backup:
+    image: docker.pkg.github.com/certmichelin/redscan-backup/redscan-backup:2.0.1
+    env_file:
+      - data/environments/red.env
+      - data/environments/backup.env
+    volumes:
+      - ./logs:/logs
+      - ./conf/redscan-backup:/conf
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.10.1
+    volumes:
+      - ./backup:/usr/share/elasticsearch/backup:rw
+    ports:
+      # - "exposé:inner"
+      - "9200:9200"
+    environment:
+      - discovery.type=single-node
+      - path.repo=/usr/share/elasticsearch/backup
+    healthcheck:
+        test: curl -s http://localhost:9200/_cluster/health | grep -vq '"status":"red"'
+        interval: 20s
+        retries: 10
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.10.1
+    ports:
+      # - "exposé:inner"
+      - "5601:5601"
+    environment:
+      - SERVER_BASEPATH=/kibana
+      - SERVER_REWRITEBASEPATH=false
+    healthcheck:
+      test: curl --write-out 'HTTP %{http_code}' --fail --silent --output /dev/null http://localhost:5601/api/status
+      interval: 10s
+      retries: 20
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+
+  kibanasetup:
+    image: curlimages/curl:7.74.0
+    volumes:
+      - ./data/kibana:/tmp/
+    depends_on:
+      kibana:
+        condition: service_healthy
+    restart: "no"
+    entrypoint: "find"
+    command: "/tmp/ -iname *.ndjson -exec curl -X POST http://kibana:5601/api/saved_objects/_import?overwrite=true  -H \"kbn-xsrf: true\" --form file=@{} \\;"
+
+  rabbitmq:
+    image: rabbitmq:management
+    environment: 
+      - RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS=-rabbitmq_management path_prefix "/rabbitmq"
+    ports:
+      # - "exposé:inner"
+      - "15672:15672"
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 10s
+      timeout: 10s
+      retries: 3
+
+  keycloak:
+    image: jboss/keycloak
+    env_file:
+      - data/environments/keycloak.env
+    volumes:
+      - ./conf/keycloak/:/conf/
+  
+  redscan-rproxy: 
+    image: docker.pkg.github.com/certmichelin/redscan-rproxy/redscan-rproxy:2.0.1
+    volumes:
+      - ./conf/redscan-rproxy/redscan.conf:/usr/local/apache2/conf/redscan.conf
+      - ./conf/redscan-rproxy/certs/:/usr/local/apache2/conf/certs/
+    ports:
+      - 443:443
+    extra_hosts:
+      - ${HOSTNAME}:127.0.0.1
+  
