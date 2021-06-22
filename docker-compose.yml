@@ -317,9 +317,6 @@ services:
 
   redscan-magellan:
     image: docker.pkg.github.com/certmichelin/redscan-magellan/redscan-magellan:3.0.0
-    ports:
-      # - "exposé:inner"
-      - "8888:8888"
     env_file:
       - data/environments/red.env
       - data/environments/magellan.env
@@ -361,9 +358,6 @@ services:
 
   kibana:
     image: docker.elastic.co/kibana/kibana:7.10.1
-    ports:
-      # - "exposé:inner"
-      - "5601:5601"
     environment:
       - SERVER_BASEPATH=/kibana
       - SERVER_REWRITEBASEPATH=false
@@ -390,9 +384,6 @@ services:
     image: rabbitmq:management
     environment: 
       - RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS=-rabbitmq_management path_prefix "/rabbitmq"
-    ports:
-      # - "exposé:inner"
-      - "15672:15672"
     healthcheck:
       test: rabbitmq-diagnostics -q ping
       interval: 10s
