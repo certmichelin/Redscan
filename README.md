@@ -8,32 +8,36 @@ python red.py -h
 ```
 
 #### Exposed Service
-| Port  | Service                          | Default credentials |
-| :---- | :------------------------------- | :------------------ |
-| 3000  | Grafana (visualize metrics)      | admin/admin         |
-| 5601  | Kibana                           |                     |
-| 8888  | Magellan Web application         |                     |
-| 9090  | Prometheus (metrics database)    |                     |
-| 9091  | Prometheus-Pushgateway           |                     |
-| 9093  | AlertManager (alerts management) |                     |
-| 9200  | Elasctic Search                  |                     |
-| 15672 | Rabbit MQ Management             | guest/guest         |
+| Port  | Endpoint  | Service                          | Default credentials |
+| :---- | :-------- | :------------------------------- | :------------------ |
+| 3000  | /         | Grafana (visualize metrics)      | admin/admin         |
+| 443   | /kibana   | Kibana                           |                     |
+| 443   | /magellan | Magellan Web application         |                     |
+| 443   | /auth     | Keycloack                        |                     |
+| 9090  |           | Prometheus (metrics database)    |                     |
+| 9091  |           | Prometheus-Pushgateway           |                     |
+| 9093  |           | AlertManager (alerts management) |                     |
+| 9200  | /         | Elastic Search (Removed soon)    |                     |
+| 443   | /rabbitmq | Rabbit MQ Management             | guest/guest         |
 
 #### Integrate Github Package.
 
 As Rescan project used Github Package registry, you need to login to github with docker in order to be able to pull the images.
 
 ```
-docker login https://docker.pkg.github.com -u USERNAME -p TOKEN
+docker login https://docker.pkg.github.com
 ```
 
-#### Quick run
+#### Quick start
 ```
 python red.py --install-dockprom
-python red.py --init
+python red.py --setup-demo
+
 #Fill the specific environment with credentials.
 python red.py --run
 ```
+
+** WARNING : --setup demo is unsecure and should not be exposed over the internet. For a full configuration, please refer to the project wiki
 
 Resources
 ---------
