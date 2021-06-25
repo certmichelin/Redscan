@@ -36,12 +36,25 @@ services:
           condition: service_healthy
           
   redscan-urlcrazy:
-    image: docker.pkg.github.com/certmichelin/redscan-urlcrazy/redscan-urlcrazy:3.0.0
+    image: docker.pkg.github.com/certmichelin/redscan-urlcrazy/redscan-urlcrazy:3.0.1
     env_file:
       - data/environments/red.env
     volumes:
       - ./logs:/logs
       - ./conf/redscan-urlcrazy:/conf
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+
+  redscan-certinfo:
+    image: docker.pkg.github.com/certmichelin/redscan-certinfo/redscan-certinfo:3.0.0
+    env_file:
+      - data/environments/red.env
+    volumes:
+      - ./logs:/logs
+      - ./conf/redscan-certinfo:/conf
     depends_on:
       rabbitmq:
         condition: service_healthy
