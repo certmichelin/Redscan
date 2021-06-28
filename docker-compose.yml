@@ -62,7 +62,7 @@ services:
         condition: service_healthy
         
   redscan-cloudenum:
-      image: docker.pkg.github.com/certmichelin/redscan-cloudenum/redscan-cloudenum:3.0.0
+      image: docker.pkg.github.com/certmichelin/redscan-cloudenum/redscan-cloudenum:3.0.1
       env_file:
         - data/environments/red.env
       volumes:
