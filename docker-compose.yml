@@ -358,6 +358,8 @@ services:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.10.1
     volumes:
       - ./backup:/usr/share/elasticsearch/backup:rw
+      - ./logs/elasticsearch:/usr/share/elasticsearch/logs/
+      - ./conf/elasticsearch/log4j2.properties:/usr/share/elasticsearch/config/log4j2.properties
     ports:
       # - "exposé:inner"
       - "9200:9200"
@@ -409,12 +411,14 @@ services:
       - data/environments/keycloak.env
     volumes:
       - ./conf/keycloak/:/conf/
+      - ./logs/keycloak/:/opt/jboss/keycloak/standalone/log/
   
   redscan-rproxy: 
     image: docker.pkg.github.com/certmichelin/redscan-rproxy/redscan-rproxy:3.0.0
     volumes:
       - ./conf/redscan-rproxy/redscan.conf:/usr/local/apache2/conf/redscan.conf
       - ./conf/redscan-rproxy/certs/:/usr/local/apache2/conf/certs/
+      - ./logs/rproxy:/usr/local/apache2/logs/
     ports:
       - 443:443
     extra_hosts:
