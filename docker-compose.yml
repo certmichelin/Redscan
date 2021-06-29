@@ -415,6 +415,7 @@ services:
     volumes:
       - ./conf/redscan-rproxy/redscan.conf:/usr/local/apache2/conf/redscan.conf
       - ./conf/redscan-rproxy/certs/:/usr/local/apache2/conf/certs/
+      - ./logs:/usr/local/apache2/logs/
     ports:
       - 443:443
     extra_hosts:
