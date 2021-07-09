@@ -22,7 +22,6 @@ def main():
     parser.add_argument('--init-variables', action="store_true", dest="init_variables", default=None, help="Initialize variables")
     parser.add_argument('--init-variables-file', action="store", dest="init_variables_file", default=Path('red.conf'), help="Specify configuration file for variables. By default it will use the demo configuration.")
     parser.add_argument('--setup-demo', action="store_true", dest="setup_demo", default=None, help="Setup demo. Not Secured. DON'T USE IT IN OTHER ENVIRONMENT")
-
     parser.add_argument('--install-dockprom', action="store_true", dest="install_dockprom", default=None, help="Install dockprom monitoring.")
     parser.add_argument('--update-dockprom', action="store_true", dest="update_dockprom", default=None, help="Update dockprom monitoring.")
     parser.add_argument('--run', action="store_true", dest="run", default=None, help="Run redscan with monitoring")
@@ -127,7 +126,7 @@ def main():
         os.system('docker-compose -f dockprom/docker-compose.yml up -d')
         #Don't forget to uncomment this line when amass will be reenabled.
         #os.system('docker-compose up --scale redscan-nmapservice=5 --scale redscan-amass=3 --scale redscan-masscan=2 -d')
-        os.system('docker-compose up --scale redscan-nmapservice=5 --scale redscan-masscan=2 -d')
+        os.system('docker-compose up --scale redscan-nmapservice=5 --scale redscan-nuclei-exposedpanels=5 --scale redscan-masscan=2 -d')
 
     #Debug.
     if params.debug:

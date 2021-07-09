@@ -9,6 +9,19 @@
 version: "3.8"
 services:
 
+  redscan-nuclei-exposedpanels:
+    image: docker.pkg.github.com/certmichelin/redscan-nuclei-exposedpanels/redscan-nuclei-exposedpanels:3.0.0
+    env_file:
+      - data/environments/red.env
+    volumes:
+      - ./logs:/logs
+      - ./conf/redscan-nuclei-exposedpanels:/conf
+    depends_on:
+        rabbitmq:
+          condition: service_healthy
+        elasticsearch:
+          condition: service_healthy
+          
   redscan-securitytxt:
     image: docker.pkg.github.com/certmichelin/redscan-securitytxt/redscan-securitytxt:3.0.1
     env_file:
