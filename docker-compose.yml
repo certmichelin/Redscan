@@ -273,7 +273,7 @@ services:
         condition: service_healthy
 
   redscan-subfinder:
-    image: docker.pkg.github.com/certmichelin/redscan-subfinder/redscan-subfinder:3.0.0
+    image: docker.pkg.github.com/certmichelin/redscan-subfinder/redscan-subfinder:3.0.1
     env_file:
       - data/environments/red.env
     volumes:
