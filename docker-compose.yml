@@ -10,7 +10,7 @@ version: "3.8"
 services:
 
   redscan-nuclei-exposure:
-    image: docker.pkg.github.com/certmichelin/redscan-nuclei-exposure/redscan-nuclei-exposure:3.1.0
+    image: docker.pkg.github.com/certmichelin/redscan-nuclei-exposure/redscan-nuclei-exposure:3.1.1
     env_file:
       - data/environments/red.env
     volumes:
@@ -23,7 +23,7 @@ services:
           condition: service_healthy
 
   redscan-nuclei-exposedpanels:
-    image: docker.pkg.github.com/certmichelin/redscan-nuclei-exposedpanels/redscan-nuclei-exposedpanels:3.1.0
+    image: docker.pkg.github.com/certmichelin/redscan-nuclei-exposedpanels/redscan-nuclei-exposedpanels:3.1.1
     env_file:
       - data/environments/red.env
     volumes:
@@ -36,7 +36,7 @@ services:
           condition: service_healthy
           
   redscan-securitytxt:
-    image: docker.pkg.github.com/certmichelin/redscan-securitytxt/redscan-securitytxt:3.1.0
+    image: docker.pkg.github.com/certmichelin/redscan-securitytxt/redscan-securitytxt:3.1.1
     env_file:
       - data/environments/red.env
     volumes:
@@ -49,7 +49,7 @@ services:
           condition: service_healthy
    
   redscan-puppeteer:
-    image: docker.pkg.github.com/certmichelin/redscan-puppeteer/redscan-puppeteer:3.1.0
+    image: docker.pkg.github.com/certmichelin/redscan-puppeteer/redscan-puppeteer:3.1.1
     env_file:
       - data/environments/red.env
     volumes:
@@ -75,7 +75,7 @@ services:
         condition: service_healthy
 
   redscan-certinfo:
-    image: docker.pkg.github.com/certmichelin/redscan-certinfo/redscan-certinfo:3.1.0
+    image: docker.pkg.github.com/certmichelin/redscan-certinfo/redscan-certinfo:3.1.1
     env_file:
       - data/environments/red.env
     volumes:
@@ -220,7 +220,7 @@ services:
         condition: service_healthy
 
   redscan-nmapservice:
-    image: docker.pkg.github.com/certmichelin/redscan-nmapservice/redscan-nmapservice:3.1.0
+    image: docker.pkg.github.com/certmichelin/redscan-nmapservice/redscan-nmapservice:3.1.1
     env_file:
       - data/environments/red.env
     volumes:
@@ -314,7 +314,7 @@ services:
         condition: service_healthy
 
   redscan-sslscan:
-    image: docker.pkg.github.com/certmichelin/redscan-sslscan/redscan-sslscan:3.1.0
+    image: docker.pkg.github.com/certmichelin/redscan-sslscan/redscan-sslscan:3.1.1
     env_file:
       - data/environments/red.env
     volumes:
@@ -327,7 +327,7 @@ services:
         condition: service_healthy
 
   redscan-wappalyzer:
-    image: docker.pkg.github.com/certmichelin/redscan-wappalyzer/redscan-wappalyzer:3.1.0
+    image: docker.pkg.github.com/certmichelin/redscan-wappalyzer/redscan-wappalyzer:3.1.1
     env_file:
       - data/environments/red.env
     volumes:
