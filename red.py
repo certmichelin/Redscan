@@ -126,7 +126,7 @@ def main():
         os.system('docker-compose -f dockprom/docker-compose.yml up -d')
         #Don't forget to uncomment this line when amass will be reenabled.
         #os.system('docker-compose up --scale redscan-nmapservice=5 --scale redscan-amass=3 --scale redscan-masscan=2 -d')
-        os.system('docker-compose up --scale redscan-nmapservice=5 --scale redscan-nuclei-exposedpanels=5 --scale redscan-nuclei-exposure=5 --scale redscan-masscan=2 -d')
+        os.system('docker-compose up --scale redscan-nmapservice=5 --scale redscan-nuclei-exposedpanels=5 --scale redscan-nuclei-exposure=5 --scale redscan-nuclei-misconfiguration=5 --scale redscan-nuclei-miscellaneous=5 --scale redscan-nuclei-technologies=5 --scale redscan-masscan=2 -d')
 
     #Debug.
     if params.debug:
