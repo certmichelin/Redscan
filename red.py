@@ -25,6 +25,7 @@ def main():
     parser.add_argument('--install-dockprom', action="store_true", dest="install_dockprom", default=None, help="Install dockprom monitoring.")
     parser.add_argument('--update-dockprom', action="store_true", dest="update_dockprom", default=None, help="Update dockprom monitoring.")
     parser.add_argument('--run', action="store_true", dest="run", default=None, help="Run redscan with monitoring")
+    parser.add_argument('--demo', action="store_true", dest="demo", default=None, help="Run redscan in demo mode (without scaling)")
     parser.add_argument('--debug', action="store_true", dest="debug", default=None, help="Run redscan with console output.")
     parser.add_argument('--stop', action="store_true", dest="stop", default=None, help="Stop redscan.")
     parser.add_argument('--down', action="store_true", dest="down", default=None, help="Stop & Remove all redscan containers.")
@@ -127,6 +128,12 @@ def main():
         #Don't forget to uncomment this line when amass will be reenabled.
         #os.system('docker-compose up --scale redscan-nmapservice=5 --scale redscan-amass=3 --scale redscan-masscan=2 -d')
         os.system('docker-compose up --scale redscan-nmapservice=5 --scale redscan-nuclei-exposedpanels=5 --scale redscan-nuclei-exposure=5 --scale redscan-nuclei-misconfiguration=5 --scale redscan-nuclei-miscellaneous=5 --scale redscan-nuclei-technologies=5 --scale redscan-masscan=2 -d')
+
+    #Demo.
+    if params.demo:
+        print("--- Run REDSCAN as Demo ---")
+        os.system('docker-compose -f dockprom/docker-compose.yml up -d')
+        os.system('docker-compose up -d')
 
     #Debug.
     if params.debug:
