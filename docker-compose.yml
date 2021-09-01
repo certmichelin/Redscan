@@ -423,8 +423,6 @@ services:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.10.1
     volumes:
       - ./backup:/usr/share/elasticsearch/backup:rw
-      - ./logs/elasticsearch:/usr/share/elasticsearch/logs/
-      - ./conf/elasticsearch/log4j2.properties:/usr/share/elasticsearch/config/log4j2.properties
     ports:
       # - "exposé:inner"
       - "9200:9200"
