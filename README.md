@@ -1,26 +1,27 @@
-Redscan
-=======
+<h1 align="center">
+  Redscan by <a href="https://cert.michelin.com"><img src="https://cert.michelin.com/img/Logo_MICHELIN_EN.png" width="200px" alt="Redscan"></a>
+</h1>
 
-Redscan discovers websites and which services they are running.
+<p align="center">
+  <a href="https://github.com/certmichelin/Redscan/wiki">Introduction</a> •
+  <a href="https://github.com/certmichelin/Redscan/wiki/Developers">How to develop</a> •
+  <a href="https://github.com/certmichelin/Redscan/wiki/Plugin-List">Plugin list</a> •
+  <a href="https://github.com/certmichelin/Redscan/wiki/Troubleshooting">FAQs</a>
+</p>
 
-```
-python red.py -h
-```
+<h1></h1>
 
-#### Exposed Service
-| Port  | Endpoint  | Service                          | Default credentials |
-| :---- | :-------- | :------------------------------- | :------------------ |
-| 3000  | /         | Grafana (visualize metrics)      | admin/admin         |
-| 443   | /kibana   | Kibana                           |                     |
-| 443   | /magellan | Magellan Web application         |                     |
-| 443   | /auth     | Keycloack                        |                     |
-| 9090  |           | Prometheus (metrics database)    |                     |
-| 9091  |           | Prometheus-Pushgateway           |                     |
-| 9093  |           | AlertManager (alerts management) |                     |
-| 9200  | /         | Elastic Search (Removed soon)    |                     |
-| 443   | /rabbitmq | Rabbit MQ Management             | guest/guest         |
+Redscan is built to discover exposed assets of a company, detect misconfigurations or compliance deviation.
 
-#### Integrate Github Package.
+Redscan was conceived with the idea to automate the recon phase and the vulnerability assertion as referred to the Bug Bounty Methodology. 
+
+The aim of the project is to facilitate the orchestration, the integration and the result exploitation of existing good tools. For that [Redscan-Utils](https://github.com/certmichelin/Redscan-Utils) was developped
+
+The Michelin CERT developped and continue to maintain plenty of plugins covering most of known use-case. You can find them on https://github.com/certmichelin
+
+<br/>
+
+# Quick start
 
 As Rescan project used Github Package registry, you need to login to github with docker in order to be able to pull the images.
 
@@ -28,19 +29,29 @@ As Rescan project used Github Package registry, you need to login to github with
 docker login https://docker.pkg.github.com
 ```
 
-#### Quick start
+Setup a quick demo instance in four commands
+
 ```
+git clone https://github.com/certmichelin/Redscan.git
+cd Redscan
 python red.py --install-dockprom
 python red.py --setup-demo
-
-#Fill the specific environment with credentials.
-python red.py --run
 ```
 
-** WARNING : --setup demo is unsecure and should not be exposed over the internet. For a full configuration, please refer to the project wiki
+In order to be more accurate, some plugins required api keys such as subfinder, gitgrabber or alert, you can find them under `conf` folder.
 
-Resources
----------
+```
+# --demo run one instance per plugin that would cause bottleneck for big scope.
+python red.py --demo
+```
+
+**WARNING : --setup demo is unsecure and should not be exposed over the internet. For a full configuration, please refer to the project wiki**
+
+You can display the help command using `python red.py -h`
+
+
+# Resources
+
 - https://github.com/jhaddix/tbhm
 - https://www.youtube.com/watch?v=jHWUkYzMf6k&list=PLUOjNfYgonUtXMr4ljtM9iVUAIPMnD-3Y&index=2
 - https://www.youtube.com/watch?v=q11eBk_k6DA&list=PLUOjNfYgonUtXMr4ljtM9iVUAIPMnD-3Y&index=32
