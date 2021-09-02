@@ -11,19 +11,19 @@
 
 <h1></h1>
 
-Redscan is built to discover exposed assets of a company, detect misconfigurations or compliance deviation.
+Redscan is built to discover exposed assets of a company, detect misconfigurations and compliance deviations.
 
 Redscan was conceived with the idea to automate the recon phase and the vulnerability assertion as referred to the Bug Bounty Methodology. 
 
-The aim of the project is to facilitate the orchestration, the integration and the result exploitation of existing good tools. For that [Redscan-Utils](https://github.com/certmichelin/Redscan-Utils) was developped
+The aim of the project is to facilitate the orchestration, the integration and the exploitation of results coming from existing good tools. For that [Redscan-Utils](https://github.com/certmichelin/Redscan-Utils) was developed.
 
-The Michelin CERT developped and continue to maintain plenty of plugins covering most of known use-case. You can find them on https://github.com/certmichelin
+The Michelin CERT developed and continue to maintain plenty of plugins covering most of known use-cases. You can find them on https://github.com/certmichelin .
 
 <br/>
 
 # Quick start
 
-As Rescan project used Github Package registry, you need to login to github with docker in order to be able to pull the images.
+As Redscan project used Github Package registry, you need to login to github with docker in order to be able to pull the images.
 
 ```
 docker login https://docker.pkg.github.com
