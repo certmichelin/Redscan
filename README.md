@@ -38,7 +38,7 @@ python red.py --install-dockprom
 python red.py --setup-demo
 ```
 
-In order to be more accurate, some plugins required api keys such as subfinder, gitgrabber or alert, you can find them under `conf` folder.
+In order to be more accurate, some plugins required api keys such as subfinder, gitgrabber or alert, you can find them under `conf` folder. Values are surrounded by `§` character.
 
 ```
 # --demo run one instance per plugin that would cause bottleneck for big scope.
