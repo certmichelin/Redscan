@@ -378,20 +378,20 @@ services:
       elasticsearch:
         condition: service_healthy
 
-  #redscan-amass:
-  #  image: docker.pkg.github.com/certmichelin/redscan-amass/redscan-amass:3.0.0
-  #  env_file:
-  #    - data/environments/red.env
-  #  volumes:
-  #    - ./logs:/logs
-  #    - ./conf/redscan-amass/log4j2:/conf
-  #    - ./conf/redscan-amass/app/:/root/.config/amass/
-  #    - ./data/wordlists:/wordlists
-  #  depends_on:
-  #    rabbitmq:
-  #      condition: service_healthy
-  #    elasticsearch:
-  #      condition: service_healthy
+  redscan-amass:
+    image: docker.pkg.github.com/certmichelin/redscan-amass/redscan-amass:3.0.1
+    env_file:
+      - data/environments/red.env
+    volumes:
+      - ./logs:/logs
+      - ./conf/redscan-amass/log4j2:/conf
+      - ./conf/redscan-amass/app/:/root/.config/amass/
+      - ./data/wordlists:/wordlists
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
 
   redscan-magellan:
     image: docker.pkg.github.com/certmichelin/redscan-magellan/redscan-magellan:3.0.0
