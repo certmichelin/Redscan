@@ -407,35 +407,29 @@ services:
       elasticsearch:
         condition: service_healthy
 
-  redscan-backup:
-    image: docker.pkg.github.com/certmichelin/redscan-backup/redscan-backup:3.0.0
-    env_file:
-      - data/environments/red.env
-      - data/environments/backup.env
-    volumes:
-      - ./logs:/logs
-      - ./conf/redscan-backup:/conf
-    depends_on:
-      elasticsearch:
-        condition: service_healthy
-
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.10.1
-    volumes:
-      - ./backup:/usr/share/elasticsearch/backup:rw
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.15.0
     ports:
       # - "exposé:inner"
       - "9200:9200"
+    volumes:
+      - ./data/elasticsearch:/usr/share/elasticsearch/data
     environment:
       - discovery.type=single-node
-      - path.repo=/usr/share/elasticsearch/backup
+      - "ES_JAVA_OPTS=-Xms4096m -Xmx4096m"
+      - xpack.security.enabled=false
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    
     healthcheck:
         test: curl -s http://localhost:9200/_cluster/health | grep -vq '"status":"red"'
         interval: 20s
         retries: 10
 
   kibana:
-    image: docker.elastic.co/kibana/kibana:7.10.1
+    image: docker.elastic.co/kibana/kibana:7.15.0
     environment:
       - SERVER_BASEPATH=/kibana
       - SERVER_REWRITEBASEPATH=false
