@@ -412,8 +412,8 @@ services:
     ports:
       # - "exposé:inner"
       - "9200:9200"
-    volumes:
-      - ./data/elasticsearch:/usr/share/elasticsearch/data
+    #volumes:
+    #  - ./data/elasticsearch:/usr/share/elasticsearch/data
     environment:
       - discovery.type=single-node
       - "ES_JAVA_OPTS=-Xms4096m -Xmx4096m"
