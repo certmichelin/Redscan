@@ -152,44 +152,6 @@ services:
   #      elasticsearch:
   #        condition: service_healthy
 
-  #redscan-alerts:
-  #  image: docker.pkg.github.com/certmichelin/redscan-alerts/redscan-alerts:3.0.0
-  #  env_file:
-  #    - data/environments/red.env
-  #    - data/environments/alerts.env
-  #  volumes:
-  #    - ./logs:/logs
-  #    - ./conf/redscan-alerts:/conf
-  #  depends_on:
-  #    rabbitmq:
-  #      condition: service_healthy
-  #    elasticsearch:
-  #      condition: service_healthy
-
-  #redscan-vulnerability:
-  #  image: docker.pkg.github.com/certmichelin/redscan-vulnerability/redscan-vulnerability:3.0.0
-  #  env_file:
-  #    - data/environments/red.env
-  #  volumes:
-  #    - ./logs:/logs
-  #    - ./conf/redscan-vulnerability:/conf
-  #  depends_on:
-  #    rabbitmq:
-  #      condition: service_healthy
-  #    elasticsearch:
-  #      condition: service_healthy
-
-  #redscan-cache:
-  #  image: docker.pkg.github.com/certmichelin/redscan-cache/redscan-cache:3.0.0
-  #  volumes:
-  #    - ./logs:/logs
-  #    - ./conf/redscan-cache:/conf
-  #  depends_on:
-  #    rabbitmq:
-  #      condition: service_healthy
-  #    elasticsearch:
-  #      condition: service_healthy
-
   #redscan-cname:
   #  image: docker.pkg.github.com/certmichelin/redscan-cname/redscan-cname:3.0.0
   #  env_file:
@@ -406,6 +368,44 @@ services:
         condition: service_healthy
       elasticsearch:
         condition: service_healthy
+
+  #redscan-alerts:
+  #  image: docker.pkg.github.com/certmichelin/redscan-alerts/redscan-alerts:3.0.0
+  #  env_file:
+  #    - data/environments/red.env
+  #    - data/environments/alerts.env
+  #  volumes:
+  #    - ./logs:/logs
+  #    - ./conf/redscan-alerts:/conf
+  #  depends_on:
+  #    rabbitmq:
+  #      condition: service_healthy
+  #    elasticsearch:
+  #      condition: service_healthy
+
+  #redscan-vulnerability:
+  #  image: docker.pkg.github.com/certmichelin/redscan-vulnerability/redscan-vulnerability:3.0.0
+  #  env_file:
+  #    - data/environments/red.env
+  #  volumes:
+  #    - ./logs:/logs
+  #    - ./conf/redscan-vulnerability:/conf
+  #  depends_on:
+  #    rabbitmq:
+  #      condition: service_healthy
+  #    elasticsearch:
+  #      condition: service_healthy
+
+  #redscan-cache:
+  #  image: docker.pkg.github.com/certmichelin/redscan-cache/redscan-cache:3.0.0
+  #  volumes:
+  #    - ./logs:/logs
+  #    - ./conf/redscan-cache:/conf
+  #  depends_on:
+  #    rabbitmq:
+  #      condition: service_healthy
+  #    elasticsearch:
+  #      condition: service_healthy
 
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.15.0
