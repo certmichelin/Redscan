@@ -9,6 +9,36 @@
 version: "3.8"
 services:
 
+  redscan-exploretld:
+    image: docker.pkg.github.com/certmichelin/redscan-exploretld/redscan-exploretld:4.0.0
+    env_file:
+      - data/environments/red.env
+    volumes:
+      - ./logs:/logs
+      - ./conf/redscan-exploretld:/conf
+      - ./data/wordlists:/wordlists
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+        
+  redscan-gitgrabber:
+    image: docker.pkg.github.com/certmichelin/redscan-gitgrabber/redscan-gitgrabber:4.0.0
+    env_file:
+      - data/environments/red.env
+    volumes:
+      - ./logs:/logs
+      - ./conf/redscan-gitgrabber/log4j2:/conf
+      - ./conf/redscan-gitgrabber/app/config.py:/usr/bin/gitgrabber/config.py
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+
+
+
   #redscan-nuclei-exposure:
   #  image: docker.pkg.github.com/certmichelin/redscan-nuclei-exposure/redscan-nuclei-exposure:3.1.1
   #  env_file:
@@ -164,35 +194,6 @@ services:
   #       condition: service_healthy
   #     elasticsearch:
   #       condition: service_healthy
-
-  # redscan-exploretld:
-  #   image: docker.pkg.github.com/certmichelin/redscan-exploretld/redscan-exploretld:3.0.0
-  #   env_file:
-  #     - data/environments/red.env
-  #   volumes:
-  #     - ./logs:/logs
-  #     - ./conf/redscan-exploretld:/conf
-  #     - ./data/wordlists:/wordlists
-  #   depends_on:
-  #     rabbitmq:
-  #       condition: service_healthy
-  #     elasticsearch:
-  #       condition: service_healthy
-
-  redscan-gitgrabber:
-    #image: docker.pkg.github.com/certmichelin/redscan-gitgrabber/redscan-gitgrabber:3.0.0
-    image: redscan-gitgrabber-local
-    env_file:
-      - data/environments/red.env
-    volumes:
-      - ./logs:/logs
-      - ./conf/redscan-gitgrabber/log4j2:/conf
-      - ./conf/redscan-gitgrabber/app/config.py:/usr/bin/gitgrabber/config.py
-    depends_on:
-      rabbitmq:
-        condition: service_healthy
-      elasticsearch:
-        condition: service_healthy
 
   # redscan-ip:
   #   image: docker.pkg.github.com/certmichelin/redscan-ip/redscan-ip:3.0.0
@@ -357,7 +358,7 @@ services:
   #       condition: service_healthy
 
   redscan-magellan:
-    image: docker.pkg.github.com/certmichelin/redscan-magellan/redscan-magellan:4.0.0
+    image: docker.pkg.github.com/certmichelin/redscan-magellan/redscan-magellan:4.0.1
     env_file:
       - data/environments/red.env
       - data/environments/magellan.env
@@ -371,8 +372,7 @@ services:
         condition: service_healthy
 
   redscan-alerts:
-   #image: docker.pkg.github.com/certmichelin/redscan-alerts/redscan-alerts:4.0.0
-   image: redscan-alerts-local
+   image: docker.pkg.github.com/certmichelin/redscan-alerts/redscan-alerts:4.0.0
    env_file:
      - data/environments/red.env
      - data/environments/alerts.env
@@ -386,8 +386,7 @@ services:
        condition: service_healthy
 
   redscan-vulnerability:
-   #image: docker.pkg.github.com/certmichelin/redscan-vulnerability/redscan-vulnerability:4.0.0
-   image: redscan-vulnerability-local
+   image: docker.pkg.github.com/certmichelin/redscan-vulnerability/redscan-vulnerability:4.0.0
    env_file:
      - data/environments/red.env
    volumes:
@@ -400,8 +399,7 @@ services:
        condition: service_healthy
 
   redscan-cache:
-   #image: docker.pkg.github.com/certmichelin/redscan-cache/redscan-cache:3.0.0
-   image: redscan-cache-local
+   image: docker.pkg.github.com/certmichelin/redscan-cache/redscan-cache:4.0.1
    volumes:
      - ./logs:/logs
      - ./conf/redscan-cache:/conf
