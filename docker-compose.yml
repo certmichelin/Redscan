@@ -37,6 +37,20 @@ services:
       elasticsearch:
         condition: service_healthy
 
+  redscan-masscan:
+    image: docker.pkg.github.com/certmichelin/redscan-masscan/redscan-masscan:4.0.0
+    env_file:
+      - data/environments/red.env
+    volumes:
+      - ./logs:/logs
+      - ./conf/redscan-masscan:/conf
+      - ./data/wordlists:/wordlists
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+
   redscan-shodan:
     image: docker.pkg.github.com/certmichelin/redscan-shodan/redscan-shodan:4.0.0
     env_file:
@@ -229,20 +243,6 @@ services:
   #   volumes:
   #     - ./logs:/logs
   #     - ./conf/redscan-ip:/conf
-  #   depends_on:
-  #     rabbitmq:
-  #       condition: service_healthy
-  #     elasticsearch:
-  #       condition: service_healthy
-
-  # redscan-masscan:
-  #   image: docker.pkg.github.com/certmichelin/redscan-masscan/redscan-masscan:3.1.0
-  #   env_file:
-  #     - data/environments/red.env
-  #   volumes:
-  #     - ./logs:/logs
-  #     - ./conf/redscan-masscan:/conf
-  #     - ./data/wordlists:/wordlists
   #   depends_on:
   #     rabbitmq:
   #       condition: service_healthy
