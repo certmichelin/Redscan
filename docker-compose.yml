@@ -79,6 +79,19 @@ services:
       elasticsearch:
         condition: service_healthy
 
+  redscan-subjack:
+    image: docker.pkg.github.com/certmichelin/redscan-subjack/redscan-subjack:4.0.0
+    env_file:
+      - data/environments/red.env
+    volumes:
+      - ./logs:/logs
+      - ./conf/redscan-subjack:/conf
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+
 
   #redscan-nuclei-exposure:
   #  image: docker.pkg.github.com/certmichelin/redscan-nuclei-exposure/redscan-nuclei-exposure:3.1.1
@@ -297,19 +310,6 @@ services:
   #     - ./logs:/logs
   #     - ./conf/redscan-deepsubjack/log4j2:/conf
   #     - ./conf/redscan-deepsubjack/app:/root/.config/subfinder
-  #   depends_on:
-  #     rabbitmq:
-  #       condition: service_healthy
-  #     elasticsearch:
-  #       condition: service_healthy
-
-  # redscan-subjack:
-  #   image: docker.pkg.github.com/certmichelin/redscan-subjack/redscan-subjack:3.0.0
-  #   env_file:
-  #     - data/environments/red.env
-  #   volumes:
-  #     - ./logs:/logs
-  #     - ./conf/redscan-subjack:/conf
   #   depends_on:
   #     rabbitmq:
   #       condition: service_healthy
