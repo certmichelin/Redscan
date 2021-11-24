@@ -37,6 +37,33 @@ services:
       elasticsearch:
         condition: service_healthy
 
+  redscan-shodan:
+    image: docker.pkg.github.com/certmichelin/redscan-shodan/redscan-shodan:4.0.0
+    env_file:
+      - data/environments/red.env
+      - data/environments/shodan.env
+    volumes:
+      - ./logs:/logs
+      - ./conf/redscan-shodan:/conf
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+
+  redscan-subfinder:
+    image: docker.pkg.github.com/certmichelin/redscan-subfinder/redscan-subfinder:4.0.0
+    env_file:
+      - data/environments/red.env
+    volumes:
+      - ./logs:/logs
+      - ./conf/redscan-subfinder/log4j2:/conf
+      - ./conf/redscan-subfinder/app:/root/.config/subfinder
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
 
 
   #redscan-nuclei-exposure:
@@ -249,19 +276,6 @@ services:
   #     elasticsearch:
   #       condition: service_healthy
 
-  # redscan-shodan:
-  #   image: docker.pkg.github.com/certmichelin/redscan-shodan/redscan-shodan:3.1.0
-  #   env_file:
-  #     - data/environments/red.env
-  #   volumes:
-  #     - ./logs:/logs
-  #     - ./conf/redscan-shodan:/conf
-  #   depends_on:
-  #     rabbitmq:
-  #       condition: service_healthy
-  #     elasticsearch:
-  #       condition: service_healthy
-
   # redscan-slack:
   #   image: docker.pkg.github.com/certmichelin/redscan-slack/redscan-slack:3.0.0
   #   env_file:
@@ -269,20 +283,6 @@ services:
   #   volumes:
   #     - ./logs:/logs
   #     - ./conf/redscan-slack:/conf
-  #   depends_on:
-  #     rabbitmq:
-  #       condition: service_healthy
-  #     elasticsearch:
-  #       condition: service_healthy
-
-  # redscan-subfinder:
-  #   image: docker.pkg.github.com/certmichelin/redscan-subfinder/redscan-subfinder:3.0.1
-  #   env_file:
-  #     - data/environments/red.env
-  #   volumes:
-  #     - ./logs:/logs
-  #     - ./conf/redscan-subfinder/log4j2:/conf
-  #     - ./conf/redscan-subfinder/app:/root/.config/subfinder
   #   depends_on:
   #     rabbitmq:
   #       condition: service_healthy
