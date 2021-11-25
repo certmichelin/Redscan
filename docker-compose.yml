@@ -24,6 +24,45 @@ services:
       elasticsearch:
         condition: service_healthy
 
+  redscan-certinfo:
+   image: docker.pkg.github.com/certmichelin/redscan-certinfo/redscan-certinfo:4.0.0
+   env_file:
+     - data/environments/red.env
+   volumes:
+     - ./logs:/logs
+     - ./conf/redscan-certinfo:/conf
+   depends_on:
+     rabbitmq:
+       condition: service_healthy
+     elasticsearch:
+       condition: service_healthy
+
+  redscan-cloudenum:
+     image: docker.pkg.github.com/certmichelin/redscan-cloudenum/redscan-cloudenum:4.0.0
+     env_file:
+       - data/environments/red.env
+     volumes:
+       - ./logs:/logs
+       - ./conf/redscan-cloudenum:/conf
+     depends_on:
+       rabbitmq:
+         condition: service_healthy
+       elasticsearch:
+         condition: service_healthy
+
+  redscan-cname:
+   image: docker.pkg.github.com/certmichelin/redscan-cname/redscan-cname:4.0.0
+   env_file:
+     - data/environments/red.env
+   volumes:
+    - ./logs:/logs
+    - ./conf/redscan-cname:/conf
+   depends_on:
+    rabbitmq:
+      condition: service_healthy
+    elasticsearch:
+      condition: service_healthy
+
   redscan-exploretld:
     image: docker.pkg.github.com/certmichelin/redscan-exploretld/redscan-exploretld:4.0.0
     env_file:
@@ -67,7 +106,7 @@ services:
         condition: service_healthy
 
   redscan-nmapservice:
-    image: docker.pkg.github.com/certmichelin/redscan-nmapservice/redscan-nmapservice:4.0.0
+    image: docker.pkg.github.com/certmichelin/redscan-nmapservice/redscan-nmapservice:4.0.1
     env_file:
       - data/environments/red.env
     volumes:
@@ -224,33 +263,7 @@ services:
   #      condition: service_healthy
   #    elasticsearch:
   #      condition: service_healthy
-
-  #redscan-certinfo:
-  #  image: docker.pkg.github.com/certmichelin/redscan-certinfo/redscan-certinfo:3.1.1
-  #  env_file:
-  #    - data/environments/red.env
-  #  volumes:
-  #    - ./logs:/logs
-  #    - ./conf/redscan-certinfo:/conf
-  #  depends_on:
-  #    rabbitmq:
-  #      condition: service_healthy
-  #    elasticsearch:
-  #      condition: service_healthy
         
-  #redscan-cloudenum:
-  #    image: docker.pkg.github.com/certmichelin/redscan-cloudenum/redscan-cloudenum:3.0.1
-  #    env_file:
-  #      - data/environments/red.env
-  #    volumes:
-  #      - ./logs:/logs
-  #      - ./conf/redscan-cloudenum:/conf
-  #    depends_on:
-  #      rabbitmq:
-  #        condition: service_healthy
-  #      elasticsearch:
-  #        condition: service_healthy
-
   #redscan-reversewhois:
   #    image: docker.pkg.github.com/certmichelin/redscan-reversewhois/redscan-reversewhois:3.0.0
   #    env_file:
@@ -263,19 +276,6 @@ services:
   #        condition: service_healthy
   #      elasticsearch:
   #        condition: service_healthy
-
-  #redscan-cname:
-  #  image: docker.pkg.github.com/certmichelin/redscan-cname/redscan-cname:3.0.0
-  #  env_file:
-  #    - data/environments/red.env
-  #   volumes:
-  #     - ./logs:/logs
-  #     - ./conf/redscan-cname:/conf
-  #   depends_on:
-  #     rabbitmq:
-  #       condition: service_healthy
-  #     elasticsearch:
-  #       condition: service_healthy
 
   # redscan-ip:
   #   image: docker.pkg.github.com/certmichelin/redscan-ip/redscan-ip:3.0.0
