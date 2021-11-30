@@ -118,8 +118,22 @@ services:
       elasticsearch:
         condition: service_healthy
 
+  redscan-iprangescanner:
+    image: ghcr.io/certmichelin/redscan-iprangescanner/redscan-iprangescanner:4.1.0
+    env_file:
+      - data/environments/red.env
+    volumes:
+      - ./logs:/logs
+      - ./conf/redscan-iprangescanner:/conf
+      - ./data/wordlists:/wordlists
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+
   redscan-masscan:
-    image: ghcr.io/certmichelin/redscan-masscan/redscan-masscan:4.0.0
+    image: ghcr.io/certmichelin/redscan-masscan/redscan-masscan:4.1.0
     env_file:
       - data/environments/red.env
     volumes:
@@ -250,7 +264,7 @@ services:
         condition: service_healthy
 
   redscan-shodan:
-    image: ghcr.io/certmichelin/redscan-shodan/redscan-shodan:4.0.0
+    image: ghcr.io/certmichelin/redscan-shodan/redscan-shodan:4.1.0
     env_file:
       - data/environments/red.env
       - data/environments/shodan.env
@@ -343,7 +357,7 @@ services:
         condition: service_healthy
                         
   redscan-magellan:
-    image: ghcr.io/certmichelin/redscan-magellan/redscan-magellan:4.0.1
+    image: ghcr.io/certmichelin/redscan-magellan/redscan-magellan:4.1.0
     env_file:
       - data/environments/red.env
       - data/environments/magellan.env

@@ -26,7 +26,7 @@ The Michelin CERT developed and continue to maintain plenty of plugins covering 
 As Redscan project used Github Package registry, you need to login to github with docker in order to be able to pull the images.
 
 ```
-docker login https://docker.pkg.github.com
+docker login https://ghcr.io
 ```
 
 Setup a quick demo instance in four commands
