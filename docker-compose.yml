@@ -264,7 +264,7 @@ services:
         condition: service_healthy
 
   redscan-shodan:
-    image: ghcr.io/certmichelin/redscan-shodan/redscan-shodan:4.0.0
+    image: ghcr.io/certmichelin/redscan-shodan/redscan-shodan:4.1.0
     env_file:
       - data/environments/red.env
       - data/environments/shodan.env
