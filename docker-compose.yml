@@ -442,6 +442,24 @@ services:
       elasticsearch:
         condition: service_healthy
 
+  mantisbt:
+    image: ghcr.io/certmichelin/redscan-mantisbt/redscan-mantisbt:2.25.2
+    env_file:
+      - data/environments/mantisbt.env
+    depends_on:
+      - mantisbtdb
+    restart: always
+
+  mantisbtdb:
+    image: mysql:5.7
+    env_file:
+      - data/environments/mantisbtdb.env
+    volumes:
+      - ./data/scripts/mantisbt/bugtracker.sql:/docker-entrypoint-initdb.d/1.sql
+      - ./data/mantisbt:/var/lib/mysql
+    # Set default collation so Mantis does not complain about latin1
+    command: ['mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci']
+
   kibanasetup:
     image: curlimages/curl:7.80.0
     volumes:
@@ -472,7 +490,7 @@ services:
       - ./logs/keycloak/:/opt/jboss/keycloak/standalone/log/
   
   redscan-rproxy: 
-    image: ghcr.io/certmichelin/redscan-rproxy/redscan-rproxy:4.0.0
+    image: ghcr.io/certmichelin/redscan-rproxy/redscan-rproxy:4.2.0
     volumes:
       - ./conf/redscan-rproxy/redscan.conf:/usr/local/apache2/conf/redscan.conf
       - ./conf/redscan-rproxy/certs/:/usr/local/apache2/conf/certs/

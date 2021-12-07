@@ -44,7 +44,9 @@ In order to be more accurate, some plugins required api keys such as subfinder, 
 # --demo run one instance per plugin that would cause bottleneck for big scope.
 python red.py --demo
 ```
-You can now use `demo/demo` for playing with Redscan
+
+You can now use `demo/demo` for playing with Redscan and `administrator/redscan` for Mantis j6GxsSm7sncDnm8XEjo_myCti3ToFU_u
+
 
 **WARNING : --setup demo is unsecure and should not be exposed over the internet. For a full configuration, please refer to the project wiki**
 
