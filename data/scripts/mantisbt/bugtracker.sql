@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: mantisbtdb:3306
--- Generation Time: Dec 03, 2021 at 09:35 AM
+-- Generation Time: Dec 08, 2021 at 01:59 PM
 -- Server version: 5.7.36
 -- PHP Version: 7.4.20
 
@@ -258,10 +258,14 @@ CREATE TABLE `mantis_config_table` (
 
 INSERT INTO `mantis_config_table` (`config_id`, `project_id`, `user_id`, `access_reqd`, `type`, `value`) VALUES
 ('csv_columns', 0, 0, 90, 3, '[\"selection\",\"edit\",\"priority\",\"id\",\"severity\",\"summary\",\"tags\",\"status\",\"last_updated\"]'),
+('csv_columns', 1, 0, 90, 3, '[\"selection\",\"edit\",\"priority\",\"id\",\"severity\",\"summary\",\"custom_Url\",\"tags\",\"status\",\"custom_Origin\",\"last_updated\"]'),
 ('database_version', 0, 0, 90, 1, '211'),
 ('excel_columns', 0, 0, 90, 3, '[\"selection\",\"edit\",\"priority\",\"id\",\"severity\",\"summary\",\"tags\",\"status\",\"last_updated\"]'),
+('excel_columns', 1, 0, 90, 3, '[\"selection\",\"edit\",\"priority\",\"id\",\"severity\",\"summary\",\"custom_Url\",\"tags\",\"status\",\"custom_Origin\",\"last_updated\"]'),
 ('print_issues_page_columns', 0, 0, 90, 3, '[\"selection\",\"edit\",\"priority\",\"id\",\"severity\",\"summary\",\"tags\",\"status\",\"last_updated\"]'),
-('view_issues_page_columns', 0, 0, 90, 3, '[\"selection\",\"edit\",\"priority\",\"id\",\"severity\",\"summary\",\"tags\",\"status\",\"last_updated\"]');
+('print_issues_page_columns', 1, 0, 90, 3, '[\"selection\",\"edit\",\"priority\",\"id\",\"severity\",\"summary\",\"custom_Url\",\"tags\",\"status\",\"custom_Origin\",\"last_updated\"]'),
+('view_issues_page_columns', 0, 0, 90, 3, '[\"selection\",\"edit\",\"priority\",\"id\",\"severity\",\"summary\",\"tags\",\"status\",\"last_updated\"]'),
+('view_issues_page_columns', 1, 0, 90, 3, '[\"selection\",\"edit\",\"priority\",\"id\",\"severity\",\"summary\",\"custom_Url\",\"tags\",\"status\",\"custom_Origin\",\"last_updated\"]');
 
 -- --------------------------------------------------------
 
@@ -280,7 +284,9 @@ CREATE TABLE `mantis_custom_field_project_table` (
 --
 
 INSERT INTO `mantis_custom_field_project_table` (`field_id`, `project_id`, `sequence`) VALUES
-(1, 1, 0);
+(1, 1, 0),
+(2, 1, 0),
+(3, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -328,7 +334,9 @@ CREATE TABLE `mantis_custom_field_table` (
 --
 
 INSERT INTO `mantis_custom_field_table` (`id`, `name`, `type`, `possible_values`, `default_value`, `valid_regexp`, `access_level_r`, `access_level_rw`, `length_min`, `length_max`, `require_report`, `require_update`, `display_report`, `display_update`, `require_resolved`, `display_resolved`, `display_closed`, `require_closed`, `filter_by`) VALUES
-(1, 'InternalID', 0, '', '', '', 10, 10, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1);
+(1, 'InternalID', 0, '', '', '', 10, 10, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+(2, 'Url', 0, '', '', '', 10, 10, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+(3, 'Origin', 0, '', '', '', 10, 10, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -538,7 +546,8 @@ CREATE TABLE `mantis_tokens_table` (
 --
 
 INSERT INTO `mantis_tokens_table` (`id`, `owner`, `type`, `value`, `timestamp`, `expiry`) VALUES
-(1, 1, 4, '1', 1638523876, 1638524361);
+(2, 1, 5, '{\"filter\":false,\"history\":true}', 1638971810, 1670507902),
+(3, 1, 4, '1', 1638971844, 1638972202);
 
 -- --------------------------------------------------------
 
@@ -632,7 +641,7 @@ CREATE TABLE `mantis_user_table` (
 --
 
 INSERT INTO `mantis_user_table` (`id`, `username`, `realname`, `email`, `password`, `enabled`, `protected`, `access_level`, `login_count`, `lost_password_request_count`, `failed_login_count`, `cookie_string`, `last_visit`, `date_created`) VALUES
-(1, 'administrator', '', 'root@localhost', '757d20b7cd71d05d01c51e996069aa9c', 1, 0, 90, 5, 0, 0, 'I8dKGs8vdPisUsRaFhzSvAgJGwul5-G2YI5h5bORM_kFwf87h1jxeeAmt325MgEy', 1638524075, 1638523843);
+(1, 'administrator', '', 'root@localhost', '757d20b7cd71d05d01c51e996069aa9c', 1, 0, 90, 8, 0, 0, 'I8dKGs8vdPisUsRaFhzSvAgJGwul5-G2YI5h5bORM_kFwf87h1jxeeAmt325MgEy', 1638971902, 1638523843);
 
 --
 -- Indexes for dumped tables
@@ -934,7 +943,7 @@ ALTER TABLE `mantis_category_table`
 -- AUTO_INCREMENT for table `mantis_custom_field_table`
 --
 ALTER TABLE `mantis_custom_field_table`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `mantis_email_table`
@@ -988,7 +997,7 @@ ALTER TABLE `mantis_tag_table`
 -- AUTO_INCREMENT for table `mantis_tokens_table`
 --
 ALTER TABLE `mantis_tokens_table`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `mantis_user_pref_table`
