@@ -45,8 +45,7 @@ In order to be more accurate, some plugins required api keys such as subfinder, 
 python red.py --demo
 ```
 
-You can now use `demo/demo` for playing with Redscan and `administrator/redscan` for Mantis j6GxsSm7sncDnm8XEjo_myCti3ToFU_u
-
+You can now use `demo/demo` for playing with Redscan and `administrator/redscan` for Mantis BT
 
 **WARNING : --setup demo is unsecure and should not be exposed over the internet. For a full configuration, please refer to the project wiki**
 
