@@ -2,4 +2,5 @@
 *.log.gz
 elasticsearch/*.log
 rproxy/*.log
+rproxy/*.pid
 keycloak/*.log*
