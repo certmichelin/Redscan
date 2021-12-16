@@ -457,7 +457,7 @@ services:
       - data/environments/mantisbtdb.env
     volumes:
       - ./data/scripts/mantisbt/bugtracker.sql:/docker-entrypoint-initdb.d/1.sql
-      - ./data/mantisbt:/var/lib/mysql
+      - ./data/mantisbt_db:/var/lib/mysql
     # Set default collation so Mantis does not complain about latin1
     command: ['mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci']
 
