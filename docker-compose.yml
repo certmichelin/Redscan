@@ -250,6 +250,19 @@ services:
       elasticsearch:
         condition: service_healthy
 
+  redscan-saas-explorer:
+    image: ghcr.io/certmichelin/redscan-saas-explorer/redscan-saas-explorer:4.2.0
+    env_file:
+      - data/environments/red.env
+    volumes:
+      - ./logs:/logs
+      - ./conf/redscan-saas-explorer:/conf
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+        
   redscan-securitytxt:
    image: ghcr.io/certmichelin/redscan-securitytxt/redscan-securitytxt:4.2.0
    env_file:
@@ -271,19 +284,6 @@ services:
     volumes:
       - ./logs:/logs
       - ./conf/redscan-shodan:/conf
-    depends_on:
-      rabbitmq:
-        condition: service_healthy
-      elasticsearch:
-        condition: service_healthy
-
-  redscan-slack:
-    image: ghcr.io/certmichelin/redscan-slack/redscan-slack:4.2.1
-    env_file:
-      - data/environments/red.env
-    volumes:
-      - ./logs:/logs
-      - ./conf/redscan-slack:/conf
     depends_on:
       rabbitmq:
         condition: service_healthy
