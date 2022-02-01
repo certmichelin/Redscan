@@ -105,6 +105,19 @@ services:
       elasticsearch:
         condition: service_healthy
 
+  redscan-gospider:
+    image: ghcr.io/certmichelin/redscan-gospider/redscan-gospider:4.2.0
+    env_file:
+      - data/environments/red.env
+    volumes:
+      - ./logs:/logs
+      - ./conf/redscan-gospider:/conf
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+
   redscan-ip:
     image: ghcr.io/certmichelin/redscan-ip/redscan-ip:4.2.0
     env_file:
