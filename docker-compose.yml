@@ -172,6 +172,19 @@ services:
       elasticsearch:
         condition: service_healthy
 
+  redscan-nuclei-cve:
+   image: ghcr.io/certmichelin/redscan-nuclei-cve/redscan-nuclei-cve:4.2.0
+   env_file:
+     - data/environments/red.env
+   volumes:
+     - ./logs:/logs
+     - ./conf/redscan-nuclei-cve:/conf
+   depends_on:
+      rabbitmq:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+
   redscan-nuclei-exposedpanels:
    image: ghcr.io/certmichelin/redscan-nuclei-exposedpanels/redscan-nuclei-exposedpanels:4.2.1
    env_file:
