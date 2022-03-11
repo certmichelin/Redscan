@@ -173,7 +173,7 @@ services:
         condition: service_healthy
 
   redscan-nuclei-cve:
-   image: ghcr.io/certmichelin/redscan-nuclei-cve/redscan-nuclei-cve:4.2.0
+   image: ghcr.io/certmichelin/redscan-nuclei-cve/redscan-nuclei-cve:4.2.2
    env_file:
      - data/environments/red.env
    volumes:
@@ -186,7 +186,7 @@ services:
         condition: service_healthy
 
   redscan-nuclei-exposedpanels:
-   image: ghcr.io/certmichelin/redscan-nuclei-exposedpanels/redscan-nuclei-exposedpanels:4.2.1
+   image: ghcr.io/certmichelin/redscan-nuclei-exposedpanels/redscan-nuclei-exposedpanels:4.2.2
    env_file:
      - data/environments/red.env
    volumes:
@@ -199,7 +199,7 @@ services:
         condition: service_healthy
 
   redscan-nuclei-exposure:
-    image: ghcr.io/certmichelin/redscan-nuclei-exposure/redscan-nuclei-exposure:4.2.1
+    image: ghcr.io/certmichelin/redscan-nuclei-exposure/redscan-nuclei-exposure:4.2.2
     env_file:
      - data/environments/red.env
     volumes:
@@ -212,7 +212,7 @@ services:
         condition: service_healthy
    
   redscan-nuclei-miscellaneous:
-   image: ghcr.io/certmichelin/redscan-nuclei-miscellaneous/redscan-nuclei-miscellaneous:4.2.1
+   image: ghcr.io/certmichelin/redscan-nuclei-miscellaneous/redscan-nuclei-miscellaneous:4.2.2
    env_file:
      - data/environments/red.env
    volumes:
@@ -225,7 +225,7 @@ services:
         condition: service_healthy
 
   redscan-nuclei-misconfiguration:
-   image: ghcr.io/certmichelin/redscan-nuclei-misconfiguration/redscan-nuclei-misconfiguration:4.2.1
+   image: ghcr.io/certmichelin/redscan-nuclei-misconfiguration/redscan-nuclei-misconfiguration:4.2.2
    env_file:
      - data/environments/red.env
    volumes:
@@ -238,12 +238,25 @@ services:
         condition: service_healthy
 
   redscan-nuclei-technologies:
-   image: ghcr.io/certmichelin/redscan-nuclei-technologies/redscan-nuclei-technologies:4.2.1
+   image: ghcr.io/certmichelin/redscan-nuclei-technologies/redscan-nuclei-technologies:4.2.2
    env_file:
      - data/environments/red.env
    volumes:
      - ./logs:/logs
      - ./conf/redscan-nuclei-technologies:/conf
+   depends_on:
+      rabbitmq:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+
+  redscan-nuclei-vulnerability:
+   image: ghcr.io/certmichelin/redscan-nuclei-vulnerability/redscan-nuclei-vulnerability:4.2.2
+   env_file:
+     - data/environments/red.env
+   volumes:
+     - ./logs:/logs
+     - ./conf/redscan-nuclei-vulnerability:/conf
    depends_on:
       rabbitmq:
         condition: service_healthy
