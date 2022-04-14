@@ -264,7 +264,7 @@ services:
         condition: service_healthy
 
   redscan-puppeteer:
-   image: ghcr.io/certmichelin/redscan-puppeteer/redscan-puppeteer:4.2.0
+   image: ghcr.io/certmichelin/redscan-puppeteer/redscan-puppeteer:4.2.1
    env_file:
      - data/environments/red.env
    volumes:
