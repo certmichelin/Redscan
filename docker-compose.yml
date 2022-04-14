@@ -277,7 +277,7 @@ services:
         condition: service_healthy
 
   redscan-reversewhois:
-    image: ghcr.io/certmichelin/redscan-reversewhois/redscan-reversewhois:4.2.0
+    image: ghcr.io/certmichelin/redscan-reversewhois/redscan-reversewhois:4.2.1
     env_file:
       - data/environments/red.env
     volumes:
