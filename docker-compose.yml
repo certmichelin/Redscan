@@ -173,9 +173,10 @@ services:
         condition: service_healthy
 
   redscan-nuclei-cve:
-   image: ghcr.io/certmichelin/redscan-nuclei-cve/redscan-nuclei-cve:4.2.3
+   image: ghcr.io/certmichelin/redscan-nuclei-cve/redscan-nuclei-cve:4.2.4
    env_file:
      - data/environments/red.env
+     - data/environments/nucleicve.env
    volumes:
      - ./logs:/logs
      - ./conf/redscan-nuclei-cve:/conf
@@ -186,9 +187,10 @@ services:
         condition: service_healthy
 
   redscan-nuclei-exposedpanels:
-   image: ghcr.io/certmichelin/redscan-nuclei-exposedpanels/redscan-nuclei-exposedpanels:4.2.3
+   image: ghcr.io/certmichelin/redscan-nuclei-exposedpanels/redscan-nuclei-exposedpanels:4.2.4
    env_file:
      - data/environments/red.env
+     - data/environments/nucleiexposedpanels.env
    volumes:
      - ./logs:/logs
      - ./conf/redscan-nuclei-exposedpanels:/conf
@@ -199,9 +201,10 @@ services:
         condition: service_healthy
 
   redscan-nuclei-exposure:
-    image: ghcr.io/certmichelin/redscan-nuclei-exposure/redscan-nuclei-exposure:4.2.3
+    image: ghcr.io/certmichelin/redscan-nuclei-exposure/redscan-nuclei-exposure:4.2.4
     env_file:
      - data/environments/red.env
+     - data/environments/nucleiexposure.env
     volumes:
      - ./logs:/logs
      - ./conf/redscan-nuclei-exposure:/conf
@@ -212,9 +215,10 @@ services:
         condition: service_healthy
    
   redscan-nuclei-miscellaneous:
-   image: ghcr.io/certmichelin/redscan-nuclei-miscellaneous/redscan-nuclei-miscellaneous:4.2.3
+   image: ghcr.io/certmichelin/redscan-nuclei-miscellaneous/redscan-nuclei-miscellaneous:4.2.4
    env_file:
      - data/environments/red.env
+     - data/environments/nucleimiscellaneous.env
    volumes:
      - ./logs:/logs
      - ./conf/redscan-nuclei-miscellaneous:/conf
@@ -225,9 +229,10 @@ services:
         condition: service_healthy
 
   redscan-nuclei-misconfiguration:
-   image: ghcr.io/certmichelin/redscan-nuclei-misconfiguration/redscan-nuclei-misconfiguration:4.2.3
+   image: ghcr.io/certmichelin/redscan-nuclei-misconfiguration/redscan-nuclei-misconfiguration:4.2.4
    env_file:
      - data/environments/red.env
+     - data/environments/nucleimisconfiguration.env
    volumes:
      - ./logs:/logs
      - ./conf/redscan-nuclei-misconfiguration:/conf
@@ -238,9 +243,10 @@ services:
         condition: service_healthy
 
   redscan-nuclei-technologies:
-   image: ghcr.io/certmichelin/redscan-nuclei-technologies/redscan-nuclei-technologies:4.2.3
+   image: ghcr.io/certmichelin/redscan-nuclei-technologies/redscan-nuclei-technologies:4.2.4
    env_file:
      - data/environments/red.env
+     - data/environments/nucleitechnologies.env
    volumes:
      - ./logs:/logs
      - ./conf/redscan-nuclei-technologies:/conf
@@ -251,9 +257,10 @@ services:
         condition: service_healthy
 
   redscan-nuclei-vulnerability:
-   image: ghcr.io/certmichelin/redscan-nuclei-vulnerability/redscan-nuclei-vulnerability:4.2.3
+   image: ghcr.io/certmichelin/redscan-nuclei-vulnerability/redscan-nuclei-vulnerability:4.2.4
    env_file:
      - data/environments/red.env
+     - data/environments/nucleivulnerability.env
    volumes:
      - ./logs:/logs
      - ./conf/redscan-nuclei-vulnerability:/conf
