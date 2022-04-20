@@ -78,7 +78,7 @@ services:
         condition: service_healthy
 
   redscan-exploretld:
-    image: ghcr.io/certmichelin/redscan-exploretld/redscan-exploretld:4.2.0
+    image: ghcr.io/certmichelin/redscan-exploretld/redscan-exploretld:4.2.1
     env_file:
       - data/environments/red.env
     volumes:
@@ -403,7 +403,7 @@ services:
         condition: service_healthy
 
   redscan-magellan:
-    image: ghcr.io/certmichelin/redscan-magellan/redscan-magellan:4.2.2
+    image: ghcr.io/certmichelin/redscan-magellan/redscan-magellan:4.2.3
     env_file:
       - data/environments/red.env
       - data/environments/magellan.env
