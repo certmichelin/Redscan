@@ -173,7 +173,7 @@ services:
         condition: service_healthy
 
   redscan-nuclei-cve:
-   image: ghcr.io/certmichelin/redscan-nuclei-cve/redscan-nuclei-cve:4.2.4
+   image: ghcr.io/certmichelin/redscan-nuclei-cve/redscan-nuclei-cve:4.2.5
    env_file:
      - data/environments/red.env
      - data/environments/nucleicve.env
@@ -187,7 +187,7 @@ services:
         condition: service_healthy
 
   redscan-nuclei-exposedpanels:
-   image: ghcr.io/certmichelin/redscan-nuclei-exposedpanels/redscan-nuclei-exposedpanels:4.2.4
+   image: ghcr.io/certmichelin/redscan-nuclei-exposedpanels/redscan-nuclei-exposedpanels:4.2.5
    env_file:
      - data/environments/red.env
      - data/environments/nucleiexposedpanels.env
@@ -201,7 +201,7 @@ services:
         condition: service_healthy
 
   redscan-nuclei-exposure:
-    image: ghcr.io/certmichelin/redscan-nuclei-exposure/redscan-nuclei-exposure:4.2.4
+    image: ghcr.io/certmichelin/redscan-nuclei-exposure/redscan-nuclei-exposure:4.2.5
     env_file:
      - data/environments/red.env
      - data/environments/nucleiexposure.env
@@ -215,7 +215,7 @@ services:
         condition: service_healthy
    
   redscan-nuclei-miscellaneous:
-   image: ghcr.io/certmichelin/redscan-nuclei-miscellaneous/redscan-nuclei-miscellaneous:4.2.4
+   image: ghcr.io/certmichelin/redscan-nuclei-miscellaneous/redscan-nuclei-miscellaneous:4.2.5
    env_file:
      - data/environments/red.env
      - data/environments/nucleimiscellaneous.env
@@ -229,7 +229,7 @@ services:
         condition: service_healthy
 
   redscan-nuclei-misconfiguration:
-   image: ghcr.io/certmichelin/redscan-nuclei-misconfiguration/redscan-nuclei-misconfiguration:4.2.4
+   image: ghcr.io/certmichelin/redscan-nuclei-misconfiguration/redscan-nuclei-misconfiguration:4.2.5
    env_file:
      - data/environments/red.env
      - data/environments/nucleimisconfiguration.env
@@ -243,7 +243,7 @@ services:
         condition: service_healthy
 
   redscan-nuclei-technologies:
-   image: ghcr.io/certmichelin/redscan-nuclei-technologies/redscan-nuclei-technologies:4.2.4
+   image: ghcr.io/certmichelin/redscan-nuclei-technologies/redscan-nuclei-technologies:4.2.5
    env_file:
      - data/environments/red.env
      - data/environments/nucleitechnologies.env
@@ -257,7 +257,7 @@ services:
         condition: service_healthy
 
   redscan-nuclei-vulnerability:
-   image: ghcr.io/certmichelin/redscan-nuclei-vulnerability/redscan-nuclei-vulnerability:4.2.4
+   image: ghcr.io/certmichelin/redscan-nuclei-vulnerability/redscan-nuclei-vulnerability:4.2.5
    env_file:
      - data/environments/red.env
      - data/environments/nucleivulnerability.env
