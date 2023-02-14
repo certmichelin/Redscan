@@ -10,7 +10,7 @@ version: "3.8"
 services:
 
   redscan-amass:
-    image: ghcr.io/certmichelin/redscan-amass/redscan-amass:4.2.1
+    image: ghcr.io/certmichelin/redscan-amass/redscan-amass:4.2.2
     env_file:
       - data/environments/red.env
     volumes:
@@ -38,7 +38,7 @@ services:
        condition: service_healthy
 
   redscan-cloudenum:
-     image: ghcr.io/certmichelin/redscan-cloudenum/redscan-cloudenum:4.2.1
+     image: ghcr.io/certmichelin/redscan-cloudenum/redscan-cloudenum:4.2.3
      env_file:
        - data/environments/red.env
      volumes:
@@ -64,7 +64,7 @@ services:
       condition: service_healthy
 
   redscan-deepsubjack:
-    image: ghcr.io/certmichelin/redscan-deepsubjack/redscan-deepsubjack:4.2.0
+    image: ghcr.io/certmichelin/redscan-deepsubjack/redscan-deepsubjack:4.2.1
     env_file:
       - data/environments/red.env
     volumes:
@@ -160,7 +160,7 @@ services:
         condition: service_healthy
 
   redscan-nmapservice:
-    image: ghcr.io/certmichelin/redscan-nmapservice/redscan-nmapservice:4.2.0
+    image: ghcr.io/certmichelin/redscan-nmapservice/redscan-nmapservice:4.2.1
     env_file:
       - data/environments/red.env
     volumes:
@@ -173,7 +173,7 @@ services:
         condition: service_healthy
 
   redscan-nuclei-cve:
-   image: ghcr.io/certmichelin/redscan-nuclei-cve/redscan-nuclei-cve:4.2.5
+   image: ghcr.io/certmichelin/redscan-nuclei-cve/redscan-nuclei-cve:4.2.6
    env_file:
      - data/environments/red.env
      - data/environments/nucleicve.env
@@ -187,7 +187,7 @@ services:
         condition: service_healthy
 
   redscan-nuclei-exposedpanels:
-   image: ghcr.io/certmichelin/redscan-nuclei-exposedpanels/redscan-nuclei-exposedpanels:4.2.5
+   image: ghcr.io/certmichelin/redscan-nuclei-exposedpanels/redscan-nuclei-exposedpanels:4.2.6
    env_file:
      - data/environments/red.env
      - data/environments/nucleiexposedpanels.env
@@ -201,7 +201,7 @@ services:
         condition: service_healthy
 
   redscan-nuclei-exposure:
-    image: ghcr.io/certmichelin/redscan-nuclei-exposure/redscan-nuclei-exposure:4.2.5
+    image: ghcr.io/certmichelin/redscan-nuclei-exposure/redscan-nuclei-exposure:4.2.6
     env_file:
      - data/environments/red.env
      - data/environments/nucleiexposure.env
@@ -215,7 +215,7 @@ services:
         condition: service_healthy
    
   redscan-nuclei-miscellaneous:
-   image: ghcr.io/certmichelin/redscan-nuclei-miscellaneous/redscan-nuclei-miscellaneous:4.2.5
+   image: ghcr.io/certmichelin/redscan-nuclei-miscellaneous/redscan-nuclei-miscellaneous:4.2.6
    env_file:
      - data/environments/red.env
      - data/environments/nucleimiscellaneous.env
@@ -229,7 +229,7 @@ services:
         condition: service_healthy
 
   redscan-nuclei-misconfiguration:
-   image: ghcr.io/certmichelin/redscan-nuclei-misconfiguration/redscan-nuclei-misconfiguration:4.2.5
+   image: ghcr.io/certmichelin/redscan-nuclei-misconfiguration/redscan-nuclei-misconfiguration:4.2.6
    env_file:
      - data/environments/red.env
      - data/environments/nucleimisconfiguration.env
@@ -243,7 +243,7 @@ services:
         condition: service_healthy
 
   redscan-nuclei-technologies:
-   image: ghcr.io/certmichelin/redscan-nuclei-technologies/redscan-nuclei-technologies:4.2.5
+   image: ghcr.io/certmichelin/redscan-nuclei-technologies/redscan-nuclei-technologies:4.2.6
    env_file:
      - data/environments/red.env
      - data/environments/nucleitechnologies.env
@@ -257,7 +257,7 @@ services:
         condition: service_healthy
 
   redscan-nuclei-vulnerability:
-   image: ghcr.io/certmichelin/redscan-nuclei-vulnerability/redscan-nuclei-vulnerability:4.2.5
+   image: ghcr.io/certmichelin/redscan-nuclei-vulnerability/redscan-nuclei-vulnerability:4.2.6
    env_file:
      - data/environments/red.env
      - data/environments/nucleivulnerability.env
@@ -271,7 +271,7 @@ services:
         condition: service_healthy
 
   redscan-puppeteer:
-   image: ghcr.io/certmichelin/redscan-puppeteer/redscan-puppeteer:4.2.1
+   image: ghcr.io/certmichelin/redscan-puppeteer/redscan-puppeteer:4.2.2
    env_file:
      - data/environments/red.env
    volumes:
@@ -284,7 +284,7 @@ services:
         condition: service_healthy
 
   redscan-reversewhois:
-    image: ghcr.io/certmichelin/redscan-reversewhois/redscan-reversewhois:4.2.1
+    image: ghcr.io/certmichelin/redscan-reversewhois/redscan-reversewhois:4.2.2
     env_file:
       - data/environments/red.env
     volumes:
@@ -350,7 +350,7 @@ services:
         condition: service_healthy
 
   redscan-subfinder:
-    image: ghcr.io/certmichelin/redscan-subfinder/redscan-subfinder:4.2.0
+    image: ghcr.io/certmichelin/redscan-subfinder/redscan-subfinder:4.2.1
     env_file:
       - data/environments/red.env
     volumes:
@@ -364,7 +364,7 @@ services:
         condition: service_healthy
 
   redscan-subjack:
-    image: ghcr.io/certmichelin/redscan-subjack/redscan-subjack:4.2.1
+    image: ghcr.io/certmichelin/redscan-subjack/redscan-subjack:4.2.2
     env_file:
       - data/environments/red.env
     volumes:
@@ -390,7 +390,7 @@ services:
        condition: service_healthy
 
   redscan-wappalyzer:
-    image: ghcr.io/certmichelin/redscan-wappalyzer/redscan-wappalyzer:4.2.0
+    image: ghcr.io/certmichelin/redscan-wappalyzer/redscan-wappalyzer:4.2.1
     env_file:
       - data/environments/red.env
     volumes:
