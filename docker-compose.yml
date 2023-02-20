@@ -10,7 +10,7 @@ version: "3.8"
 services:
 
   redscan-amass:
-    image: ghcr.io/certmichelin/redscan-amass/redscan-amass:4.2.2
+    image: ghcr.io/certmichelin/redscan-amass/redscan-amass:4.2.3
     env_file:
       - data/environments/red.env
     volumes:
