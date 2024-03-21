@@ -1,0 +1,570 @@
+#
+# Docker compose file for REDSCAN.
+# Warning : The following port are reserved to dockprom monitoring 
+# - 3000
+# - 9090
+# - 9093
+# - 9091
+#
+version: "3.8"
+services:
+
+  redscan-amass:
+    image: ghcr.io/deddobifu/redscan-amass/redscan-amass:6.0.0
+    env_file:
+      - data/environments/red.env
+    volumes:
+      - ./logs:/logs
+      - ./conf/redscan-amass/log4j2:/conf
+      - ./conf/redscan-amass/app/:/root/.config/amass/
+      - ./data/wordlists:/wordlists
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+
+  redscan-certinfo:
+    image: ghcr.io/deddobifu/redscan-certinfo/redscan-certinfo:6.0.0
+    env_file:
+      - data/environments/red.env
+    volumes:
+      - ./logs:/logs
+      - ./conf/redscan-certinfo:/conf
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+
+  redscan-cloudenum:
+    image: ghcr.io/deddobifu/redscan-cloudenum/redscan-cloudenum:6.0.0
+    env_file:
+      - data/environments/red.env
+    volumes:
+      - ./logs:/logs
+      - ./conf/redscan-cloudenum:/conf
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+
+  redscan-cname:
+    image: ghcr.io/deddobifu/redscan-cname/redscan-cname:6.0.0
+    env_file:
+      - data/environments/red.env
+    volumes:
+      - ./logs:/logs
+      - ./conf/redscan-cname:/conf
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+
+  redscan-deepsubjack:
+    image: ghcr.io/deddobifu/redscan-deepsubjack/redscan-deepsubjack:6.0.0
+    env_file:
+      - data/environments/red.env
+    volumes:
+      - ./logs:/logs
+      - ./conf/redscan-deepsubjack/log4j2:/conf
+      - ./conf/redscan-deepsubjack/app:/root/.config/subfinder
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+
+  redscan-exploretld:
+    image: ghcr.io/deddobifu/redscan-exploretld/redscan-exploretld:6.0.0
+    env_file:
+      - data/environments/red.env
+    volumes:
+      - ./logs:/logs
+      - ./conf/redscan-exploretld:/conf
+      - ./data/wordlists:/wordlists
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+
+  redscan-gitgrabber:
+    image: ghcr.io/deddobifu/redscan-gitgrabber/redscan-gitgrabber:6.0.1
+    env_file:
+      - data/environments/red.env
+    volumes:
+      - ./logs:/logs
+      - ./conf/redscan-gitgrabber/log4j2:/conf
+      - ./conf/redscan-gitgrabber/app/config.py:/usr/bin/gitgrabber/config.py
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+
+  redscan-gospider:
+    image: ghcr.io/deddobifu/redscan-gospider/redscan-gospider:6.0.2
+    env_file:
+      - data/environments/red.env
+    volumes:
+      - ./logs:/logs
+      - ./conf/redscan-gospider:/conf
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+
+  redscan-ip:
+    image: ghcr.io/deddobifu/redscan-ip/redscan-ip:6.0.0
+    env_file:
+      - data/environments/red.env
+    volumes:
+      - ./logs:/logs
+      - ./conf/redscan-ip:/conf
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+
+  redscan-iprangescanner:
+    image: ghcr.io/deddobifu/redscan-iprangescanner/redscan-iprangescanner:6.0.0
+    env_file:
+      - data/environments/red.env
+    volumes:
+      - ./logs:/logs
+      - ./conf/redscan-iprangescanner:/conf
+      - ./data/wordlists:/wordlists
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+
+  redscan-masscan:
+    image: ghcr.io/deddobifu/redscan-masscan/redscan-masscan:6.0.0
+    env_file:
+      - data/environments/red.env
+    volumes:
+      - ./logs:/logs
+      - ./conf/redscan-masscan:/conf
+      - ./data/wordlists:/wordlists
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+
+  redscan-nmapservice:
+    image: ghcr.io/deddobifu/redscan-nmapservice/redscan-nmapservice:6.0.1
+    env_file:
+      - data/environments/red.env
+    volumes:
+      - ./logs:/logs
+      - ./conf/redscan-nmapservice:/conf
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+
+  redscan-nuclei-cve:
+    image: ghcr.io/deddobifu/redscan-nuclei-cve/redscan-nuclei-cve:6.0.0
+    env_file:
+      - data/environments/red.env
+      - data/environments/nucleicve.env
+    volumes:
+      - ./logs:/logs
+      - ./conf/redscan-nuclei-cve:/conf
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+
+  redscan-nuclei-defaultlogins:
+    image: ghcr.io/deddobifu/redscan-nuclei-defaultlogins/redscan-nuclei-defaultlogins:6.0.0
+    env_file:
+      - data/environments/red.env
+      - data/environments/nucleidefaultlogins.env
+    volumes:
+      - ./logs:/logs
+      - ./conf/redscan-nuclei-defaultlogins:/conf
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+
+  redscan-nuclei-exposedpanels:
+    image: ghcr.io/deddobifu/redscan-nuclei-exposedpanels/redscan-nuclei-exposedpanels:6.0.0
+    env_file:
+      - data/environments/red.env
+      - data/environments/nucleiexposedpanels.env
+    volumes:
+      - ./logs:/logs
+      - ./conf/redscan-nuclei-exposedpanels:/conf
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+
+  redscan-nuclei-exposure:
+    image: ghcr.io/deddobifu/redscan-nuclei-exposure/redscan-nuclei-exposure:6.0.0
+    env_file:
+      - data/environments/red.env
+      - data/environments/nucleiexposure.env
+    volumes:
+      - ./logs:/logs
+      - ./conf/redscan-nuclei-exposure:/conf
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+
+  redscan-nuclei-miscellaneous:
+    image: ghcr.io/deddobifu/redscan-nuclei-miscellaneous/redscan-nuclei-miscellaneous:6.0.0
+    env_file:
+      - data/environments/red.env
+      - data/environments/nucleimiscellaneous.env
+    volumes:
+      - ./logs:/logs
+      - ./conf/redscan-nuclei-miscellaneous:/conf
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+
+  redscan-nuclei-misconfiguration:
+    image: ghcr.io/deddobifu/redscan-nuclei-misconfiguration/redscan-nuclei-misconfiguration:6.0.0
+    env_file:
+      - data/environments/red.env
+      - data/environments/nucleimisconfiguration.env
+    volumes:
+      - ./logs:/logs
+      - ./conf/redscan-nuclei-misconfiguration:/conf
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+
+  redscan-nuclei-technologies:
+    image: ghcr.io/deddobifu/redscan-nuclei-technologies/redscan-nuclei-technologies:6.0.1
+    env_file:
+      - data/environments/red.env
+      - data/environments/nucleitechnologies.env
+    volumes:
+      - ./logs:/logs
+      - ./conf/redscan-nuclei-technologies:/conf
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+
+  redscan-nuclei-vulnerability:
+    image: ghcr.io/deddobifu/redscan-nuclei-vulnerability/redscan-nuclei-vulnerability:6.0.0
+    env_file:
+      - data/environments/red.env
+      - data/environments/nucleivulnerability.env
+    volumes:
+      - ./logs:/logs
+      - ./conf/redscan-nuclei-vulnerability:/conf
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+
+  redscan-puppeteer:
+    image: ghcr.io/deddobifu/redscan-puppeteer/redscan-puppeteer:6.0.0
+    env_file:
+      - data/environments/red.env
+    volumes:
+      - ./logs:/logs
+      - ./conf/redscan-puppeteer:/conf
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+
+  redscan-reversewhois:
+    image: ghcr.io/deddobifu/redscan-reversewhois/redscan-reversewhois:6.0.0
+    env_file:
+      - data/environments/red.env
+    volumes:
+      - ./logs:/logs
+      - ./conf/redscan-reversewhois:/conf
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+
+  redscan-saas-explorer:
+    image: ghcr.io/deddobifu/redscan-saas-explorer/redscan-saas-explorer:6.0.1
+    env_file:
+      - data/environments/red.env
+    volumes:
+      - ./logs:/logs
+      - ./conf/redscan-saas-explorer:/conf
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+
+  redscan-securitytxt:
+    image: ghcr.io/deddobifu/redscan-securitytxt/redscan-securitytxt:6.0.2
+    env_file:
+      - data/environments/red.env
+    volumes:
+      - ./logs:/logs
+      - ./conf/redscan-securitytxt:/conf
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+
+  redscan-shodan:
+    image: ghcr.io/deddobifu/redscan-shodan/redscan-shodan:6.0.0
+    env_file:
+      - data/environments/red.env
+      - data/environments/shodan.env
+    volumes:
+      - ./logs:/logs
+      - ./conf/redscan-shodan:/conf
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+
+  redscan-sslscan:
+    image: ghcr.io/deddobifu/redscan-sslscan/redscan-sslscan:6.0.1
+    env_file:
+      - data/environments/red.env
+    volumes:
+      - ./logs:/logs
+      - ./conf/redscan-sslscan:/conf
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+
+  redscan-subfinder:
+    image: ghcr.io/deddobifu/redscan-subfinder/redscan-subfinder:6.0.1
+    env_file:
+      - data/environments/red.env
+    volumes:
+      - ./logs:/logs
+      - ./conf/redscan-subfinder/log4j2:/conf
+      - ./conf/redscan-subfinder/app:/root/.config/subfinder
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+
+  redscan-subjack:
+    image: ghcr.io/deddobifu/redscan-subjack/redscan-subjack:6.0.0
+    env_file:
+      - data/environments/red.env
+    volumes:
+      - ./logs:/logs
+      - ./conf/redscan-subjack:/conf
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+
+  redscan-urlcrazy:
+    image: ghcr.io/deddobifu/redscan-urlcrazy/redscan-urlcrazy:6.0.1
+    env_file:
+      - data/environments/red.env
+    volumes:
+      - ./logs:/logs
+      - ./conf/redscan-urlcrazy:/conf
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+
+  redscan-wappalyzer:
+    image: ghcr.io/deddobifu/redscan-wappalyzer/redscan-wappalyzer:6.0.0
+    env_file:
+      - data/environments/red.env
+    volumes:
+      - ./logs:/logs
+      - ./conf/redscan-wappalyzer:/conf
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+
+  redscan-magellan:
+    image: ghcr.io/deddobifu/redscan-magellan/redscan-magellan:6.0.0
+    env_file:
+      - data/environments/red.env
+      - data/environments/magellan.env
+    volumes:
+      - ./logs:/logs
+      - ./conf/redscan-magellan:/conf
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+
+  redscan-alerts:
+    image: ghcr.io/deddobifu/redscan-alerts/redscan-alerts:6.0.2
+    env_file:
+      - data/environments/red.env
+      - data/environments/alerts.env
+    volumes:
+      - ./logs:/logs
+      - ./conf/redscan-alerts:/conf
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+
+  redscan-vulnerability:
+    image: ghcr.io/deddobifu/redscan-vulnerability/redscan-vulnerability:6.0.2
+    env_file:
+      - data/environments/red.env
+      - data/environments/vulnerability.env
+    volumes:
+      - ./logs:/logs
+      - ./conf/redscan-vulnerability:/conf
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+
+  redscan-cache:
+    image: ghcr.io/deddobifu/redscan-cache/redscan-cache:6.0.1
+    volumes:
+      - ./logs:/logs
+      - ./conf/redscan-cache:/conf
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.8.1
+    ports:
+      # - "exposé:inner"
+      - "9200:9200"
+    environment:
+      - discovery.type=single-node
+      - "ES_JAVA_OPTS=-Xms4096m -Xmx4096m"
+      - xpack.security.enabled=false
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    healthcheck:
+      test: curl -s http://localhost:9200/_cluster/health | grep -vq '"status":"red"'
+      interval: 20s
+      retries: 10
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.8.1
+    environment:
+      - SERVER_BASEPATH=/kibana
+      - SERVER_REWRITEBASEPATH=false
+    healthcheck:
+      test: curl --write-out 'HTTP %{http_code}' --fail --silent --output /dev/null http://localhost:5601/api/status
+      interval: 10s
+      retries: 20
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+
+  kibanasetup:
+    image: curlimages/curl:7.80.0
+    volumes:
+      - ./data/kibana:/tmp/
+    depends_on:
+      kibana:
+        condition: service_healthy
+    restart: "no"
+    entrypoint: "find"
+    command: "/tmp/ -iname export_kibana.ndjson -exec curl -X POST http://kibana:5601/api/saved_objects/_import?overwrite=true -H \"kbn-xsrf: true\" --form file=@{} \\;"
+
+  mantisbt:
+    image: ghcr.io/deddobifu/redscan-mantisbt/redscan-mantisbt:6.0.3
+    env_file:
+      - data/environments/mantisbt.env
+    depends_on:
+      - mantisbtdb
+    restart: always
+
+  mantisbtdb:
+    image: mysql:5.7
+    env_file:
+      - data/environments/mantisbtdb.env
+    volumes:
+      - ./data/scripts/mantisbt/bugtracker.sql:/docker-entrypoint-initdb.d/1.sql
+      - ./data/mantisbt_db:/var/lib/mysql
+    # Set default collation so Mantis does not complain about latin1
+    command:
+      [
+        'mysqld',
+        '--character-set-server=utf8mb4',
+        '--collation-server=utf8mb4_unicode_ci'
+      ]
+
+  rabbitmq:
+    image: rabbitmq:3.12-management
+    environment:
+      - RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS=-rabbitmq_management path_prefix "/rabbitmq"
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 10s
+      timeout: 10s
+      retries: 3
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:21.1.1
+    env_file:
+      - data/environments/keycloak.env
+    volumes:
+      - ./conf/keycloak/:/opt/keycloak/data/import/
+    command:
+      - start-dev 
+      - --import-realm
+      - --hostname-path=/auth
+      - --proxy edge
+      - --hostname-url https://localhost/auth/
+      - --hostname-admin-url https://localhost/auth/
+
+  redscan-rproxy:
+    image: ghcr.io/deddobifu/redscan-rproxy/redscan-rproxy:6.0.2
+    volumes:
+      - ./conf/redscan-rproxy/redscan.conf:/usr/local/apache2/conf/redscan.conf
+      - ./conf/redscan-rproxy/certs/:/usr/local/apache2/conf/certs/
+      - ./logs/rproxy:/usr/local/apache2/logs/
+    ports:
+      - 443:443
+    extra_hosts:
+      - ${HOSTNAME}:127.0.0.1

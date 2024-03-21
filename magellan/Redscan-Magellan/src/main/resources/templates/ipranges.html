@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
+
+    <head>
+        <title>Magellan</title>
+        <style>
+            #iprangesTable {
+                white-space: pre-wrap;
+            }
+
+            .createBtn .fa {
+                transition: .3s transform ease-in-out;
+            }
+
+            .createBtn .collapsed .fa {
+                transform: rotate(180deg);
+            }
+        </style>
+    </head>
+
+    <body>
+
+        <div id="page-wrapper" layout:fragment="custom-content">
+
+            <div th:replace="fragments/header :: header(active_icon='fa fa-radiation',active_text='IpRanges')"></div>
+
+            <div class="container-fluid">
+
+                <!-- Ajax Messages -->
+                <div th:replace="fragments/messages :: messages"></div>
+
+                <!-- Create collapsed box -->
+                <p class="createBtn">
+                    <a class="btn btn-outline-danger pull-right collapsed" data-toggle="collapse" href="#createIpRange"
+                       role="button" aria-expanded="false" aria-controls="createIpRange">
+                        Create IpRange
+                        <i class="fa fa-chevron-up pull-right"></i>
+                    </a>
+
+                    <button onclick="javascript:ventilate()" class="btn btn-outline-success pull-right">
+                        Ventilate
+                    </button>
+
+                    <a class="btn btn-outline-success pull-right" th:href="@{/rest/ipranges/export}">
+                        Export
+                        <i class="far fa-save pull-right"></i>
+                    </a>
+                </p>
+                <div class="row mb-2">
+                    <div class="col">
+                        <div class="collapse multi-collapse" id="createIpRange">
+                            <div class="card card-body">
+                                <form class="form-horizontal">
+                                    <div class="box-body">
+                                        <div class="form-group">
+                                            <label for="Name">Name</label>
+                                            <input class="form-control" id="cidr" placeholder="192.168.0.0/16" />
+                                            <small id="nameHelp" class="form-text text-muted">IP ranges must be in CIDR format (ex: 192.168.0.0/16)</small>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="Description">Description</label>
+                                            <input class="form-control" id="description" placeholder="Ip range used for local network" />
+                                            <small id="nameHelp" class="form-text text-muted">Optional</small>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="ServiceLevel">Service Level</label>
+                                            <select class="form-select" id="serviceLevel" aria-label="Ip range service level">
+                                                <option value="1">Gold</option>
+                                                <option value="2">Silver</option>
+                                                <option value="3">Bronze</option>
+                                                <option value="4">None</option>
+                                            </select>
+                                        </div>
+                                        <div class="box-footer">
+                                            <button type="button" class="btn btn-outline-danger"
+                                                    onclick="createIpRange()">Create</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Datatables -->
+                <div class="row mb-3">
+                    <div class="col-lg-12">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <table id="iprangesTable" class="table table-striped table-bordered" style="width:100%"
+                                       cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th class="col-1">Delete?</th>
+                                            <th class="col-2">Name</th>
+                                            <th>Description</th>
+                                            <th class="col-1">Service Level</th>
+                                            <th class="col-2">Last Scan Date (GMT)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="iprangesBody">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div layout:fragment="custom-script">
+            <script>
+
+                var datatable = null;
+
+                /**
+                 * Init the page.
+                 */
+                jQuery(document).ready(function ($) {
+                    initTable();
+                });
+
+                /**
+                 * Display all ipranges.
+                 */
+                function initTable() {
+                    $.get("[[@{/rest/ipranges}]]", function (data, status) {
+                        datatable = $('#iprangesTable').DataTable({
+                            "paging": true,
+                            "searching": true,
+                            "lengthMenu": [
+                                [25, 50, -1], ['25', '50', 'All']
+                            ],
+                            "data": data,
+                            "columns": [
+                                {"data": "cidr"},
+                                {"data": "cidr"},
+                                {"data": "description"},
+                                {"data": "serviceLevel"},
+                                {"data": "lastScanDate"}
+                            ],
+                            columnDefs: [
+                                {
+                                    targets: 0, width: 20, render: function (data, type, row) {
+                                        return "<a onclick='javascript:deleteIpRange(\"" + $('<div/>').text(data.replace("/", "_")).html() + "\")'><i class='fa fa-trash'></i></a>";
+                                    }
+                                },
+                                {
+                                    targets: 1, render: function (data, type, row) {
+                                        return $('<div/>').text(data).html();
+                                    }
+                                },
+                                {
+                                    targets: 2, render: function (data, type, row) {
+                                        return $('<div/>').text(data).html();
+                                    }
+                                },
+                                {
+                                    targets: 3, render: function (data, type, row) {
+                                        return renderServiceLevel(data);
+                                    }
+                                },
+                                {
+                                    targets: 4, render: function (data, type, row) {
+                                        return $('<div/>').text(data).html();
+                                    }
+                                }
+                            ]
+                        }).columns.adjust();
+                    }
+                    );
+                }
+
+                /**
+                 * Render service level in data table.
+                 */
+                function renderServiceLevel(serviceLevel) {
+                    var render = "";
+                    switch (serviceLevel) {
+                        case 1:
+                            render = "<a class='btn sl-gold'>Gold</a>";
+                            break;
+                        case 2:
+                            render = "<a class='btn sl-silver'>Silver</i></a>";
+                            break;
+                        case 3:
+                            render = "<a class='btn sl-bronze'>Bronze</i></a>";
+                            break;
+                        default :
+                            render = "<a class='btn sl-none'>None</a>";
+                            break;
+                    }
+                    return render;
+                }
+
+                /**
+                 * Init Table with data.
+                 */
+                function updateAll() {
+                    $.get("[[@{/rest/ipranges}]]", function (data, status) {
+                        datatable.clear().draw();
+                        datatable.rows.add(data); // Add new data
+                        datatable.columns.adjust().draw(); // Redraw the DataTable
+                    });
+                }
+
+                /**
+                 * Create the iprange.
+                 */
+                function createIpRange() {
+                    waitingDialog.show("Create the iprange...");
+                    setTimeout(function () {
+                        $.ajax({
+                            url: '[[@{/rest/ipranges}]]',
+                            type: 'POST',
+                            data: '{"cidr": ' + JSON.stringify(document.getElementById("cidr").value) + ',"description": ' + JSON.stringify(document.getElementById("description").value) + ',"serviceLevel": ' + document.getElementById("serviceLevel").value + '}',
+                            success: function (result) {
+                                sleep(2000).then(() => {
+                                    if (result === true) {
+                                        updateAll();
+                                        setSuccessMessage("IpRange was created");
+                                        showSuccessMessages();
+                                        document.getElementById("cidr").value = "";
+                                        document.getElementById("description").value = "";
+                                        waitingDialog.hide();
+                                    } else {
+                                        setErrorMessage("The iprange was not created.");
+                                        showErrorMessages();
+                                        document.getElementById("cidr").value = "";
+                                        document.getElementById("description").value = "";
+                                        waitingDialog.hide();
+                                    }
+                                });
+                            },
+                            error: function (result) {
+                                setErrorMessage("Error in creation: " + result.responseJSON.message);
+                                showErrorMessages();
+                                document.getElementById("cidr").value = "";
+                                document.getElementById("description").value = "";
+                                waitingDialog.hide();
+                            }
+                        });
+                    }, 1000);
+                }
+
+                /**
+                 * Delete a target.
+                 */
+                function deleteIpRange(cidr) {
+                    bootbox.confirm({
+                        message: "Are you sure to delete this iprange?",
+                        buttons: {
+                            confirm: {
+                                label: 'Yes',
+                                className: 'btn-success'
+                            },
+                            cancel: {
+                                label: 'No',
+                                className: 'btn-danger'
+                            }
+                        },
+                        callback: function (result) {
+                            if (result === true) {
+                                waitingDialog.show("Delete the iprange...");
+                                setTimeout(function () {
+                                    $.ajax({
+                                        url: '[[@{/rest/ipranges/}]]' + cidr,
+                                        type: 'DELETE',
+                                        success: function (result) {
+                                            sleep(2000).then(() => {
+                                                updateAll();
+                                                setSuccessMessage("IpRange was deleted");
+                                                showSuccessMessages();
+                                                waitingDialog.hide();
+                                            });
+                                        },
+                                        error: function (result) {
+                                            setErrorMessage("Error in deletion");
+                                            showErrorMessages();
+                                            waitingDialog.hide();
+                                        }
+                                    });
+                                }, 1000);
+                            }
+                        }
+                    });
+                }
+
+                /**
+                * Ventilate all IPRanges.
+                */
+                function ventilate() {
+                    waitingDialog.show("Ventilation ongoing...");
+                    setTimeout(function () {
+                        $.ajax({
+                            url: '[[@{/rest/ipranges/ventilate}]]',
+                            type: 'POST',
+                            data: '{}',
+                            success: function (result) {
+                                sleep(2000).then(() => {
+                                    updateAll();
+                                    setSuccessMessage("Ventilation succeeded");
+                                    showSuccessMessages();
+                                    waitingDialog.hide();
+                                });
+                            },
+                            error: function (result) {
+                                setErrorMessage("Ventilation failed");
+                                showErrorMessages();
+                                waitingDialog.hide();
+                            }
+                        });
+                    }, 1000);
+                }
+            </script>
+        </div>
+    </body>
+
+</html>

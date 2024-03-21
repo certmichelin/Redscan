@@ -1,0 +1,23 @@
+/*!
+ * Hit severity stylesheet.
+ */
+
+.sl-none {
+    border-color: #3E3E3E;
+    border-width: medium;
+}
+
+.sl-bronze {
+    border-color: #CD7F32;
+    border-width: medium;
+}
+
+.sl-silver {
+    border-color: #C0C0C0;
+    border-width: medium;
+}
+
+.sl-gold {
+    border-color: #FFD700;
+    border-width: medium;
+}

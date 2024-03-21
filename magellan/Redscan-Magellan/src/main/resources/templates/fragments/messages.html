@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <body>
+    <div th:fragment="messages" >
+      <div id="ajaxErrorMessageBlock" class="alert alert-danger alert-dismissible" style="display: none;">
+        <button type="button" class="close" data-hide="alert" aria-hidden="true">×</button>
+        <h4><i class="icon fa fa-ban"></i> Alert!</h4>
+        <span id="ajaxErrorMessage"></span>
+        <ul id="ajaxErrorMessages">
+        </ul>
+      </div>
+
+      <div id="ajaxWarningMessageBlock" class="alert alert-warning alert-dismissible" style="display: none;">
+        <button type="button" class="close" data-hide="alert" aria-hidden="true">×</button>
+        <h4><i class="icon fa fa-ban"></i> Alert!/></h4>
+        <span id="ajaxWarningMessage"></span>
+        <ul id="ajaxWarningMessages">
+        </ul>
+      </div>
+
+      <div id="ajaxSuccessMessageBlock" class="alert alert-success alert-dismissible" style="display: none;">
+        <button type="button" class="close" data-hide="alert" aria-hidden="true">×</button>
+        <h4><i class="icon fa fa-check"></i> Done!</h4>
+        <span id="ajaxSuccessMessage"></span>
+      </div>
+
+    </div>
+  </body>
+</html>

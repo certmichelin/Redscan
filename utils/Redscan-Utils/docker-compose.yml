@@ -1,0 +1,54 @@
+#
+# Docker compose file for REDSCAN-UTILS.
+#
+version: "3.8"
+services:
+
+  redscan-cache:
+   image: ghcr.io/deddobifu/redscan-cache/redscan-cache:6.0.0
+   ports:
+      # - "exposé:inner"
+      - "8080:8080"
+   depends_on:
+     elasticsearch:
+       condition: service_healthy
+
+  elasticsearch:
+    image: elasticsearch:8.8.1
+    ports:
+      # - "exposé:inner"
+      - "9200:9200"
+    environment:
+      - discovery.type=single-node
+      - "ES_JAVA_OPTS=-Xms4096m -Xmx4096m"
+      - xpack.security.enabled=false
+      - indices.id_field_data.enabled=true
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    healthcheck:
+        test: curl -s http://localhost:9200/_cluster/health -k | grep -vq '"status":"red"'
+        interval: 20s
+        retries: 10
+
+  mantisbt:
+    image: ghcr.io/deddobifu/redscan-mantisbt/redscan-mantisbt:6.0.3
+    ports:
+      # - "exposé:inner"
+      - "8888:80"
+    env_file:
+      - data/environments/mantisbt.env
+    depends_on:
+      - mantisbtdb
+    restart: always
+
+  mantisbtdb:
+    image: mysql:5.7
+    env_file:
+      - data/environments/mantisbtdb.env
+    volumes:
+      - ./data/scripts/mantisbt/bugtracker.sql:/docker-entrypoint-initdb.d/1.sql
+    # Set default collation so Mantis does not complain about latin1
+    command: ['mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci']
+  

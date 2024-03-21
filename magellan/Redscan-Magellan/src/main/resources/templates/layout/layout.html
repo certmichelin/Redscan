@@ -1,0 +1,76 @@
+<!--
+  Default layout of Magellan application.
+-->
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+    <head>
+        <meta charset="utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+
+        <!-- Tell the browser to be responsive to screen width -->
+        <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport"/>
+
+        <!-- CSS -->
+        <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" type="text/css"/>
+        <link th:href="@{/css/plugins/datatables/dataTables.bootstrap.min.css}" rel="stylesheet" type="text/css"/>
+        <link th:href="@{/css/plugins/font-awesome/all.min.css}" rel="stylesheet" type="text/css"/>
+        <link th:href="@{/css/plugins/fancybox/jquery.fancybox.min.css}" rel=" stylesheet"/>
+        <link th:href="@{/css/customs/servicelevel.css}" rel=" stylesheet"/>
+    <th:block layout:fragment="custom-css"></th:block>
+</head>
+
+<body>
+
+    <!-- Header bar -->
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
+        <a class="navbar-brand" href="/">
+            <img th:src="@{/img/logo_banner.png}" height="25" />
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/brands}"><i class="fa fa-globe"></i><span> Brands</span></a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/masterdomains}"><i class="fa fa-crosshairs"></i><span> Master Domains</span></a>
+                </li>
+                
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/ipranges}"><i class="fa fa-radiation"></i><span> IP Ranges</span></a>
+                </li>          
+
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/import}"><i class="fas fa-file-import"></i><span> Import</span></a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <!-- End of Header bar -->
+
+    <!-- Custom content -->
+    <div layout:fragment="custom-content"></div>
+    <!-- End of Custom content -->
+
+    <!-- JS -->
+    <script th:src="@{/js/jquery-3.4.0.min.js}"></script>
+    <script th:src="@{/js/popper.min.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <script th:src="@{/js/plugins/datatables/dataTables.bootstrap.min.js}"></script>
+    <script th:src="@{/js/plugins/bootbox/bootbox.all.min.js}"></script>
+    <script th:src="@{/js/plugins/bootstrap-waitingfor/bootstrap-waitingfor.min.js}"></script>
+    <script th:src="@{/js/plugins/cookie/jquery.cookie.js}"></script>
+    <script th:src="@{/js/plugins/fancybox/jquery.fancybox.min.js}"></script>
+    <script th:src="@{/js/plugins/jquery/jquery.dataTables.min.js}"></script>
+    <script th:src="@{/js/customs/common.js}"></script>
+    <script th:src="@{/js/customs/common-ajax.js}"></script>
+    <script th:src="@{/js/customs/messages.js}"></script>
+<th:block layout:fragment="custom-script"></th:block>
+
+</body>
+</html>
+
+

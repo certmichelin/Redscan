@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
+
+<head>
+    <title>Magellan</title>
+</head>
+
+<body>
+
+    <div id="page-wrapper" layout:fragment="custom-content">
+
+        <div th:replace="fragments/header :: header(active_icon='fas fa-file-import',active_text='Imports')"></div>
+
+        <div class="container-fluid">
+
+            <!-- Ajax Messages -->
+            <div th:replace="fragments/messages :: messages"></div>
+
+            <div class="form-group">
+                <label for="brandsJson">Import brands : </label>
+                <textarea class="form-control" id="brandsJson" rows="5"></textarea>
+                <button onclick="javascript:importBrand()" class="btn btn-outline-success mt-2"><i
+                        class="fa fa-file-import"></i> Import</button>
+            </div>
+            
+            <div class="form-group">
+                <label for="brandsJson">Import ip ranges : </label>
+                <textarea class="form-control" id="iprangesJson" rows="5"></textarea>
+                <button onclick="javascript:importIpRange()" class="btn btn-outline-success mt-2"><i
+                        class="fa fa-file-import"></i> Import</button>
+            </div>
+
+            <div class="form-group">
+                <label for="masterDomainsJson">Import master domains : </label>
+                <textarea class="form-control" id="masterDomainsJson" rows="5"></textarea>
+                <button onclick="javascript:importMasterDomains()" class="btn btn-outline-success mt-2"><i
+                        class="fa fa-file-import"></i> Import</button>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div layout:fragment="custom-script">
+        <script>
+
+            /**
+             * Import brands.
+             */
+            function importBrand() {
+                waitingDialog.show("Import brands...");
+                var jsonData = $("#brandsJson").val();
+                setTimeout(function () {
+                    $.ajax({
+                        url: '[[@{/rest/brands/import}]]',
+                        type: 'POST',
+                        data: jsonData,
+                        success: function (result) {
+                            setSuccessMessage(result + " brand(s) was imported");
+                            showSuccessMessages();
+                            $("#brandsJson").val("");
+                            waitingDialog.hide();
+                        },
+                        error: function (result) {
+                            setErrorMessage(result.responseJSON.message);
+                            showErrorMessages();
+                            waitingDialog.hide();
+                        }
+                    });
+                }, 1000);
+            }
+            
+            /**
+             * Import IP ranges.
+             */
+            function importIpRange() {
+                waitingDialog.show("Import ip ranges...");
+                var jsonData = $("#iprangesJson").val();
+                setTimeout(function () {
+                    $.ajax({
+                        url: '[[@{/rest/ipranges/import}]]',
+                        type: 'POST',
+                        data: jsonData,
+                        success: function (result) {
+                            setSuccessMessage(result + " ip range(s) was imported");
+                            showSuccessMessages();
+                            $("#iprangesJson").val("");
+                            waitingDialog.hide();
+                        },
+                        error: function (result) {
+                            setErrorMessage(result.responseJSON.message);
+                            showErrorMessages();
+                            waitingDialog.hide();
+                        }
+                    });
+                }, 1000);
+            }
+
+            /**
+             * Import master domains.
+             */
+            function importMasterDomains() {
+                waitingDialog.show("Import master domains...");
+                var jsonData = $("#masterDomainsJson").val();
+                setTimeout(function () {
+                    $.ajax({
+                        url: '[[@{/rest/masterdomains/import}]]',
+                        type: 'POST',
+                        data: jsonData,
+                        success: function (result) {
+                            setSuccessMessage(result + " master domain(s) was imported");
+                            showSuccessMessages();
+                            $("#masterDomainsJson").val("");
+                            waitingDialog.hide();
+                        },
+                        error: function (result) {
+                            setErrorMessage(result.responseJSON.message);
+                            showErrorMessages();
+                            waitingDialog.hide();
+                        }
+                    });
+                }, 1000);
+            }
+        </script>
+    </div>
+</body>
+
+</html>
