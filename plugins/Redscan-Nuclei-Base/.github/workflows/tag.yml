@@ -1,0 +1,28 @@
+# This workflow will build the java project then tag the docker image.
+
+name: Redscan Scanner CI.
+
+on:
+  push:
+    tags:
+      - '*.*.*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set output
+      id: vars
+      run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
+ 
+    - name: Build & Push the image to GitHub Packages
+      uses: docker/build-push-action@v1
+      with:
+        username: ${{ github.actor }}
+        password: ${{ secrets.DOCKER_TOKEN }}
+        registry: ghcr.io
+        repository: deddobifu/redscan-nuclei-base/redscan-nuclei-base
+        tags: ${{ steps.vars.outputs.tag }}
+        

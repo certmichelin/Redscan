@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+    <Appenders>
+        <Console name="stdout" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d [%-5p] [%c] %m%n" />
+        </Console>
+
+        <RollingFile name="rolling" fileName="./logs/spring-boot-logger-log4j2.log" filePattern="./logs/$${date:yyyy-MM}/spring-boot-logger-log4j2-%d{-dd-MMMM-yyyy}-%i.log.gz">
+            <PatternLayout pattern="%d [%-5p] [%c] %m%n" />
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+            </Policies>
+        </RollingFile>
+        
+        <Http name="elastic" url="http://127.0.0.1:9200/logs-dev/_doc" >
+            <JsonTemplateLayout eventTemplateUri="classpath:LogstashJsonEventLayoutV1.json"/>
+            <Property name="Content-Type" value="application/json"/>
+        </Http>
+    </Appenders>
+
+    <Loggers>
+        <!-- LOG everything at INFO level -->
+        <Root level="info">
+            <AppenderRef ref="stdout" />
+            <AppenderRef ref="rolling" />
+            <AppenderRef ref="elastic" />
+        </Root>
+    </Loggers>
+
+</Configuration>
