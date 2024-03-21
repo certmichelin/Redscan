@@ -48,7 +48,7 @@ public class CacheManagerTest {
   @Test
   public void testCache() {
     System.out.println("CacheManager:Set");
-    CacheManager cacheManager = new CacheManager("TEST", "http://127.0.0.1:8080");
+    CacheManager cacheManager = new CacheManager("TEST", "http://127.0.0.1:8889");
     Map<String, String> values = new HashMap<>();
     values.put("aaa", "ccc");
     values.put("bbb", "ddd");

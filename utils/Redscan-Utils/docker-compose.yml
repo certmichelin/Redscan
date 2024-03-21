@@ -5,16 +5,16 @@ version: "3.8"
 services:
 
   redscan-cache:
-   image: ghcr.io/deddobifu/redscan-cache/redscan-cache:6.0.0
+   image: deddobifu/redscan-cache:7.0.0
    ports:
       # - "exposé:inner"
-      - "8080:8080"
+      - "8889:8080"
    depends_on:
      elasticsearch:
        condition: service_healthy
 
   elasticsearch:
-    image: elasticsearch:8.8.1
+    image: elasticsearch:8.12.2
     ports:
       # - "exposé:inner"
       - "9200:9200"
@@ -33,7 +33,7 @@ services:
         retries: 10
 
   mantisbt:
-    image: ghcr.io/deddobifu/redscan-mantisbt/redscan-mantisbt:6.0.3
+    image: deddobifu/redscan-mantisbt:7.0.0
     ports:
       # - "exposé:inner"
       - "8888:80"
@@ -44,11 +44,11 @@ services:
     restart: always
 
   mantisbtdb:
-    image: mysql:5.7
+    image: mariadb:11.3.2
     env_file:
       - data/environments/mantisbtdb.env
     volumes:
       - ./data/scripts/mantisbt/bugtracker.sql:/docker-entrypoint-initdb.d/1.sql
     # Set default collation so Mantis does not complain about latin1
-    command: ['mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci']
+    command: ['mariadbd', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci']
   
