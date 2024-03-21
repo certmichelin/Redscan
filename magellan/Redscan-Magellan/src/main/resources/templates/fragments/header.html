@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="header" class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <i class="fa fa-dashboard"></i> <a href="/">Dashboard</a>
+                            </li>
+                            <li th:if="${sub_text != null && sub_url != null && sub_icon != null}" class="breadcrumb-item">
+                                <i th:class="${sub_icon}"></i> <a th:href="${sub_url}"><span th:text="${sub_text}"></span></a>
+                            </li>
+                            <li th:if="${third_text != null && third_url != null && third_icon != null}" class="breadcrumb-item">
+                                <i th:class="${third_icon}"></i> <a th:href="${third_url}"><span th:text="${third_text}"></span></a>
+                            </li>
+                            <li class="breadcrumb-item active">
+                                <i th:class="${active_icon}"></i> <span th:text="${active_text}"></span>
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
