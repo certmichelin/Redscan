@@ -1,0 +1,37 @@
+#
+# Docker compose file for REDSCAN-MAGELLAN-BACK.
+#
+version: "3.8"
+services:
+  elasticsearch:
+    image: elasticsearch:8.12.2
+    ports:
+      # - "exposé:inner"
+      - "9200:9200"
+    environment:
+      - discovery.type=single-node
+      - "ES_JAVA_OPTS=-Xms4096m -Xmx4096m"
+      - xpack.security.enabled=false
+      - indices.id_field_data.enabled=true
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    healthcheck:
+        test: curl -s http://localhost:9200/_cluster/health -k | grep -vq '"status":"red"'
+        interval: 20s
+        retries: 10
+
+  rabbitmq:
+    image: rabbitmq:3.12.8
+    ports:
+      # - "exposé:inner"
+      - "15671:15671"
+      - "5672:5672"
+    environment:
+      - RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS=-rabbitmq_management path_prefix "/rabbitmq"
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 10s
+      timeout: 10s
+      retries: 3

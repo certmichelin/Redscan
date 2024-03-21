@@ -15,9 +15,4 @@ Visualize and manage the brands & master domains.
 
 Web application used to manage the brands & master domains including scope.
 
-### How to develop
 
-```
-docker run -d -p 15671:5672 -p 15672:15672 --name redscan-rabbit-dev rabbitmq:3-management
-docker run -d -p 9201:9200 -p 9300:9300 -e "discovery.type=single-node" --name redscan-elasticsearch-dev docker.elastic.co/elasticsearch/elasticsearch:7.15.0
-```
