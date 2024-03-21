@@ -3,7 +3,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.michelin.cert.redscan</groupId>
+    <groupId>red.deddobifu</groupId>
     <artifactId>redscan-magellan</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
@@ -74,7 +74,7 @@
         </dependency>
         
         <dependency>
-            <groupId>com.michelin.cert.redscan</groupId>
+            <groupId>red.deddobifu</groupId>
             <artifactId>redscan-utils</artifactId>
             <version>${redscan-utils.version}</version>
         </dependency>
