@@ -257,15 +257,15 @@ CREATE TABLE `mantis_config_table` (
 --
 
 INSERT INTO `mantis_config_table` (`config_id`, `project_id`, `user_id`, `access_reqd`, `type`, `value`) VALUES
-('csv_columns', 0, 0, 90, 3, '[\"selection\",\"edit\",\"priority\",\"id\",\"severity\",\"summary\",\"tags\",\"status\",\"last_updated\"]'),
-('csv_columns', 1, 0, 90, 3, '[\"selection\",\"edit\",\"priority\",\"id\",\"severity\",\"summary\",\"custom_Url\",\"tags\",\"status\",\"custom_Origin\",\"last_updated\"]'),
+('csv_columns', 0, 0, 90, 3, '[\"selection\",\"priority\",\"id\",\"summary\",\"tags\",\"status\",\"last_updated\"]'),
+('csv_columns', 1, 0, 90, 3, '[\"selection\",\"priority\",\"id\",\"summary\",\"custom_Url\",\"tags\",\"status\",\"resolution\",\"custom_Origin\",\"last_updated\"]'),
 ('database_version', 0, 0, 90, 1, '211'),
-('excel_columns', 0, 0, 90, 3, '[\"selection\",\"edit\",\"priority\",\"id\",\"severity\",\"summary\",\"tags\",\"status\",\"last_updated\"]'),
-('excel_columns', 1, 0, 90, 3, '[\"selection\",\"edit\",\"priority\",\"id\",\"severity\",\"summary\",\"custom_Url\",\"tags\",\"status\",\"custom_Origin\",\"last_updated\"]'),
-('print_issues_page_columns', 0, 0, 90, 3, '[\"selection\",\"edit\",\"priority\",\"id\",\"severity\",\"summary\",\"tags\",\"status\",\"last_updated\"]'),
-('print_issues_page_columns', 1, 0, 90, 3, '[\"selection\",\"edit\",\"priority\",\"id\",\"severity\",\"summary\",\"custom_Url\",\"tags\",\"status\",\"custom_Origin\",\"last_updated\"]'),
-('view_issues_page_columns', 0, 0, 90, 3, '[\"selection\",\"edit\",\"priority\",\"id\",\"severity\",\"summary\",\"tags\",\"status\",\"last_updated\"]'),
-('view_issues_page_columns', 1, 0, 90, 3, '[\"selection\",\"edit\",\"priority\",\"id\",\"severity\",\"summary\",\"custom_Url\",\"tags\",\"status\",\"custom_Origin\",\"last_updated\"]');
+('excel_columns', 0, 0, 90, 3, '[\"selection\",\"priority\",\"id\",\"summary\",\"tags\",\"status\",\"last_updated\"]'),
+('excel_columns', 1, 0, 90, 3, '[\"selection\",\"priority\",\"id\",\"summary\",\"custom_Url\",\"tags\",\"status\",\"resolution\",\"custom_Origin\",\"last_updated\"]'),
+('print_issues_page_columns', 0, 0, 90, 3, '[\"selection\",\"priority\",\"id\",\"summary\",\"tags\",\"status\",\"last_updated\"]'),
+('print_issues_page_columns', 1, 0, 90, 3, '[\"selection\",\"priority\",\"id\",\"summary\",\"custom_Url\",\"tags\",\"status\",\"resolution\",\"custom_Origin\",\"last_updated\"]'),
+('view_issues_page_columns', 0, 0, 90, 3, '[\"selection\",\"priority\",\"id\",\"summary\",\"tags\",\"status\",\"last_updated\"]'),
+('view_issues_page_columns', 1, 0, 90, 3, '[\"selection\",\"priority\",\"id\",\"summary\",\"custom_Url\",\"tags\",\"status\",\"resolution\",\"custom_Origin\",\"last_updated\"]');
 
 -- --------------------------------------------------------
 
