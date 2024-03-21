@@ -3,7 +3,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.michelin.cert.redscan</groupId>
+    <groupId>red.deddobifu</groupId>
     <artifactId>redscan-alerts</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
@@ -14,7 +14,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     
         <!-- Define dependencies versions -->
-        <redscan-utils.version>6.0.4</redscan-utils.version>
+        <redscan-utils.version>7.0.0</redscan-utils.version>
         <unirest-java.version>3.11.00</unirest-java.version>
         <log4j2.version>2.17.1</log4j2.version>
         <spring-boot-starter-mail.version>2.5.5</spring-boot-starter-mail.version>
@@ -28,18 +28,9 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.5</version>
+        <version>2.7.18</version>
     </parent>
          
-     <!-- Manage repository for REDSCAN UTILS -->
-    <repositories>
-        <repository>
-            <id>redscan-utils</id>
-            <name>Michelin CERT Apache Maven Packages</name>
-            <url>https://maven.pkg.github.com/Deddobifu/Redscan-Utils</url>
-        </repository>  
-    </repositories>
-
     <dependencies>
         
         <!-- Springboot Project -->
@@ -55,7 +46,7 @@
         </dependency>
         
         <dependency>
-            <groupId>com.michelin.cert.redscan</groupId>
+            <groupId>red.deddobifu</groupId>
             <artifactId>redscan-utils</artifactId>
             <version>${redscan-utils.version}</version>
         </dependency>

@@ -3,18 +3,11 @@ FROM php:7.4-apache
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 # hadolint ignore=DL3008
-RUN set -xe \
-    && apt-get update \
-    && apt-get install --no-install-recommends -y \
-        # PHP dependencies
-        libfreetype6-dev libpng-dev libjpeg-dev libpq-dev libxml2-dev \
-        # New in PHP 7.4, required for mbstring, see https://github.com/docker-library/php/issues/880
-        libonig-dev \
-        dos2unix \
-    && docker-php-ext-configure gd --with-jpeg --with-freetype \
-    && docker-php-ext-install gd mbstring mysqli soap \
-    && rm -rf /var/lib/apt/lists/* \
-    && a2enmod rewrite
+RUN apt-get update && apt-get install -y libfreetype6-dev libpng-dev libjpeg-dev libpq-dev libxml2-dev libonig-dev
+RUN docker-php-ext-configure gd --with-jpeg --with-freetype
+RUN docker-php-ext-install gd mbstring mysqli soap
+RUN rm -rf /var/lib/apt/lists/*
+RUN a2enmod rewrite
 
 ENV MANTIS_VER 2.26.0
 ENV MANTIS_MD5 471a4087755bf45b35bc5c05b35ba6cb
@@ -22,8 +15,7 @@ ENV MANTIS_URL https://sourceforge.net/projects/mantisbt/files/mantis-stable/${M
 ENV MANTIS_FILE mantisbt.tar.gz
 
 # Install MantisBT itself
-RUN set -xe \
-    && curl -fSL "${MANTIS_URL}" -o "${MANTIS_FILE}" \
+RUN curl -fSL "${MANTIS_URL}" -o "${MANTIS_FILE}" \
     && md5sum "${MANTIS_FILE}" \
     && echo "${MANTIS_MD5}  ${MANTIS_FILE}" | md5sum -c \
     && tar -xz --strip-components=1 -f "${MANTIS_FILE}" \
@@ -46,7 +38,6 @@ COPY custom_constants_inc.php /var/www/html/config/custom_constants_inc.php
 COPY custom_strings_inc.php /var/www/html/config/custom_strings_inc.php
 
 COPY ./mantis-entrypoint /usr/local/bin/mantis-entrypoint
-RUN dos2unix /usr/local/bin/mantis-entrypoint
 RUN chmod +x /usr/local/bin/mantis-entrypoint
 
 CMD ["mantis-entrypoint"]
