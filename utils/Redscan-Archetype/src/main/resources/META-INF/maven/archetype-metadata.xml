@@ -4,7 +4,7 @@
     
     <requiredProperties>
         <requiredProperty key="redscan-util-version">
-            <defaultValue>5.0.0</defaultValue>
+            <defaultValue>7.0.0</defaultValue>
         </requiredProperty>
     </requiredProperties>
 
@@ -56,14 +56,6 @@
             <directory></directory>
             <includes>
                 <include>README.md</include>
-            </includes>
-        </fileSet>
-
-        <!-- Github Workflow -->
-        <fileSet filtered="true">
-            <directory>.github/workflows</directory>
-            <includes>
-                <include>**/*.yml</include>
             </includes>
         </fileSet>
     </fileSets>

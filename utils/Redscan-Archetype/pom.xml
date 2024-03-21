@@ -1,26 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>red.deddobifu</groupId>
     <artifactId>redscan-archetype</artifactId>
     <packaging>jar</packaging>
-    <version>6.0.0</version>
+    <version>7.0.0</version>
 
     <name>Redscan - Archetype</name>
+    <url>https://github.com/certmichelin/Redscan</url>
+    <description>Generate an empty project for Redcan.</description>
 
-    <url>https://github.com/certmichelin/Redscan-Archetype</url>
+    <licenses>
+        <license>
+            <name>Apache 2.0</name>
+            <url>https://www.apache.org/licenses/LICENSE-2.0</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <scm>
+        <tag>main</tag>
+        <url>https://github.com/certmichelin/Redscan</url>
+        <connection>scm:git:https://github.com/certmichelin/Redscan</connection>
+        <developerConnection>scm:git:https://github.com/certmichelin/Redscan</developerConnection>
+    </scm>
+
+    <developers>
+        <developer>
+            <id>certmichelin</id>
+            <name>certmichelin</name>
+            <email>cert at michelin dot com</email>
+            <organization>CERT Michelin</organization>
+        </developer>
+    </developers>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        
         <archetype-packaging.version>3.2.1</archetype-packaging.version>
     </properties>
-    
+
     <build>
         <extensions>
             <extension>
@@ -28,15 +52,69 @@
                 <artifactId>archetype-packaging</artifactId>
                 <version>${archetype-packaging.version}</version>
             </extension>
-        </extensions>       
+        </extensions>
+
+        <!-- Publishing on Maven central plugin -->
+        <plugins>
+            <plugin>
+                <groupId>org.sonatype.central</groupId>
+                <artifactId>central-publishing-maven-plugin</artifactId>
+                <version>0.4.0</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <publishingServerId>central</publishingServerId>
+                    <tokenAuth>true</tokenAuth>
+                    <checksums>all</checksums>
+                </configuration>
+            </plugin>
+
+            <!-- Package sources -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>2.2.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Package javadoc -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.6.3</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Sign packages -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>1.5</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
     </build>
-    
-    <!-- Repository for deploying in Github Package -->
-    <distributionManagement>
-        <repository>
-            <id>redscan-archetype</id>
-            <name>Michelin CERT Apache Maven Packages</name>
-            <url>https://maven.pkg.github.com/deddobifu/Redscan-Archetype</url>
-        </repository>
-    </distributionManagement>
+
+
 </project>
