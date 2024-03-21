@@ -1,0 +1,8 @@
+/target/
+/logs
+/nbproject/
+/nbactions.xml
+**/.classpath
+**/.settings
+**/.project
+**/.factorypath
