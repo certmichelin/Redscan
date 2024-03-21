@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<archetype-descriptor xmlns="http://maven.apache.org/plugins/maven-archetype-plugin/archetype-descriptor/1.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/plugins/maven-archetype-plugin/archetype-descriptor/1.0.0 http://maven.apache.org/xsd/archetype-descriptor-1.0.0.xsd" name="${artifactId}">
+    
+    <requiredProperties>
+        <requiredProperty key="redscan-util-version">
+            <defaultValue>5.0.0</defaultValue>
+        </requiredProperty>
+    </requiredProperties>
+
+    <fileSets>
+
+        <!-- Standard java class -->
+        <fileSet filtered="true">
+            <directory>src/main/java/com/michelin/cert/redscan</directory>
+            <includes>
+                <include>**/*.java</include>
+            </includes>
+        </fileSet>
+
+        <!-- Default resources files-->
+        <fileSet>
+            <directory>src/main/resources</directory>
+            <includes>
+                <include>application.properties</include>
+                <include>log4j2-spring.xml</include>
+            </includes>
+        </fileSet>
+
+        <!-- Default DockerFile -->
+        <fileSet>
+            <directory></directory>
+            <includes>
+                <include>Dockerfile</include>
+            </includes>
+        </fileSet>
+
+        <!-- Checkstyle -->
+        <fileSet>
+            <directory></directory>
+            <includes>
+                <include>checkstyle.xml</include>
+            </includes>
+        </fileSet>
+
+        <!-- Gitignore -->
+        <fileSet>
+            <directory></directory>
+            <includes>
+                <include>.gitignore</include>
+            </includes>
+        </fileSet>
+
+        <!-- Readme -->
+        <fileSet filtered="true">
+            <directory></directory>
+            <includes>
+                <include>README.md</include>
+            </includes>
+        </fileSet>
+
+        <!-- Github Workflow -->
+        <fileSet filtered="true">
+            <directory>.github/workflows</directory>
+            <includes>
+                <include>**/*.yml</include>
+            </includes>
+        </fileSet>
+    </fileSets>
+</archetype-descriptor>
