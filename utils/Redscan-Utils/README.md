@@ -4,6 +4,9 @@ Redscan utils is the main component used by REDSCAN scanners, it will include al
 
 ## Release note
 
+### 7.0.0
+   - Publish to Maven Central.
+   
 ### 6.0.6
    - Add sorting for DatalakeStorageItems.
 
