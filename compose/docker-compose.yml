@@ -310,18 +310,18 @@ services:
   #     elasticsearch:
   #       condition: service_healthy
 
-  # redscan-saas-explorer:
-  #   image: deddobifu/redscan-saas-explorer/redscan-saas-explorer:7.0.0
-  #   env_file:
-  #     - data/environments/red.env
-  #   volumes:
-  #     - ./logs:/logs
-  #     - ./conf/redscan-saas-explorer:/conf
-  #   depends_on:
-  #     rabbitmq:
-  #       condition: service_healthy
-  #     elasticsearch:
-  #       condition: service_healthy
+  redscan-saas-explorer:
+     image: deddobifu/redscan-saas-explorer:7.0.0
+     env_file:
+       - data/environments/red.env
+     volumes:
+       - ./logs:/logs
+       - ./conf/redscan-saas-explorer:/conf
+     depends_on:
+       rabbitmq:
+         condition: service_healthy
+       elasticsearch:
+         condition: service_healthy
 
   # redscan-securitytxt:
   #   image: deddobifu/redscan-securitytxt/redscan-securitytxt:7.0.0
