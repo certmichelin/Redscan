@@ -43,7 +43,7 @@ def main():
                 env_file = file.replace(".template", "")
                 if not os.path.isfile("data/environments/" + env_file) :
                     copyfile("data/environments/" + file, "data/environments/" + env_file)
-       
+        copyfile(".env.template", ".env")
     #Reset environment file.
     if params.reset_env:
         print("--- Reset ENVIRONMENT FILES ---")
