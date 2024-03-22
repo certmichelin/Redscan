@@ -22,6 +22,7 @@
 </p>
 
 <h1></h1>
+
 ![](https://img.shields.io/github/issues/certmichelin/Redscan.svg)
 ![](https://img.shields.io/github/forks/certmichelin/Redscan.svg)
 ![](https://img.shields.io/github/stars/certmichelin/Redscan.svg)
@@ -31,7 +32,7 @@ Redscan is built to discover exposed assets of a company, detect misconfiguratio
 
 Redscan was conceived with the idea to automate the recon phase and the vulnerability assertion as referred to the Bug Bounty Methodology. 
 
-The aim of the project is to facilitate the orchestration, the integration and the exploitation of results coming from existing good tools. For that [Redscan-Utils](https://github.com/certmichelin/Redscan-Utils) was developed.
+The aim of the project is to facilitate the orchestration, the integration and the exploitation of results coming from existing good tools. For that [Redscan-Utils](https://github.com/certmichelin/Redscan/tree/main/utils/Redscan-Utils) was developed.
 
 The Michelin CERT developed and continue to maintain plenty of plugins covering most of known use-cases. You can find them on https://github.com/certmichelin.
 
@@ -39,17 +40,11 @@ The Michelin CERT developed and continue to maintain plenty of plugins covering 
 
 # Quick start
 
-As Redscan project used Github Package registry, you need to login to github with docker in order to be able to pull the images.
-
-```
-docker login https://ghcr.io
-```
-
 Setup a quick demo instance in four commands
 
 ```
 git clone https://github.com/certmichelin/Redscan.git
-cd Redscan
+cd Redscan/compose
 python red.py --install-dockprom
 python red.py --setup-demo
 ```
