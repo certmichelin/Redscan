@@ -23,7 +23,7 @@ services:
         retries: 10
 
   rabbitmq:
-    image: rabbitmq:3.12.8
+    image: rabbitmq:3.12.13-management
     ports:
       # - "exposé:inner"
       - "15671:15671"
