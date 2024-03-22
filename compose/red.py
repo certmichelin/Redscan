@@ -87,7 +87,7 @@ def main():
             for fname in files:
                 fpath = os.path.join(dname, fname)
                 
-                if '.git' not in fpath and 'dockprom' not in fpath and 'mantisbt_db' not in fpath and 'env.template' not in fpath and  str(params.init_variables_file) not in fpath:
+                if '.git' not in fpath and 'dockprom' not in fpath and 'mantisbt_db' not in fpath and 'env.template' not in fpath and '.DS_Store' not in fpath and  str(params.init_variables_file) not in fpath:
                     with open(fpath, encoding='utf-8') as f:
                         previousText = f.read()
 
