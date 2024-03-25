@@ -9,20 +9,19 @@
 version: "3.8"
 services:
 
-  # redscan-amass:
-  #   image: deddobifu/redscan-amass/redscan-amass:7.0.0
-  #   env_file:
-  #     - data/environments/red.env
-  #   volumes:
-  #     - ./logs:/logs
-  #     - ./conf/redscan-amass/log4j2:/conf
-  #     - ./conf/redscan-amass/app/:/root/.config/amass/
-  #     - ./data/wordlists:/wordlists
-  #   depends_on:
-  #     rabbitmq:
-  #       condition: service_healthy
-  #     elasticsearch:
-  #       condition: service_healthy
+  redscan-amass:
+    image: deddobifu/redscan-amass:beta
+    env_file:
+      - data/environments/red.env
+    volumes:
+      - ./logs:/logs
+      - ./conf/redscan-amass:/conf
+      - ./data/wordlists:/wordlists
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
 
   # redscan-certinfo:
   #   image: deddobifu/redscan-certinfo/redscan-certinfo:7.0.0
