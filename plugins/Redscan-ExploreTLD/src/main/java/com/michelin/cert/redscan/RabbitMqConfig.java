@@ -47,7 +47,7 @@ public class RabbitMqConfig {
   @Bean
   public Declarables fanoutBindings() {
     Queue queue = new Queue(QUEUE_BRANDS, true);
-    FanoutExchange fanoutExchange = new FanoutExchange((new Brand()).getFanoutExchangeName(), true, false);
+    FanoutExchange fanoutExchange = new FanoutExchange(new Brand().getFanoutExchangeName(), true, false);
     return new Declarables(queue, fanoutExchange, BindingBuilder.bind(queue).to(fanoutExchange));
   }
 }

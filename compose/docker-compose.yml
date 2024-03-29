@@ -62,19 +62,19 @@ services:
   #     elasticsearch:
   #       condition: service_healthy
 
-  # redscan-exploretld:
-  #   image: deddobifu/redscan-exploretld/redscan-exploretld:7.0.0
-  #   env_file:
-  #     - data/environments/red.env
-  #   volumes:
-  #     - ./logs:/logs
-  #     - ./conf/redscan-exploretld:/conf
-  #     - ./data/wordlists:/wordlists
-  #   depends_on:
-  #     rabbitmq:
-  #       condition: service_healthy
-  #     elasticsearch:
-  #       condition: service_healthy
+  redscan-exploretld:
+     image: deddobifu/redscan-exploretld:7.0.0
+     env_file:
+       - data/environments/red.env
+     volumes:
+       - ./logs:/logs
+       - ./conf/redscan-exploretld:/conf
+       - ./data/wordlists:/wordlists
+     depends_on:
+       rabbitmq:
+         condition: service_healthy
+       elasticsearch:
+         condition: service_healthy
 
   # redscan-gitgrabber:
   #   image: deddobifu/redscan-gitgrabber/redscan-gitgrabber:7.0.0
