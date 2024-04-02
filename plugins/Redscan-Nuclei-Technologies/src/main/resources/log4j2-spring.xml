@@ -12,7 +12,7 @@
             </Policies>
         </RollingFile>
         
-        <Http name="elastic" url="http://127.0.0.1:9200/logs-dev/_doc" >
+        <Http name="elastic" url="http://host.docker.internal:9200/logs-dev/_doc" >
             <JsonTemplateLayout eventTemplateUri="classpath:LogstashJsonEventLayoutV1.json"/>
             <Property name="Content-Type" value="application/json"/>
         </Http>
