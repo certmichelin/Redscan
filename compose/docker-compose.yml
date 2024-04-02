@@ -539,7 +539,7 @@ services:
       - --hostname-admin-url https://localhost/auth/
 
   redscan-rproxy:
-    image: deddobifu/redscan-rproxy:7.0.1
+    image: deddobifu/redscan-rproxy:7.0.0
     volumes:
       - ./conf/redscan-rproxy/redscan.conf:/usr/local/apache2/conf/redscan.conf
       - ./conf/redscan-rproxy/certs/:/usr/local/apache2/conf/certs/
