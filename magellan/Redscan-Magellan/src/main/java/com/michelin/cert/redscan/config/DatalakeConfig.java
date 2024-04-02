@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.michelin.cert.redscan;
+package com.michelin.cert.redscan.config;
 
 import com.michelin.cert.redscan.utils.datalake.DatalakeStorage;
 
