@@ -3,6 +3,23 @@
 #
 version: "3.8"
 services:
+
+  redscan-vulnerability:
+    image: deddobifu/redscan-vulnerability:7.0.0
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+
+  redscan-cache:
+    image: deddobifu/redscan-cache:7.0.0
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+
   elasticsearch:
     image: elasticsearch:8.12.2
     ports:
