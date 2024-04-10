@@ -81,6 +81,23 @@ services:
       elasticsearch:
         condition: service_healthy
 
+  # ============================================================
+  # MASTER DOMAINS
+  # ============================================================
+  redscan-subfinder:
+    image: deddobifu/redscan-subfinder:7.0.0
+    env_file:
+      - data/environments/red.env
+    volumes:
+      - ./logs:/logs
+      - ./conf/redscan-subfinder/log4j2:/conf
+      - ./conf/redscan-subfinder/app:/root/.config/subfinder
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+
   # redscan-certinfo:
   #   image: deddobifu/redscan-certinfo/redscan-certinfo:7.0.0
   #   env_file:
@@ -373,20 +390,6 @@ services:
   #   volumes:
   #     - ./logs:/logs
   #     - ./conf/redscan-sslscan:/conf
-  #   depends_on:
-  #     rabbitmq:
-  #       condition: service_healthy
-  #     elasticsearch:
-  #       condition: service_healthy
-
-  # redscan-subfinder:
-  #   image: deddobifu/redscan-subfinder/redscan-subfinder:7.0.0
-  #   env_file:
-  #     - data/environments/red.env
-  #   volumes:
-  #     - ./logs:/logs
-  #     - ./conf/redscan-subfinder/log4j2:/conf
-  #     - ./conf/redscan-subfinder/app:/root/.config/subfinder
   #   depends_on:
   #     rabbitmq:
   #       condition: service_healthy
