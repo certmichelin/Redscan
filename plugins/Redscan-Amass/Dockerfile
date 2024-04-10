@@ -13,6 +13,9 @@ FROM openjdk:8-jre
 COPY --from=amass /go/bin/amass /usr/local/bin/amass
 RUN chmod +x /usr/local/bin/amass
 
+#Copy default wordlist
+COPY prefixes.txt /wordlists/prefixes.txt
+
 #Copy the war.
 ARG JAR_FILE=target/app.jar
 COPY ${JAR_FILE} app.jar
