@@ -18,6 +18,8 @@ package com.michelin.cert.redscan;
 
 import com.michelin.cert.redscan.utils.datalake.DatalakeStorage;
 import com.michelin.cert.redscan.utils.models.Brand;
+import com.michelin.cert.redscan.utils.models.IpRange;
+
 import java.util.List;
 
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -83,6 +85,22 @@ public class RedscanSimulator implements ApplicationRunner {
         }
         rabbitTemplate.convertAndSend(brand.getFanoutExchangeName(), "", brand.toJson());
         System.out.println("Brand was injected");
+      }
+    }
+
+    //Simulating IP range.
+    if (args.containsOption("iprange")) {
+      List<String> values = args.getOptionValues("iprange");
+      if (values != null && !values.isEmpty()) {
+        IpRange iprange = new IpRange(values.get(0));
+        System.out.println(String.format("Simulating %s ip range", iprange.getCidr()));
+        if (iprange.create()) {
+          System.out.println("Ip Range creation was successful.");
+        } else {
+          System.out.println("Ip Range creation failed.");
+        }
+        rabbitTemplate.convertAndSend(iprange.getFanoutExchangeName(), "", iprange.toJson());
+        System.out.println("Ip Range was injected");
       }
     }
   }
