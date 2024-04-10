@@ -67,6 +67,7 @@ public class ScanApplication {
       File topTcpPortsFile = new File("/wordlists/nmap-ports-top1000.txt");
       Scanner reader = new Scanner(topTcpPortsFile);
       topTcpPorts = reader.nextLine();
+      reader.close();
     } catch (FileNotFoundException ex) {
       LogManager.getLogger(ScanApplication.class).error(String.format("Failed to init the tcp ports wordlist : %s", ex.getMessage()));
     }
