@@ -39,7 +39,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class ScanApplication {
 
-  public final String suffixFile = "/wordlists/public_suffix_list.dat";
+  public final String suffixFile = "/wordlists/tld_list.dat";
 
   /**
    * RedScan Main methods.
