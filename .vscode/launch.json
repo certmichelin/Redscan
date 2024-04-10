@@ -1,0 +1,260 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Redscan-Alert",
+            "request": "launch",
+            "mainClass": "com.michelin.cert.redscan.ScanApplication",
+            "projectName": "redscan-alerts"
+        },
+        {
+            "type": "java",
+            "name": "Redscan-Amass",
+            "request": "launch",
+            "mainClass": "com.michelin.cert.redscan.ScanApplication",
+            "projectName": "redscan-amass"
+        },
+        {
+            "type": "java",
+            "name": "Redscan-Cache",
+            "request": "launch",
+            "mainClass": "com.michelin.cert.redscan.CacheApplication",
+            "projectName": "redscan-cache"
+        },
+        {
+            "type": "java",
+            "name": "Redscan-CertInfo",
+            "request": "launch",
+            "mainClass": "com.michelin.cert.redscan.CertinfoScanApplication",
+            "projectName": "redscan-certinfo"
+        },
+        {
+            "type": "java",
+            "name": "Redscan-Cloudenum",
+            "request": "launch",
+            "mainClass": "com.michelin.cert.redscan.CloudEnumApplication",
+            "projectName": "redscan-cloudenum"
+        },
+        {
+            "type": "java",
+            "name": "Redscan-Cname",
+            "request": "launch",
+            "mainClass": "com.michelin.cert.redscan.ScanApplication",
+            "projectName": "redscan-cname"
+        },
+        {
+            "type": "java",
+            "name": "Redscan-DeepSubjack",
+            "request": "launch",
+            "mainClass": "com.michelin.cert.redscan.ScanApplication",
+            "projectName": "redscan-deepsubjack"
+        },
+        {
+            "type": "java",
+            "name": "Redscan-ExploreTLD",
+            "request": "launch",
+            "mainClass": "com.michelin.cert.redscan.ScanApplication",
+            "projectName": "redscan-exploretld"
+        },
+        {
+            "type": "java",
+            "name": "Redscan-Gitgrabber",
+            "request": "launch",
+            "mainClass": "com.michelin.cert.redscan.ScanApplication",
+            "projectName": "redscan-gitgrabber"
+        },
+        {
+            "type": "java",
+            "name": "Redscan-GoSpider",
+            "request": "launch",
+            "mainClass": "com.michelin.cert.redscan.ScanApplication",
+            "projectName": "redscan-gospider"
+        },
+        {
+            "type": "java",
+            "name": "Redscan-IpRangeScanner",
+            "request": "launch",
+            "mainClass": "com.michelin.cert.redscan.ScanApplication",
+            "projectName": "redscan-iprangescanner"
+        },
+        {
+            "type": "java",
+            "name": "Redscan-IP",
+            "request": "launch",
+            "mainClass": "com.michelin.cert.redscan.ScanApplication",
+            "projectName": "redscan-ip"
+        },
+        {
+            "type": "java",
+            "name": "Redscan-MagellanBack",
+            "request": "launch",
+            "mainClass": "com.michelin.cert.redscan.MagellanBackApplication",
+            "projectName": "redscan-magellan-back"
+        },
+        {
+            "type": "java",
+            "name": "Redscan-Magellan",
+            "request": "launch",
+            "mainClass": "com.michelin.cert.redscan.MagellanApplication",
+            "projectName": "redscan-magellan"
+        },
+        {
+            "type": "java",
+            "name": "Redscan-Masscan",
+            "request": "launch",
+            "mainClass": "com.michelin.cert.redscan.ScanApplication",
+            "projectName": "redscan-masscan"
+        },
+        {
+            "type": "java",
+            "name": "Redscan-NmapService",
+            "request": "launch",
+            "mainClass": "com.michelin.cert.redscan.ScanApplication",
+            "projectName": "redscan-nmapservice"
+        },
+        {
+            "type": "java",
+            "name": "Redscan-NucleiCVE",
+            "request": "launch",
+            "mainClass": "com.michelin.cert.redscan.ScanApplication",
+            "projectName": "redscan-nuclei-cve"
+        },
+        {
+            "type": "java",
+            "name": "Redscan-NucleiDefaultLogins",
+            "request": "launch",
+            "mainClass": "com.michelin.cert.redscan.ScanApplication",
+            "projectName": "redscan-nuclei-defaultlogins"
+        },
+        {
+            "type": "java",
+            "name": "Redscan-NucleiExposedPanels",
+            "request": "launch",
+            "mainClass": "com.michelin.cert.redscan.ScanApplication",
+            "projectName": "redscan-nuclei-exposedpanels"
+        },
+        {
+            "type": "java",
+            "name": "Redscan-NucleiExposure",
+            "request": "launch",
+            "mainClass": "com.michelin.cert.redscan.ScanApplication",
+            "projectName": "redscan-nuclei-exposure"
+        },
+        {
+            "type": "java",
+            "name": "Redscan-NucleiMiscellaneous",
+            "request": "launch",
+            "mainClass": "com.michelin.cert.redscan.ScanApplication",
+            "projectName": "redscan-nuclei-miscellaneous"
+        },
+        {
+            "type": "java",
+            "name": "Redscan-NucleiMisconfiguration",
+            "request": "launch",
+            "mainClass": "com.michelin.cert.redscan.ScanApplication",
+            "projectName": "redscan-nuclei-misconfiguration"
+        },
+        {
+            "type": "java",
+            "name": "Redscan-NucleiTechnologies",
+            "request": "launch",
+            "mainClass": "com.michelin.cert.redscan.ScanApplication",
+            "projectName": "redscan-nuclei-technologies"
+        },
+        {
+            "type": "java",
+            "name": "Redscan-Nuclei-Vulnerability",
+            "request": "launch",
+            "mainClass": "com.michelin.cert.redscan.ScanApplication",
+            "projectName": "redscan-nuclei-vulnerability"
+        },
+        {
+            "type": "java",
+            "name": "Redscan-Puppeteer",
+            "request": "launch",
+            "mainClass": "com.michelin.cert.redscan.PuppeteerScanApplication",
+            "projectName": "redscan-puppeteer"
+        },
+        {
+            "type": "java",
+            "name": "Redscan-Reversewhois",
+            "request": "launch",
+            "mainClass": "com.michelin.cert.redscan.ScanApplication",
+            "projectName": "redscan-reversewhois"
+        },
+        {
+            "type": "java",
+            "name": "Redscan-SaasExplorer",
+            "request": "launch",
+            "mainClass": "com.michelin.cert.redscan.ScanApplication",
+            "projectName": "redscan-saas-explorer"
+        },
+        {
+            "type": "java",
+            "name": "Redscan-SecurityTxt",
+            "request": "launch",
+            "mainClass": "com.michelin.cert.redscan.SecuritytxtScanApplication",
+            "projectName": "redscan-securitytxt"
+        },
+        {
+            "type": "java",
+            "name": "Redscan-Shodan",
+            "request": "launch",
+            "mainClass": "com.michelin.cert.redscan.ShodanScanApplication",
+            "projectName": "redscan-shodan"
+        },
+        {
+            "type": "java",
+            "name": "Redscan-Simulator",
+            "request": "launch",
+            "mainClass": "com.michelin.cert.redscan.RedscanSimulator",
+            "projectName": "redscan-simulator"
+        },
+        {
+            "type": "java",
+            "name": "Redscan-SSLScan",
+            "request": "launch",
+            "mainClass": "com.michelin.cert.redscan.SslScanApplication",
+            "projectName": "redscan-sslscan"
+        },
+        {
+            "type": "java",
+            "name": "Redscan-Subfinder",
+            "request": "launch",
+            "mainClass": "com.michelin.cert.redscan.SubfinderScanApplication",
+            "projectName": "redscan-subfinder"
+        },
+        {
+            "type": "java",
+            "name": "Redscan-Subjack",
+            "request": "launch",
+            "mainClass": "com.michelin.cert.redscan.ScanApplication",
+            "projectName": "redscan-subjack"
+        },
+        {
+            "type": "java",
+            "name": "Redscan-UrlCrazy",
+            "request": "launch",
+            "mainClass": "com.michelin.cert.redscan.UrlcrazyScanApplication",
+            "projectName": "redscan-urlcrazy"
+        },
+        {
+            "type": "java",
+            "name": "Redscan-Vulnerability",
+            "request": "launch",
+            "mainClass": "com.michelin.cert.redscan.ScanApplication",
+            "projectName": "redscan-vulnerability"
+        },
+        {
+            "type": "java",
+            "name": "Redscan-Wappalyzer",
+            "request": "launch",
+            "mainClass": "com.michelin.cert.redscan.WappalyzerScanApplication",
+            "projectName": "redscan-wappalyzer"
+        }
+    ]
+}
