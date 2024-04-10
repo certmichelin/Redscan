@@ -13,6 +13,10 @@ WORKDIR /tmp/masscan_install/masscan
 RUN make install
 RUN rm -rf /tmp/masscan_install
 WORKDIR /
+
+#Copy default top 1000 nmap ports.
+COPY nmap-ports-top1000.txt /wordlists/nmap-ports-top1000.txt
+
 #################################################################
 
 #Copy the war.

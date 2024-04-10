@@ -65,6 +65,22 @@ services:
       elasticsearch:
         condition: service_healthy
 
+  # ============================================================
+  # IP RANGES
+  # ============================================================
+  redscan-iprangescanner:
+    image: deddobifu/redscan-iprangescanner:7.0.0
+    env_file:
+      - data/environments/red.env
+    volumes:
+      - ./logs:/logs
+      - ./conf/redscan-iprangescanner:/conf
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+
   # redscan-certinfo:
   #   image: deddobifu/redscan-certinfo/redscan-certinfo:7.0.0
   #   env_file:
