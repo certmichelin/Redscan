@@ -9,6 +9,62 @@
 version: "3.8"
 services:
 
+  # ============================================================
+  # BRANDS
+  # ============================================================
+  redscan-cloudenum:
+    image: deddobifu/redscan-cloudenum:7.0.0
+    env_file:
+      - data/environments/red.env
+    volumes:
+      - ./logs:/logs
+      - ./conf/redscan-cloudenum:/conf
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+
+  redscan-exploretld:
+    image: deddobifu/redscan-exploretld:7.0.0
+    env_file:
+      - data/environments/red.env
+    volumes:
+      - ./logs:/logs
+      - ./conf/redscan-exploretld:/conf
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+
+  redscan-gitgrabber:
+    image: deddobifu/redscan-gitgrabber:7.0.0
+    env_file:
+      - data/environments/red.env
+    volumes:
+      - ./logs:/logs
+      - ./conf/redscan-gitgrabber/log4j2:/conf
+      - ./conf/redscan-gitgrabber/app/config.py:/usr/bin/gitgrabber/config.py
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+
+  redscan-saas-explorer:
+    image: deddobifu/redscan-saas-explorer:7.0.0
+    env_file:
+      - data/environments/red.env
+    volumes:
+      - ./logs:/logs
+        - ./conf/redscan-saas-explorer:/conf
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+
   # redscan-certinfo:
   #   image: deddobifu/redscan-certinfo/redscan-certinfo:7.0.0
   #   env_file:
@@ -61,34 +117,6 @@ services:
   #       condition: service_healthy
   #     elasticsearch:
   #       condition: service_healthy
-
-  # redscan-exploretld:
-  #    image: deddobifu/redscan-exploretld:7.0.0
-  #    env_file:
-  #      - data/environments/red.env
-  #    volumes:
-  #      - ./logs:/logs
-  #      - ./conf/redscan-exploretld:/conf
-  #      - ./data/wordlists:/wordlists
-  #    depends_on:
-  #      rabbitmq:
-  #        condition: service_healthy
-  #      elasticsearch:
-  #        condition: service_healthy
-
-  # redscan-gitgrabber:
-  #    image: deddobifu/redscan-gitgrabber:7.0.0
-  #    env_file:
-  #      - data/environments/red.env
-  #    volumes:
-  #      - ./logs:/logs
-  #      - ./conf/redscan-gitgrabber/log4j2:/conf
-  #      - ./conf/redscan-gitgrabber/app/config.py:/usr/bin/gitgrabber/config.py
-  #    depends_on:
-  #      rabbitmq:
-  #        condition: service_healthy
-  #      elasticsearch:
-  #        condition: service_healthy
 
   # redscan-gospider:
   #   image: deddobifu/redscan-gospider/redscan-gospider:7.0.0
@@ -294,19 +322,6 @@ services:
   #       condition: service_healthy
   #     elasticsearch:
   #       condition: service_healthy
-
-  # redscan-saas-explorer:
-  #    image: deddobifu/redscan-saas-explorer:7.0.0
-  #    env_file:
-  #      - data/environments/red.env
-  #    volumes:
-  #      - ./logs:/logs
-  #      - ./conf/redscan-saas-explorer:/conf
-  #    depends_on:
-  #      rabbitmq:
-  #        condition: service_healthy
-  #      elasticsearch:
-  #        condition: service_healthy
 
   # redscan-securitytxt:
   #   image: deddobifu/redscan-securitytxt/redscan-securitytxt:7.0.0
