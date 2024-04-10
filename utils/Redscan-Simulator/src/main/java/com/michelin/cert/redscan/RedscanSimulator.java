@@ -19,6 +19,7 @@ package com.michelin.cert.redscan;
 import com.michelin.cert.redscan.utils.datalake.DatalakeStorage;
 import com.michelin.cert.redscan.utils.models.Brand;
 import com.michelin.cert.redscan.utils.models.IpRange;
+import com.michelin.cert.redscan.utils.models.MasterDomain;
 
 import java.util.List;
 
@@ -101,6 +102,22 @@ public class RedscanSimulator implements ApplicationRunner {
         }
         rabbitTemplate.convertAndSend(iprange.getFanoutExchangeName(), "", iprange.toJson());
         System.out.println("Ip Range was injected");
+      }
+    }
+
+    //Simulating Master domain.
+    if (args.containsOption("masterdomain")) {
+      List<String> values = args.getOptionValues("masterdomain");
+      if (values != null && !values.isEmpty()) {
+        MasterDomain masterdomain = new MasterDomain(values.get(0));
+        System.out.println(String.format("Simulating %s master domain", masterdomain.getName()));
+        if (masterdomain.create()) {
+          System.out.println("Master Domain creation was successful.");
+        } else {
+          System.out.println("Master Domain creation failed.");
+        }
+        rabbitTemplate.convertAndSend(masterdomain.getFanoutExchangeName(), "", masterdomain.toJson());
+        System.out.println("Master Domain was injected");
       }
     }
   }
