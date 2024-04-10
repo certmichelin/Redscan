@@ -5,3 +5,4 @@
 /data/mantisbt_db
 .DS_Store
 compose/.env
+logs
