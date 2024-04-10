@@ -1,6 +1,6 @@
 FROM golang:1.22 AS subfinder
 
-#Build amass
+#Build subfinder
 RUN go install -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder@v2.6.6
 
 FROM openjdk:23-jdk
