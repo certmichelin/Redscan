@@ -96,6 +96,7 @@ public class ScanApplication {
           }
         }
       }
+      br.close();
     } catch (Exception ex) {
       LogManager.getLogger(ScanApplication.class).error(String.format("Exception : %s", ex));
     }
