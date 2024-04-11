@@ -1,4 +1,4 @@
-name: Build and Dockerize plugins
+name: Deploy
 
 on:
   workflow_dispatch:
