@@ -5,7 +5,7 @@ version: "3.8"
 services:
 
   redscan-cache:
-   image: deddobifu/redscan-cache:7.0.0
+   image: deddobifu/redscan-cache:1.0.0
    ports:
       # - "exposé:inner"
       - "8889:8080"
@@ -33,7 +33,7 @@ services:
         retries: 10
 
   mantisbt:
-    image: deddobifu/redscan-mantisbt:7.0.0
+    image: deddobifu/redscan-mantisbt:1.0.0
     ports:
       # - "exposé:inner"
       - "8888:80"
