@@ -22,7 +22,6 @@ jobs:
     - name: Convert inputs to lowercase
       run: echo "PROJECT=$(echo $PROJECT | awk '{print tolower($0)}')" >> $GITHUB_ENV
 
-    steps:
     - name: Checkout code
       uses: actions/checkout@v2
 
