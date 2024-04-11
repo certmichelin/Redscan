@@ -1,9 +1,0 @@
-#navbar-brand {
-  font-family: 'Orbitron', 'Open Sans', sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-.dropdown-item:active {
-  background-color: rgb(247, 248, 249) !important;
-}
