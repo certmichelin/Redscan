@@ -4,7 +4,7 @@
     
     <requiredProperties>
         <requiredProperty key="redscan-util-version">
-            <defaultValue>7.0.0</defaultValue>
+            <defaultValue>1.0.0</defaultValue>
         </requiredProperty>
     </requiredProperties>
 
