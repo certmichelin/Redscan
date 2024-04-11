@@ -5,7 +5,7 @@ version: "3.8"
 services:
 
   redscan-vulnerability:
-    image: deddobifu/redscan-vulnerability:7.0.0
+    image: deddobifu/redscan-vulnerability:1.0.0
     depends_on:
       rabbitmq:
         condition: service_healthy
@@ -13,7 +13,7 @@ services:
         condition: service_healthy
 
   redscan-cache:
-    image: deddobifu/redscan-cache:7.0.0
+    image: deddobifu/redscan-cache:1.0.0
     depends_on:
       rabbitmq:
         condition: service_healthy
