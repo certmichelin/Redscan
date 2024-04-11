@@ -137,20 +137,6 @@ services:
   #     elasticsearch:
   #       condition: service_healthy
 
-  # redscan-deepsubjack:
-  #   image: deddobifu/redscan-deepsubjack/redscan-deepsubjack:7.0.0
-  #   env_file:
-  #     - data/environments/red.env
-  #   volumes:
-  #     - ./logs:/logs
-  #     - ./conf/redscan-deepsubjack/log4j2:/conf
-  #     - ./conf/redscan-deepsubjack/app:/root/.config/subfinder
-  #   depends_on:
-  #     rabbitmq:
-  #       condition: service_healthy
-  #     elasticsearch:
-  #       condition: service_healthy
-
   # redscan-gospider:
   #   image: deddobifu/redscan-gospider/redscan-gospider:7.0.0
   #   env_file:
