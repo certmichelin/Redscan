@@ -19,11 +19,12 @@ jobs:
       PROJECT: ${{ github.event.inputs.project }}
 
     steps:
-    - name: Convert inputs to lowercase
-      run: echo "PROJECT=$(echo $PROJECT | awk '{print tolower($0)}')" >> $GITHUB_ENV
 
     - name: Checkout code
       uses: actions/checkout@v2
+      
+    - name: Convert inputs to lowercase
+      run: echo "PROJECT=$(echo $PROJECT | awk '{print tolower($0)}')" >> $GITHUB_ENV
 
     - name: Set up JDK 8
       uses: actions/setup-java@v2
