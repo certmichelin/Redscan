@@ -1,8 +1,14 @@
-name: Deploy base image
+name: Deploy java docker image
 
 on:
   workflow_dispatch:
     inputs:
+      dir:
+        description: 'Directory to deploy'
+        default: utils
+      project:
+        description: 'Project to build'
+        default: Redscan-Base
       version:
         description: 'Docker image version'
         required: true
@@ -10,9 +16,10 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      PROJECT: ${{ github.event.inputs.project }}
 
     steps:
-
     - name: Checkout code
       uses: actions/checkout@v2
       
@@ -28,7 +35,7 @@ jobs:
     - name: Build and push Docker image
       uses: docker/build-push-action@v2
       with:
-        context: utils/Redscan-Base
+        context: ${{ github.event.inputs.dir }}/${{ github.event.inputs.project }}/
         push: true
-        tags: deddobifu/redscan-base:${{ github.event.inputs.version }}
+        tags: deddobifu/${{ env.PROJECT }}:${{ github.event.inputs.version }}
         platforms: linux/amd64,linux/arm64
