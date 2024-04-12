@@ -1,11 +1,10 @@
-FROM deddobifu/redscan-base:1.0.0
+FROM deddobifu/redscan-base:1.0.3
 
 #################################################################
 # Install scanner requirement here. (nmap example here)
 
 #Install dig on Alpine
-RUN apt update
-RUN apt install dnsutils -y
+RUN apk add --no-cache bind-tools
 
 #Copy the default tld list.
 COPY ./tld_list.dat /wordlists/tld_list.dat
