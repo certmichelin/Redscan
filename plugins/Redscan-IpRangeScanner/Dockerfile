@@ -1,10 +1,9 @@
-FROM deddobifu/redscan-base:1.0.0
+FROM deddobifu/redscan-base:1.0.3
 
 #################################################################
 #Masscan install.
 
-RUN apt update
-RUN apt install -y make gcc libpcap-dev git
+RUN apk add --no-cache libpcap-dev linux-headers
 
 RUN mkdir /tmp/masscan_install
 WORKDIR /tmp/masscan_install
