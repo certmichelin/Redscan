@@ -1,23 +1,10 @@
-FROM golang:1.22 AS subfinder
+FROM deddobifu/redscan-base:1.0.2
 
-#Build subfinder
-RUN apt-get update && apt-get install -y git
-RUN git clone https://github.com/projectdiscovery/subfinder.git /go/src/github.com/projectdiscovery/subfinder
-WORKDIR /go/src/github.com/projectdiscovery/subfinder
-RUN git checkout tags/v2.6.6
-WORKDIR /go/src/github.com/projectdiscovery/subfinder/v2
-RUN go mod download
-RUN go build ./cmd/subfinder
-
-FROM openjdk:23-jdk
 #################################################################
 # Install scanner requirement here. (nmap example here)
 
-#Copy subfinder
-COPY --from=subfinder /go/src/github.com/projectdiscovery/subfinder/v2/subfinder /usr/local/bin/subfinder
-RUN chmod +x /usr/local/bin/subfinder
-
-
+#Install subfinder
+RUN go install -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder@v2.6.6
 
 #Create config directory and config file
 RUN mkdir /root/.config/
