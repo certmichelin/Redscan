@@ -1,16 +1,11 @@
-FROM deddobifu/redscan-base:1.0.0
+FROM deddobifu/redscan-base:1.0.3
 
 #################################################################
 # Install scanner requirement here. (nmap example here)
-
-RUN apt update
-RUN apt install git -y
-RUN apt install python3.9 -y
-RUN apt install python3-pip -y
-
 RUN git clone https://github.com/certmichelin/cloud_enum.git /usr/bin/cloud_enum
+
 WORKDIR /usr/bin/cloud_enum
-RUN pip3 install -r requirements.txt
+RUN pip3 install -r requirements.txt --break-system-packages
 WORKDIR /
 
 #################################################################
