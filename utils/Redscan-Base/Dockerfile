@@ -7,5 +7,8 @@ RUN apk add --no-cache git make gcc curl wget bash procps musl-dev
 RUN apk add --no-cache go
 ENV PATH="/root/go/bin:${PATH}"
 
+#Install Python3
+RUN apk add --no-cache python3 py3-pip
+
 #Install OpenJDK 8
 RUN apk --no-cache add openjdk8-jre
