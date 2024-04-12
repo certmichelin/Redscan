@@ -1,4 +1,4 @@
-FROM deddobifu/redscan-base:1.0.0
+FROM deddobifu/redscan-base:1.0.3
 
 #################################################################
 # Install scanner requirement here. (nmap example here)
