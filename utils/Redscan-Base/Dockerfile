@@ -1,14 +1,4 @@
 FROM alpine:3.19.1
 
-#Install common tools.
-RUN apk add --no-cache git make gcc curl wget bash procps musl-dev
-
-#Install Go.
-RUN apk add --no-cache go
-ENV PATH="/root/go/bin:${PATH}"
-
-#Install Python3
-RUN apk add --no-cache python3 py3-pip
-
-#Install OpenJDK 8
-RUN apk --no-cache add openjdk8-jre
+#Install common tools and OpenJDK 8
+RUN apk add --no-cache bash procps openjdk8-jre
