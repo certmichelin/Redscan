@@ -1,7 +1,9 @@
-FROM deddobifu/redscan-base:1.0.3
+FROM deddobifu/redscan-base:1.0.0
 
 #################################################################
 # Install scanner requirement here. (nmap example here)
+RUN apk add --no-cache git python3 py3-pip
+
 RUN git clone https://github.com/certmichelin/cloud_enum.git /usr/bin/cloud_enum
 
 WORKDIR /usr/bin/cloud_enum
