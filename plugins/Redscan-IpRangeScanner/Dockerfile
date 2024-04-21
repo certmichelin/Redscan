@@ -1,9 +1,9 @@
-FROM deddobifu/redscan-base:1.0.3
+FROM deddobifu/redscan-base:1.0.0
 
 #################################################################
 #Masscan install.
 
-RUN apk add --no-cache libpcap-dev linux-headers
+RUN apk add --no-cache git gcc make musl-dev libpcap-dev linux-headers
 
 RUN mkdir /tmp/masscan_install
 WORKDIR /tmp/masscan_install
