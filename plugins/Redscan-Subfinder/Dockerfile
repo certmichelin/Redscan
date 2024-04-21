@@ -1,7 +1,11 @@
-FROM deddobifu/redscan-base:1.0.2
+FROM deddobifu/redscan-base:1.0.0
 
 #################################################################
 # Install scanner requirement here. (nmap example here)
+
+#Install Go.
+RUN apk add --no-cache go
+ENV PATH="/root/go/bin:${PATH}"
 
 #Install subfinder
 RUN go install -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder@v2.6.6
