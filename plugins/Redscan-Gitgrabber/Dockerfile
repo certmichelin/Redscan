@@ -1,7 +1,8 @@
-FROM deddobifu/redscan-base:1.0.3
+FROM deddobifu/redscan-base:1.0.0
 
 #################################################################
 # Install scanner requirement here. (nmap example here)
+RUN apk add --no-cache git python3 py3-pip
 
 #Install gitgrabber
 RUN git clone https://github.com/hisxo/gitGraber /usr/bin/gitgrabber

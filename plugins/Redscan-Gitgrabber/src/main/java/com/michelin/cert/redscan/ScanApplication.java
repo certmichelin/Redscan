@@ -80,7 +80,7 @@ public class ScanApplication {
 
       //Execute gitgrabber.
       OsCommandExecutor osCommandExecutor = new OsCommandExecutor();
-      StreamGobbler streamGobbler = osCommandExecutor.execute(String.format("python3.9 gitGraber.py -k wordlists/keywords.txt -q %s ", receivedBrand.getName()), EXEC_DIR);
+      StreamGobbler streamGobbler = osCommandExecutor.execute(String.format("python3 gitGraber.py -k wordlists/keywords.txt -q %s ", receivedBrand.getName()), EXEC_DIR);
 
       if (streamGobbler != null) {
         LogManager.getLogger(ScanApplication.class).info(String.format("Gitgrabber terminated with status : %d", streamGobbler.getExitStatus()));
