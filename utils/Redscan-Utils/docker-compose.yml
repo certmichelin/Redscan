@@ -33,7 +33,7 @@ services:
         retries: 10
 
   mantisbt:
-    image: deddobifu/redscan-mantisbt:1.0.0
+    image: deddobifu/redscan-mantisbt:1.0.1
     ports:
       # - "exposé:inner"
       - "8888:80"

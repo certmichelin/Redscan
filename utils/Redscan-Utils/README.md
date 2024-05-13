@@ -4,6 +4,9 @@ Redscan utils is the main component used by REDSCAN scanners, it will include al
 
 ## Release note
 
+### 1.0.1
+   - Upgrade mantisbt client to 2.26.2.
+
 ### 1.0.0
    - Publish to Maven Central.
    

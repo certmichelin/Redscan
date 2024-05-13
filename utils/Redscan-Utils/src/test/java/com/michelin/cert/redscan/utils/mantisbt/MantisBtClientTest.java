@@ -43,7 +43,7 @@ public class MantisBtClientTest {
   @Test
   public void testAll() {
     System.out.println("MantisBtClient:GetMantisVersion");
-    String expResult = "2.26.0";
+    String expResult = "2.26.2";
     String result = client.getMantisVersion();
     assertEquals(expResult, result);
 
