@@ -198,7 +198,7 @@ services:
     command: "/tmp/ -iname export_kibana.ndjson -exec curl -X POST http://kibana:5601/api/saved_objects/_import?overwrite=true -H \"kbn-xsrf: true\" --form file=@{} \\;"
 
   mantisbt:
-    image: deddobifu/redscan-mantisbt:1.0.0
+    image: deddobifu/redscan-mantisbt:1.0.1
     env_file:
       - data/environments/mantisbt.env
     depends_on:
