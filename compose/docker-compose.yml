@@ -129,6 +129,22 @@ services:
         condition: service_healthy
 
   # ============================================================
+  # SERVICES
+  # ============================================================
+  redscan-nmapservice:
+    image: deddobifu/redscan-nmapservice:1.0.0
+    env_file:
+      - data/environments/red.env
+    volumes:
+      - ./logs:/logs
+      - ./conf/redscan-nmapservice:/conf
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+
+  # ============================================================
   # TOOLS
   # ============================================================
   redscan-magellan:
