@@ -101,6 +101,19 @@ services:
   # ============================================================
   # DOMAINS
   # ============================================================
+  redscan-masscan:
+    image: deddobifu/redscan-masscan:1.0.0
+    env_file:
+      - data/environments/red.env
+    volumes:
+      - ./logs:/logs
+      - ./conf/redscan-masscan:/conf
+      - ./data/wordlists:/wordlists
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
 
   # ============================================================
   # TOOLS
