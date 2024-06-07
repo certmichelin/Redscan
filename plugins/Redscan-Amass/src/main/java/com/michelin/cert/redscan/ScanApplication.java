@@ -79,7 +79,7 @@ public class ScanApplication {
       // limitation on enumeration for time consumption:
       // - only bruteforce with wordlist if 2 sub-subdomains have been found(for better result the min-for-recursive can be remove) (DELETED)
       // - use 50k deepmagic list(for more result better list can be used)
-      StreamGobbler streamGobbler = osCommandExecutor.execute(String.format("amass enum -d %s -brute -w /wordlists/prefixes.txt -nolocaldb", masterDomain.getName()));
+      StreamGobbler streamGobbler = osCommandExecutor.execute(String.format("amass enum -d %s -brute -w /wordlists/prefixes.txt", masterDomain.getName()));
 
       if (streamGobbler != null) {
         LogManager.getLogger(ScanApplication.class).info(String.format("Amass terminated with status : %d", streamGobbler.getExitStatus()));

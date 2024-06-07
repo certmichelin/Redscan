@@ -15,5 +15,5 @@ Search subdomains using amass
 ### Description
  
 Use amass with active/passive option and bruteforce. amass configuration has been limit for time consumption to have more result  -min-for-recursive
- Found subdomains are sent to the domains queue
+Found subdomains are sent to the domains queue
 
