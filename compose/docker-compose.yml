@@ -101,6 +101,19 @@ services:
   # ============================================================
   # DOMAINS
   # ============================================================
+  redscan-cname:
+    image: deddobifu/redscan-cname:1.0.0
+    env_file:
+      - data/environments/red.env
+    volumes:
+      - ./logs:/logs
+      - ./conf/redscan-cname:/conf
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+
   redscan-ip:
     image: deddobifu/redscan-ip:1.0.0
     env_file:
