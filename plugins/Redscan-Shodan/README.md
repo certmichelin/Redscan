@@ -14,11 +14,3 @@ Get data gathered by Shodan.io for a specific domain.
 ### Description
 
 The scanner will use the free API to gather host information (ISP, CNAME, PORTS etc..). The ports fields has analyzed and sent to the Service queue.
-
-### How to develop
-
-```
-docker run -d -p 5672:5672 -p 15672:15672 --name redscan-rabbit-dev rabbitmq:3-management
-docker run -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" --name redscan-elasticsearch-dev docker.elastic.co/elasticsearch/elasticsearch:7.10.1
-docker run -d -p 8080:8080 --name redscan-cache-dev docker.pkg.github.com/certmichelin/redscan-cache/redscan-cache:latest
-```
