@@ -1,0 +1,21 @@
+FROM deddobifu/redscan-base:1.0.0
+
+#################################################################
+#Install Node JS
+RUN apk add --no-cache nodejs npm chromium
+
+WORKDIR /usr/local/bin
+RUN npm install puppeteer
+
+COPY scripts/screenshot_puppeteer.js /usr/local/bin
+WORKDIR /
+#################################################################
+
+#Setup the default log4j2.conf.
+ARG LOG4J2_FILE=src/main/resources/log4j2-spring.xml
+COPY ${LOG4J2_FILE} /conf/log4j2.xml
+
+ARG JAR_FILE=target/app.jar
+COPY ${JAR_FILE} app.jar
+CMD ["java", "-Dlogging.config=/conf/log4j2.xml","-jar","/app.jar"]
+
