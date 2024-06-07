@@ -3,6 +3,7 @@ FROM deddobifu/redscan-base:1.0.0
 #################################################################
 # Install gospider
 RUN apk add go
+ENV PATH="/root/go/bin:${PATH}"
 RUN go install github.com/jaeles-project/gospider@latest
 #################################################################
 
