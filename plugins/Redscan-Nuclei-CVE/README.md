@@ -1,16 +1,16 @@
-## REDSCAN-GOSPIDER
+## REDSCAN-NUCLEI-CVE
 
 | Attribute     | Value                                        |
 | ------------- | -------------------------------------------- |
-| Subscribe to  | FANOUT_HTTP_SERVICE_EXCHANGE_NAME    |
+| Subscribe to  | HTTP_SERVICE                                 |
 | Send to       |                                              |
-| Tools used    | GoSpider                                     |
+| Tools used    | Nuclei                                       |
 | Configuration | /conf/log4j2.xml : Log4j2 configuration file |
 
 ### Objective
 
-Spider http and https services.
+Check cve using nuclei cve tags.
 
 ### Description
 
-Determine accesible urls using gospider tool.
+Check cves using nuclei cve tags and insert vulnerabilities according to the template severity.
