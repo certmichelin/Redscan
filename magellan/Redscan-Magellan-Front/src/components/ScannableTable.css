@@ -1,0 +1,14 @@
+.gold {
+  background-color: rgb(254, 246, 127) !important;
+  color: rgb(254, 198, 61) !important;
+}
+
+.silver {
+  background-color: rgb(238, 241, 245) !important;
+  color: rgb(121, 141, 163) !important;
+}
+
+.bronze {
+  background-color: rgb(255, 227, 174) !important;
+  color: rgb(123, 72, 18) !important;
+}

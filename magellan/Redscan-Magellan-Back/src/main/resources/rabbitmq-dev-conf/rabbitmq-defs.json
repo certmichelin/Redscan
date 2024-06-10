@@ -1,0 +1,70 @@
+{
+  "rabbit_version": "3.8.9",
+  "rabbitmq_version": "3.8.9",
+  "product_name": "RabbitMQ",
+  "product_version": "3.8.9",
+  "users": [
+    {
+      "name": "guest",
+      "password": "guest",
+      "tags": "administrator"
+    }
+  ],
+  "vhosts": [
+    {
+      "name": "/"
+    }
+  ],
+  "permissions": [
+    {
+      "user": "guest",
+      "vhost": "/",
+      "configure": ".*",
+      "write": ".*",
+      "read": ".*"
+    }
+  ],
+  "topic_permissions": [],
+  "parameters": [],
+  "global_parameters": [
+    {
+      "name": "cluster_name",
+      "value": "rabbit@a8d5c6e08439"
+    },
+    {
+      "name": "internal_cluster_id",
+      "value": "rabbitmq-cluster-id-gXeBLbsUC2W2tU0Bx_QY_w"
+    }
+  ],
+  "policies": [],
+  "exchanges": [
+    {
+      "name": "com.michelin.cert.fanout.brands",
+      "vhost": "/",
+      "type": "fanout",
+      "durable": true,
+      "auto_delete": false,
+      "internal": false,
+      "arguments": {}
+    }
+  ],
+  "queues": [
+    {
+      "name": "com.michelin.cert.brands",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    }
+  ],
+  "bindings": [
+    {
+      "source": "com.michelin.cert.fanout.brands",
+      "vhost": "/",
+      "destination": "com.michelin.cert.brands",
+      "destination_type": "queue",
+      "routing_key": "",
+      "arguments": {}
+    }
+  ]
+}
