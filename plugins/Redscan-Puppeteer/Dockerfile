@@ -1,8 +1,13 @@
 FROM deddobifu/redscan-base:1.0.0
 
 #################################################################
-#Install Node JS
-RUN apk add --no-cache nodejs npm chromium
+# Install prerequisite for Puppeteer (Chromium, Node.js, NPM, Yarn)
+RUN apk update && apk add --no-cache chromium nss freetype freetype-dev harfbuzz ca-certificates ttf-freefont nodejs npm yarn
+
+# Set environment variables for Puppeteer
+# Tell Puppeteer to skip installing Chrome. We'll be using the installed package.
+ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
+    PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
 
 WORKDIR /usr/local/bin
 RUN npm install puppeteer
