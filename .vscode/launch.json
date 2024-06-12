@@ -174,13 +174,6 @@
         },
         {
             "type": "java",
-            "name": "Redscan-Reversewhois",
-            "request": "launch",
-            "mainClass": "com.michelin.cert.redscan.ScanApplication",
-            "projectName": "redscan-reversewhois"
-        },
-        {
-            "type": "java",
             "name": "Redscan-SaasExplorer",
             "request": "launch",
             "mainClass": "com.michelin.cert.redscan.ScanApplication",

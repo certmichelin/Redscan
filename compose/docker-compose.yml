@@ -85,19 +85,6 @@ services:
       elasticsearch:
         condition: service_healthy
 
-  redscan-reversewhois:
-    image: deddobifu/redscan-reversewhois:1.0.0
-    env_file:
-      - data/environments/red.env
-    volumes:
-      - ./logs:/logs
-      - ./conf/redscan-reversewhois:/conf
-    depends_on:
-      rabbitmq:
-        condition: service_healthy
-      elasticsearch:
-        condition: service_healthy
-
   redscan-subfinder:
     image: deddobifu/redscan-subfinder:1.0.0
     env_file:
