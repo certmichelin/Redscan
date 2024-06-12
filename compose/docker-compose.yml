@@ -541,8 +541,8 @@ services:
       - --import-realm
       - --hostname-path=/auth
       - --proxy edge
-      - --hostname-url https://localhost/auth/
-      - --hostname-admin-url https://localhost/auth/
+      - --hostname-url https://${HOSTNAME}/auth/
+      - --hostname-admin-url https://${HOSTNAME}/auth/
 
   redscan-rproxy:
     image: deddobifu/redscan-rproxy:1.0.0
