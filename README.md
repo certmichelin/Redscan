@@ -61,4 +61,3 @@ You can display the help command using `python red.py -h`
 - https://www.youtube.com/watch?v=p4JgIu1mceI
 - https://pentester.land/cheatsheets/2019/03/25/compilation-of-recon-workflows.html
 - https://github.com/BountyMachine
-- https://www.hahwul.com/2020/09/23/amass-go-deep-in-the-sea-with-free-apis/

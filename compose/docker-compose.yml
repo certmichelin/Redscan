@@ -70,21 +70,6 @@ services:
   # ============================================================
   # MASTER DOMAINS
   # ============================================================
-  redscan-amass:
-    image: deddobifu/redscan-amass:1.0.0
-    env_file:
-      - data/environments/red.env
-    volumes:
-      - ./logs:/logs
-      - ./conf/redscan-amass/log4j2:/conf
-      - ./conf/redscan-amass/app/:/root/.config/amass/
-      - ./data/wordlists:/wordlists
-    depends_on:
-      rabbitmq:
-        condition: service_healthy
-      elasticsearch:
-        condition: service_healthy
-
   redscan-subfinder:
     image: deddobifu/redscan-subfinder:1.0.0
     env_file:

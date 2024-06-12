@@ -13,13 +13,6 @@
         },
         {
             "type": "java",
-            "name": "Redscan-Amass",
-            "request": "launch",
-            "mainClass": "com.michelin.cert.redscan.ScanApplication",
-            "projectName": "redscan-amass"
-        },
-        {
-            "type": "java",
             "name": "Redscan-Cache",
             "request": "launch",
             "mainClass": "com.michelin.cert.redscan.CacheApplication",
