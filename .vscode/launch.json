@@ -13,13 +13,6 @@
         },
         {
             "type": "java",
-            "name": "Redscan-Amass",
-            "request": "launch",
-            "mainClass": "com.michelin.cert.redscan.ScanApplication",
-            "projectName": "redscan-amass"
-        },
-        {
-            "type": "java",
             "name": "Redscan-Cache",
             "request": "launch",
             "mainClass": "com.michelin.cert.redscan.CacheApplication",
@@ -59,13 +52,6 @@
             "request": "launch",
             "mainClass": "com.michelin.cert.redscan.ScanApplication",
             "projectName": "redscan-exploretld"
-        },
-        {
-            "type": "java",
-            "name": "Redscan-Gitgrabber",
-            "request": "launch",
-            "mainClass": "com.michelin.cert.redscan.ScanApplication",
-            "projectName": "redscan-gitgrabber"
         },
         {
             "type": "java",
@@ -178,13 +164,6 @@
             "request": "launch",
             "mainClass": "com.michelin.cert.redscan.PuppeteerScanApplication",
             "projectName": "redscan-puppeteer"
-        },
-        {
-            "type": "java",
-            "name": "Redscan-Reversewhois",
-            "request": "launch",
-            "mainClass": "com.michelin.cert.redscan.ScanApplication",
-            "projectName": "redscan-reversewhois"
         },
         {
             "type": "java",

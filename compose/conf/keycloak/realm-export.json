@@ -483,7 +483,7 @@
     "alwaysDisplayInConsole" : false,
     "clientAuthenticatorType" : "client-secret",
     "secret" : "f4f91390-2ce3-4cdd-8b21-558d153f1e66",
-    "redirectUris" : [ "https://localhost/*" ],
+    "redirectUris" : [ "https://§HOSTNAME§/*" ],
     "webOrigins" : [ "*" ],
     "notBefore" : 0,
     "bearerOnly" : false,

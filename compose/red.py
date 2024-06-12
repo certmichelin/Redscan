@@ -60,6 +60,7 @@ def main():
             'https://raw.githubusercontent.com/publicsuffix/list/master/public_suffix_list.dat' : 'public_suffix_list.dat',
             'https://raw.githubusercontent.com/danielmiessler/SecLists/master/Discovery/Infrastructure/nmap-ports-top1000.txt' : 'nmap-ports-top1000.txt',
             'https://raw.githubusercontent.com/danielmiessler/SecLists/master/Discovery/DNS/deepmagic.com-prefixes-top50000.txt' : 'deepmagic.com-prefixes-top50000.txt',
+            'https://raw.githubusercontent.com/danielmiessler/SecLists/master/Discovery/DNS/subdomains-top1million-5000.txt' : 'subdomains-top1million-5000.txt',
         }
 
         for url in fileToDownload.keys():
@@ -124,31 +125,31 @@ def main():
     #Run.
     if params.run:
         print("--- Run REDSCAN ---")
-        os.system('docker-compose -f dockprom/docker-compose.yml up -d')
-        os.system('docker-compose up --scale redscan-nmapservice=5 --scale redscan-nuclei-cve=5 --scale redscan-nuclei-vulnerability=5 --scale redscan-nuclei-exposedpanels=5 --scale redscan-nuclei-exposure=5 --scale redscan-nuclei-misconfiguration=5 --scale redscan-nuclei-miscellaneous=5 --scale redscan-nuclei-technologies=5 --scale redscan-amass=3 --scale redscan-masscan=2 -d')
+        os.system('docker compose -f dockprom/docker-compose.yml up -d')
+        os.system('docker compose up --scale redscan-nmapservice=5 --scale redscan-nuclei-cve=5 --scale redscan-nuclei-vulnerability=5 --scale redscan-nuclei-exposedpanels=5 --scale redscan-nuclei-exposure=5 --scale redscan-nuclei-misconfiguration=5 --scale redscan-nuclei-miscellaneous=5 --scale redscan-nuclei-technologies=5 --scale redscan-masscan=2 -d')
 
     #Demo.
     if params.demo:
         print("--- Run REDSCAN as Demo ---")
-        os.system('docker-compose -f dockprom/docker-compose.yml up -d')
-        os.system('docker-compose up -d')
+        os.system('docker compose -f dockprom/docker-compose.yml up -d')
+        os.system('docker compose up -d')
 
     #Debug.
     if params.debug:
         print("--- Debug REDSCAN ---")
-        os.system('docker-compose up')
+        os.system('docker compose up')
 
     #Stop.
     if params.stop:
         print("--- Stop REDSCAN ---")
-        os.system('docker-compose stop')
-        os.system('docker-compose -f dockprom/docker-compose.yml stop')
+        os.system('docker compose stop')
+        os.system('docker compose -f dockprom/docker-compose.yml stop')
 
     #Down.
     if params.down:
         print("--- Clean REDSCAN ---")
-        os.system('docker-compose down')
-        os.system('docker-compose -f dockprom/docker-compose.yml down')
+        os.system('docker compose down')
+        os.system('docker compose -f dockprom/docker-compose.yml down')
 
     sys.exit(0)
 
