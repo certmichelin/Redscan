@@ -90,7 +90,8 @@ services:
       - data/environments/red.env
     volumes:
       - ./logs:/logs
-      - ./conf/redscan-amass:/conf
+      - ./conf/redscan-amass/log4j2:/conf
+      - ./conf/redscan-amass/app/:/root/.config/amass/
       - ./data/wordlists:/wordlists
     depends_on:
       rabbitmq:
