@@ -3,7 +3,7 @@ FROM deddobifu/redscan-base:1.0.0
 ################################################################
 # Install scanner requirement here. (nmap example here)
 
-RUN apk add nmap=7.94-r0
+RUN apk add nmap=7.94-r0 nmap-scripts=7.94-r0
 ################################################################
 
 #Copy the war.
