@@ -5,4 +5,5 @@
 /data/mantisbt_db
 .DS_Store
 compose/.env
+compose/dockprom
 logs
