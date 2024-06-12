@@ -62,13 +62,6 @@
         },
         {
             "type": "java",
-            "name": "Redscan-Gitgrabber",
-            "request": "launch",
-            "mainClass": "com.michelin.cert.redscan.ScanApplication",
-            "projectName": "redscan-gitgrabber"
-        },
-        {
-            "type": "java",
             "name": "Redscan-GoSpider",
             "request": "launch",
             "mainClass": "com.michelin.cert.redscan.ScanApplication",
