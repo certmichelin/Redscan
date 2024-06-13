@@ -1,9 +1,5 @@
 FROM deddobifu/redscan-base-17:1.0.0
 
-#################################################################
-# Install scanner requirement here. (nmap example here)
-#################################################################
-
 ARG JAR_FILE=target/app.jar
 COPY ${JAR_FILE} app.jar
 

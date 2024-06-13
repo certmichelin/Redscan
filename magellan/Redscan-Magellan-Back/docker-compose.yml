@@ -4,8 +4,7 @@
 version: "3.8"
 services:
   elasticsearch:
-    image: elasticsearch:8.8.1
-    container_name: 'redscan-elasticsearch-dev'
+    image: elasticsearch:8.12.2
     ports:
       # - "exposé:inner"
       - "9200:9200"
@@ -19,15 +18,12 @@ services:
         soft: -1
         hard: -1
     healthcheck:
-      test: curl -s http://localhost:9200/_cluster/health -k | grep -vq '"status":"red"'
-      interval: 20s
-      retries: 10
+        test: curl -s http://localhost:9200/_cluster/health -k | grep -vq '"status":"red"'
+        interval: 20s
+        retries: 10
 
   rabbitmq:
-    image: rabbitmq:management
-    ports:
-      # - "exposé:inner"
-      - "15671:15671"
+    image: rabbitmq:3.12.13-management
     environment:
       - RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS=-rabbitmq_management path_prefix "/rabbitmq"
     healthcheck:
@@ -54,10 +50,7 @@ services:
       - --hostname-admin-url https://localhost/auth/
 
   mantisbt:
-    image: ghcr.io/deddobifu/redscan-mantisbt/redscan-mantisbt:6.0.3
-    ports:
-      # - "exposé:inner"
-      - "8890:80"
+    image: deddobifu/redscan-mantisbt:1.0.1
     env_file:
       - resources/mantis/mantisbt.env
     depends_on:
@@ -65,17 +58,18 @@ services:
     restart: always
 
   mantisbtdb:
-    image: mysql:5.7
+    image: mariadb:11.3.2
     env_file:
       - resources/mantis/mantisbtdb.env
     volumes:
       - ./resources/mantis/scripts/bugtracker.sql:/docker-entrypoint-initdb.d/1.sql
     # Set default collation so Mantis does not complain about latin1
-    command: ['mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci']
+    command: ['mariadbd', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci']
 
-  cache:
-    image: ghcr.io/deddobifu/redscan-cache/redscan-cache:6.0.1
+  redscan-cache:
+    image: deddobifu/redscan-cache:1.0.0
     volumes:
+      - ./logs:/logs
       - ./resources/redscan-cache:/conf
     depends_on:
       rabbitmq:
@@ -83,8 +77,8 @@ services:
       elasticsearch:
         condition: service_healthy
 
-  proxy: 
-    image: ghcr.io/deddobifu/redscan-rproxy/redscan-rproxy:6.0.2
+  redscan-rproxy:
+    image: deddobifu/redscan-rproxy:1.0.0
     volumes:
       - ./resources/rproxy/apache.conf:/usr/local/apache2/conf/redscan.conf
       - ./resources/rproxy/certs/:/usr/local/apache2/conf/certs/
