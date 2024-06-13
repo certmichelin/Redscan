@@ -4,7 +4,7 @@
 version: "3.8"
 services:
   elasticsearch:
-    image: elasticsearch:8.8.1
+    image: elasticsearch:8.12.2
     ports:
     # - "exposé:inner"
       - "9200:9200"
@@ -23,7 +23,7 @@ services:
       retries: 10
 
   rabbitmq:
-    image: rabbitmq:management
+    image: rabbitmq:3.12.13-management
     environment:
       - RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS=-rabbitmq_management path_prefix "/rabbitmq"
     healthcheck:
@@ -47,7 +47,7 @@ services:
       - --hostname-admin-url https://localhost/auth/
 
   proxy: 
-    image: ghcr.io/deddobifu/redscan-rproxy/redscan-rproxy:6.0.1
+    image: deddobifu/redscan-rproxy:1.0.0
     volumes:
       - ./resources/rproxy/apache.conf:/usr/local/apache2/conf/redscan.conf
       - ./resources/rproxy/certs/:/usr/local/apache2/conf/certs/
@@ -58,8 +58,9 @@ services:
       - localhost:127.0.0.1
 
   cache:
-    image: ghcr.io/deddobifu/redscan-cache/redscan-cache:6.0.1
+    image: deddobifu/redscan-cache:1.0.0
     volumes:
+      - ./logs:/logs
       - ./resources/redscan-cache:/conf
     depends_on:
       rabbitmq:
@@ -68,7 +69,7 @@ services:
         condition: service_healthy
 
   magellan-backend: 
-    image: ghcr.io/deddobifu/redscan-magellan-back/redscan-magellan-back:6.0.6
+    image: redscan-magellan-back:dev
     env_file:
       - ./resources/redscan-magellanback/red.env
     volumes:
@@ -100,7 +101,7 @@ services:
       - .env
 
   kibana:
-    image: docker.elastic.co/kibana/kibana:8.8.1
+    image: docker.elastic.co/kibana/kibana:8.12.2
     environment:
       - SERVER_BASEPATH=/kibana
       - SERVER_REWRITEBASEPATH=false

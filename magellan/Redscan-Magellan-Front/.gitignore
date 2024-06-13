@@ -24,3 +24,4 @@ yarn-error.log*
 /resources/rproxy/logs
 
 .env
+.idea
