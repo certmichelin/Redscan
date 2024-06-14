@@ -21,8 +21,8 @@ import com.michelin.cert.redscan.utils.models.Brand;
 import com.michelin.cert.redscan.utils.models.IpRange;
 import com.michelin.cert.redscan.utils.models.MasterDomain;
 import com.michelin.cert.redscan.utils.models.reports.Alert;
-import com.michelin.cert.redscan.utils.models.reports.CommonTags;
 import com.michelin.cert.redscan.utils.models.reports.Vulnerability;
+import com.michelin.cert.redscan.utils.models.services.HttpService;
 
 import java.util.List;
 
@@ -121,6 +121,22 @@ public class RedscanSimulator implements ApplicationRunner {
         }
         rabbitTemplate.convertAndSend(masterdomain.getFanoutExchangeName(), "", masterdomain.toJson());
         System.out.println("Master Domain was injected");
+      }
+    }
+
+    //Simulating HTTP service.
+    if (args.containsOption("httpservice")) {
+      List<String> values = args.getOptionValues("httpservice");
+      if (values != null && !values.isEmpty()) {
+        HttpService httpservice = new HttpService(values.get(0), "", "443", true);
+        System.out.println(String.format("Simulating %s http service", httpservice.toUrl()));
+        if (httpservice.create()) {
+          System.out.println("Http Service creation was successful.");
+        } else {
+          System.out.println("Http Service creation failed.");
+        }
+        rabbitTemplate.convertAndSend(httpservice.getFanoutExchangeName(), "", httpservice.toJson());
+        System.out.println("Http Service was injected");
       }
     }
 
