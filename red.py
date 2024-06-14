@@ -48,6 +48,7 @@ def init(config_file):
     if config_file == "demo":
         print("Redscan is configured in demo mode that is not secured. DON'T USE IT IN OTHER ENVIRONMENT!!!")
         config_file = Path('compose/demo/localhost.conf')
+        print("")
 
     try:
         print(f'Using {config_file} as config file')
@@ -58,8 +59,12 @@ def init(config_file):
     except IOError :
         raise Exception('IOError', f'Unable to open config file: {config_file}')
 
-    print(f"Copy Keycloak configuration from {config['CONFIG']['KEYCLOACK_FILE']}")
-    copyfile(config['CONFIG']['KEYCLOACK_FILE'], "compose/conf/keycloak/realm-export.json")
+    if config['CONFIG']['KEYCLOACK_FILE']:
+        print(f"Copy Keycloak configuration from {config['CONFIG']['KEYCLOACK_FILE']}")
+        copyfile(config['CONFIG']['KEYCLOACK_FILE'], "compose/conf/keycloak/realm-export.json")
+    else:
+        print("No Keycloak configuration found, using default one")
+    print("")
 
     for dname, dirs, files in os.walk(Path("./compose")):
         for fname in files:
@@ -93,7 +98,7 @@ def reset():
     print("----- Reset WORDLISTS FILES -----")
     for wordlist in os.listdir("./compose/data/wordlists"):
         wordlist_path = os.path.join("./compose/data/wordlists", wordlist)
-        if os.path.isfile(wordlist_path):
+        if os.path.isfile(wordlist_path) and '.gitignore' not in wordlist_path and '.gitkeep' not in wordlist_path:
             os.remove(wordlist_path)  
             print(f"Wordlist {wordlist} removed")
     print("")
