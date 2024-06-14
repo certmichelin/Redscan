@@ -148,8 +148,18 @@ Under Apache 2.0 License, see https://github.com/certmichelin/Redscan
     parser.add_argument('--down', action="store_true", dest="down", default=None, help="Stop & Remove all redscan containers.")
     params = parser.parse_args()
 
-    init("demo")
-    #reset()
+    if params.config_file:
+        init(params.config_file)
+    elif params.reset:
+        reset()
+    elif params.run:
+        run(params.run)
+    elif params.stop:
+        stop()
+    elif params.down:
+        down()
+    else:
+        parser.print_help()
     
     sys.exit(0)
 
