@@ -20,6 +20,9 @@ import com.michelin.cert.redscan.utils.datalake.DatalakeStorage;
 import com.michelin.cert.redscan.utils.models.Brand;
 import com.michelin.cert.redscan.utils.models.IpRange;
 import com.michelin.cert.redscan.utils.models.MasterDomain;
+import com.michelin.cert.redscan.utils.models.reports.Alert;
+import com.michelin.cert.redscan.utils.models.reports.CommonTags;
+import com.michelin.cert.redscan.utils.models.reports.Vulnerability;
 
 import java.util.List;
 
@@ -118,6 +121,18 @@ public class RedscanSimulator implements ApplicationRunner {
         }
         rabbitTemplate.convertAndSend(masterdomain.getFanoutExchangeName(), "", masterdomain.toJson());
         System.out.println("Master Domain was injected");
+      }
+    }
+
+    //Simulating alert.
+    if (args.containsOption("alert")) {
+      List<String> values = args.getOptionValues("alert");
+      if (values != null && !values.isEmpty()) {
+        Vulnerability vulnerability = new Vulnerability("id", Integer.parseInt(values.get(0)), "Sample vulnerability", "Sample description", "http://github.com", "origin", new String[]{"tag1", "tag2"});
+        Alert alert = new Alert(vulnerability);
+        System.out.println(String.format("Simulating %s alert", alert.getSummary()));
+        rabbitTemplate.convertAndSend(alert.getFanoutExchangeName(), "", alert.toJson());
+        System.out.println("Alert was injected");
       }
     }
   }
