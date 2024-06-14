@@ -380,7 +380,7 @@ services:
         condition: service_healthy
 
   redscan-alerts:
-    image: deddobifu/redscan-alerts:1.0.0
+    image: deddobifu/redscan-alerts:1.0.1
     env_file:
       - data/environments/red.env
       - data/environments/alerts.env
