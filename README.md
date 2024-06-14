@@ -4,12 +4,14 @@
   </a>
 </h1>
 
+<!-->
 <p align="center">
   <a href="https://github.com/certmichelin/Redscan/wiki">Introduction</a> •
   <a href="https://github.com/certmichelin/Redscan/wiki/Developers">How to develop</a> •
   <a href="https://github.com/certmichelin/Redscan/wiki/Plugin-List">Plugin list</a> •
   <a href="https://github.com/certmichelin/Redscan/wiki/Troubleshooting">FAQs</a>
 </p>
+-->
 
 <h1></h1>
 
@@ -24,7 +26,7 @@ Redscan was conceived with the idea to automate the recon phase and the vulnerab
 
 The aim of the project is to facilitate the orchestration, the integration and the exploitation of results coming from existing good tools. For that [Redscan-Utils](https://github.com/certmichelin/Redscan/tree/main/utils/Redscan-Utils) was developed.
 
-The Michelin CERT developed and continue to maintain plenty of plugins covering most of known use-cases. You can find them on https://github.com/certmichelin.
+The Michelin CERT developed and continue to maintain plenty of plugins covering most of known use-cases. You can find them on https://github.com/certmichelin/Redscan/tree/main/plugins.
 
 <br/>
 
@@ -34,16 +36,9 @@ Setup a quick demo instance in four commands
 
 ```
 git clone https://github.com/certmichelin/Redscan.git
-cd Redscan/compose
-python red.py --install-dockprom
-python red.py --setup-demo
-```
-
-In order to be more accurate, some plugins required api keys such as subfinder or alert, you can find them under `conf` folder. Values are surrounded by `§` character.
-
-```
-# --demo run one instance per plugin that would cause bottleneck for big scope.
-python red.py --demo
+cd Redscan
+python red.py --init demo
+python red.py --run normal
 ```
 
 You can now use `demo/demo` for playing with Redscan and `administrator/redscan` for Mantis BT
