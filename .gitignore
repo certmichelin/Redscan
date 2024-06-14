@@ -1,7 +1,6 @@
 /dockprom
 /backup
 /compose/data/elasticsearch
-/compose/data/wordlists/*
 /compose/data/mantisbt
 /compose/data/mantisbt_db
 .DS_Store
