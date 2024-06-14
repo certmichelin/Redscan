@@ -30,7 +30,6 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.HtmlUtils;
 
-
 /**
  * Mail service.
  *
@@ -44,7 +43,6 @@ public class MailService {
 
   @Autowired
   private JavaMailSender emailSender;
-
 
   /**
    * Default constructor.
@@ -63,26 +61,33 @@ public class MailService {
     try {
       LogManager.getLogger(MailService.class).info(String.format("Send message to mail : %s", alert.getSummary()));
 
-      //SimpleMailMessage message = new SimpleMailMessage();
-      MimeMessage message = emailSender.createMimeMessage();
-      MimeMessageHelper helper = new MimeMessageHelper(message, true);
+      //Test if the SMTP host is defined.
+      if (mailConfig.getHost() != null && !mailConfig.getHost().trim().isEmpty()) {
+        
+        MimeMessage message = emailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
-      helper.setFrom(mailConfig.getFrom());
-      helper.setTo(mailConfig.getTo());
-      String subject = String.format("[P%d] Redscan alert - %s", alert.getSeverity(), alert.getSummary());
-      helper.setSubject(subject);
-      String content = String.format("<h3>P%d - %s</h3>", alert.getSeverity(), HtmlUtils.htmlEscape(alert.getSummary()))
-              + String.format("<p><b>Description</b>: %s</p>", HtmlUtils.htmlEscape(alert.getDescription()))
-              + "<br/>This message was system generated. Do not reply to this message.";
-      helper.setText(content, true);
-      emailSender.send(message);
+        helper.setFrom(mailConfig.getFrom());
+        helper.setTo(mailConfig.getTo());
+        String subject = String.format("[P%d] Redscan alert - %s", alert.getSeverity(), alert.getSummary());
+        helper.setSubject(subject);
+        String content = String.format("<h3>P%d - %s</h3>", alert.getSeverity(),
+            HtmlUtils.htmlEscape(alert.getSummary()))
+            + String.format("<p><b>Description</b>: %s</p>", HtmlUtils.htmlEscape(alert.getDescription()))
+            + "<br/>This message was system generated. Do not reply to this message.";
+        helper.setText(content, true);
+        emailSender.send(message);
 
-      result = true;
+        result = true;
+      } else {
+        LogManager.getLogger(MailService.class).info("SMTP host is not defined. Message was not sent.");
+      }
     } catch (UnirestException ex) {
       LogManager.getLogger(MailService.class).error(ex);
     } catch (MessagingException e) {
       throw new RuntimeException(e);
     }
+
     return result;
   }
 }

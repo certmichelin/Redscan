@@ -23,6 +23,7 @@ import kong.unirest.UnirestException;
 import kong.unirest.json.JSONArray;
 import kong.unirest.json.JSONObject;
 
+import org.apache.commons.logging.Log;
 import org.apache.logging.log4j.LogManager;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,29 +56,33 @@ public class TeamsService {
   public boolean sendMessage(Alert alert) {
     boolean result = false;
     try {
-      LogManager.getLogger(TeamsService.class).info(String.format("Send message to team : %s", alert.getSummary()));
-      JSONObject message = new JSONObject();
-      message.put("@type", "MessageCard");
-      message.put("summary", alert.getSummary());
-      JSONObject sectionInfos = new JSONObject();
-      sectionInfos.put("activityTitle", String.format("<h1><b>%s</b></h1>", alert.getSummary()));
-      sectionInfos.put("activitySubtitle", alert.getDescription());
-      JSONArray facts = new JSONArray();
-      JSONObject priority = new JSONObject();
-      priority.put("name", "<p style=\"margin-left: 25px;\">Priority</p>");
-      priority.put("value", alert.getSeverity());
-      facts.put(priority);
-      JSONObject url = new JSONObject();
-      url.put("name", "<p style=\"margin-left: 25px;\">URL</p>");
-      url.put("value", alert.getUrl());
-      facts.put(url);
-      sectionInfos.put("facts", facts);
-      JSONArray sections = new JSONArray();
-      sections.put(sectionInfos);
-      message.put("sections", sections);
+      if (teamsConfig.getWebhookUrl() != null && !teamsConfig.getWebhookUrl().isEmpty()) {
+        LogManager.getLogger(TeamsService.class).info(String.format("Send message to team : %s", alert.getSummary()));
+        JSONObject message = new JSONObject();
+        message.put("@type", "MessageCard");
+        message.put("summary", alert.getSummary());
+        JSONObject sectionInfos = new JSONObject();
+        sectionInfos.put("activityTitle", String.format("<h1><b>%s</b></h1>", alert.getSummary()));
+        sectionInfos.put("activitySubtitle", alert.getDescription());
+        JSONArray facts = new JSONArray();
+        JSONObject priority = new JSONObject();
+        priority.put("name", "<p style=\"margin-left: 25px;\">Priority</p>");
+        priority.put("value", alert.getSeverity());
+        facts.put(priority);
+        JSONObject url = new JSONObject();
+        url.put("name", "<p style=\"margin-left: 25px;\">URL</p>");
+        url.put("value", alert.getUrl());
+        facts.put(url);
+        sectionInfos.put("facts", facts);
+        JSONArray sections = new JSONArray();
+        sections.put(sectionInfos);
+        message.put("sections", sections);
 
-      result = Unirest.post(teamsConfig.getWebhookUrl()).body(message).asString().getStatus() == 200;
-      LogManager.getLogger(TeamsService.class).info(String.format("Send Message to teams : Success = %s", result));
+        result = Unirest.post(teamsConfig.getWebhookUrl()).body(message).asString().getStatus() == 200;
+        LogManager.getLogger(TeamsService.class).info(String.format("Send Message to teams : Success = %s", result));
+      } else {
+        LogManager.getLogger(TeamsService.class).info("Teams webhook URL is not defined. Message was not sent.");
+      }
     } catch (UnirestException ex) {
       LogManager.getLogger(TeamsService.class).error(ex);
     }
