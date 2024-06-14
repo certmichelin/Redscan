@@ -4,15 +4,6 @@
   </a>
 </h1>
 
-<!-->
-<p align="center">
-  <a href="https://github.com/certmichelin/Redscan/wiki">Introduction</a> •
-  <a href="https://github.com/certmichelin/Redscan/wiki/Developers">How to develop</a> •
-  <a href="https://github.com/certmichelin/Redscan/wiki/Plugin-List">Plugin list</a> •
-  <a href="https://github.com/certmichelin/Redscan/wiki/Troubleshooting">FAQs</a>
-</p>
--->
-
 <h1></h1>
 
 ![](https://img.shields.io/github/issues/certmichelin/Redscan.svg)
