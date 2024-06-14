@@ -172,7 +172,7 @@ services:
         condition: service_healthy
 
   redscan-gospider:
-    image: deddobifu/redscan-gospider:1.0.0
+    image: deddobifu/redscan-gospider:1.0.1
     env_file:
       - data/environments/red.env
     volumes:
