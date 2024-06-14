@@ -1,15 +1,15 @@
 import argparse
+import configparser
 import os
 import sys
 import urllib.request
-import configparser
 
 from pathlib import Path
 from shutil import rmtree,copyfile,copyfileobj
 
 
 #
-# Red main method
+# Redscan main method
 #
 def main():
 
@@ -23,21 +23,11 @@ Under Apache 2.0 License, see https://github.com/certmichelin/Redscan
 ================================================================================================                                                                                                                                                                                       
     """)
     
-    parser = argparse.ArgumentParser(description='Redscan manager')
-    parser.add_argument('--init', action="store_true", dest="init", default=None, help="Init everything...")
-    parser.add_argument('--init-env', action="store_true", dest="init_env", default=None, help="Initialize env files")
-    parser.add_argument('--reset-env', action="store_true", dest="reset_env", default=None, help="Delete env files")
-    parser.add_argument('--init-wordlists', action="store_true", dest="init_wordlists", default=None, help="Initialize wordlists files")
-    parser.add_argument('--reset-wordlists', action="store_true", dest="reset_wordlists", default=None, help="Delete wordlists files")
-    parser.add_argument('--init-backup', action="store_true", dest="init_backup", default=None, help="Initialize backup directory")
-    parser.add_argument('--init-variables', action="store_true", dest="init_variables", default=None, help="Initialize variables")
-    parser.add_argument('--init-variables-file', action="store", dest="init_variables_file", default=Path('red.conf'), help="Specify configuration file for variables. By default it will use the demo configuration.")
-    parser.add_argument('--setup-demo', action="store_true", dest="setup_demo", default=None, help="Setup demo. Not Secured. DON'T USE IT IN OTHER ENVIRONMENT")
-    parser.add_argument('--install-dockprom', action="store_true", dest="install_dockprom", default=None, help="Install dockprom monitoring.")
-    parser.add_argument('--update-dockprom', action="store_true", dest="update_dockprom", default=None, help="Update dockprom monitoring.")
-    parser.add_argument('--run', action="store_true", dest="run", default=None, help="Run redscan with monitoring")
-    parser.add_argument('--demo', action="store_true", dest="demo", default=None, help="Run redscan in demo mode (without scaling)")
-    parser.add_argument('--debug', action="store_true", dest="debug", default=None, help="Run redscan with console output.")
+    parser = argparse.ArgumentParser(description="Redscan - A scalable and flexible security scanning solution")
+    parser.add_argument('--init', action="store", dest="init", choices=['dockprom', 'demo', 'fromFile'], help="Init Redscan. It will initialize the environment, wordlists, backup directory and variables. You can also specify the configuration file to use with --conf_file.")
+    parser.add_argument('--conf_file', action="store", dest="conf_file", help="Configuration file to use for init")
+    parser.add_argument('--reset', action="store_true", dest="reset_env", default=None, help="Reset Redscan. It will delete the environment files.")
+    parser.add_argument('--run', action="store", dest="run", choices=['normal', 'debug'], help="Run Redscan. If debug is selected, it will run redscan with console output.")
     parser.add_argument('--stop', action="store_true", dest="stop", default=None, help="Stop redscan.")
     parser.add_argument('--down', action="store_true", dest="down", default=None, help="Stop & Remove all redscan containers.")
     params = parser.parse_args()
