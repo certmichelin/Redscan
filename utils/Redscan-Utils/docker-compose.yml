@@ -14,7 +14,7 @@ services:
        condition: service_healthy
 
   elasticsearch:
-    image: elasticsearch:8.12.2
+    image: elasticsearch:8.14.1
     ports:
       # - "exposé:inner"
       - "9200:9200"
