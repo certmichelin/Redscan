@@ -6,6 +6,8 @@
 /compose/data/mantisbt_db
 .DS_Store
 /compose/.env
-/compose/dockprom/
 /compose/logs
 compose/conf/keycloak/realm-export.json
+compose/conf/redscan-rproxy/redscan.conf
+compose/conf/redscan-subfinder/app/provider-config.yaml
+compose/dockprom
