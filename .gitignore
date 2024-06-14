@@ -1,9 +1,11 @@
 /dockprom
 /backup
-/data/elasticsearch
-/data/mantisbt
-/data/mantisbt_db
+/compose/data/elasticsearch
+/compose/data/wordlists/*
+/compose/data/mantisbt
+/compose/data/mantisbt_db
 .DS_Store
-compose/.env
-compose/dockprom
-logs
+/compose/.env
+/compose/dockprom/
+/compose/logs
+compose/conf/keycloak/realm-export.json

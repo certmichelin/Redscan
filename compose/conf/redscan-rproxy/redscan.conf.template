@@ -4,7 +4,7 @@ LogLevel info
 
 #openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout rproxy.key -out rproxy.crt
 
-Define hostname §HOSTNAME§
+Define hostname localhost
 
 <VirtualHost *:443>
 
