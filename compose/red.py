@@ -12,6 +12,17 @@ from shutil import rmtree,copyfile,copyfileobj
 # Red main method
 #
 def main():
+
+    print("""
+================================================================================================
+____ ____ ___  ____ ____ ____ _  _    ___  _   _    _  _ _ ____ _  _ ____ _    _ _  _ 
+|__/ |___ |  \ [__  |    |__| |\ |    |__]  \_/     |\/| | |    |__| |___ |    | |\ | 
+|  \ |___ |__/ ___] |___ |  | | \|    |__]   |      |  | | |___ |  | |___ |___ | | \| 
+
+Under Apache 2.0 License, see https://github.com/certmichelin/Redscan                           
+================================================================================================                                                                                                                                                                                       
+    """)
+    
     parser = argparse.ArgumentParser(description='Redscan manager')
     parser.add_argument('--init', action="store_true", dest="init", default=None, help="Init everything...")
     parser.add_argument('--init-env', action="store_true", dest="init_env", default=None, help="Initialize env files")
@@ -30,10 +41,6 @@ def main():
     parser.add_argument('--stop', action="store_true", dest="stop", default=None, help="Stop redscan.")
     parser.add_argument('--down', action="store_true", dest="down", default=None, help="Stop & Remove all redscan containers.")
     params = parser.parse_args()
-
-    print("""
-                    Redscan by Michelin CERT
-    """)
 
     #Init environment file.
     if params.init_env or params.init or params.setup_demo:
