@@ -23,7 +23,6 @@ import kong.unirest.UnirestException;
 import kong.unirest.json.JSONArray;
 import kong.unirest.json.JSONObject;
 
-import org.apache.commons.logging.Log;
 import org.apache.logging.log4j.LogManager;
 
 import org.springframework.beans.factory.annotation.Autowired;
