@@ -67,7 +67,10 @@ public class ScanApplication {
         if (streamGobbler.getExitStatus() == 0) {
           JSONArray results = new JSONArray();
           for (Object object : streamGobbler.getStandardOutputs()) {
-            results.put(object);
+            // Remove empty lines.
+            if (object != null && !((String) object).trim().isEmpty()) { 
+              results.put(object);
+            }
           }
           LogManager.getLogger(ScanApplication.class).info(String.format("GoSpider output for %s : %s ", httpMessage.toUrl(), results.toString()));
           httpMessage.upsertField("gospider", results);
