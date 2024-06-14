@@ -21,6 +21,8 @@ def init(config_file):
     print(f"File .env created")
     copyfile("compose/conf/redscan-rproxy/redscan.conf.template", "compose/conf/redscan-rproxy/redscan.conf")
     print(f"File compose/conf/redscan-rproxy/redscan.conf created")
+    copyfile("compose/conf/keycloak/realm-export.json.template", "compose/conf/keycloak/realm-export.json")
+    print(f"File compose/conf/keycloak/realm-export.json created")
     copyfile("compose/conf/redscan-subfinder/app/provider-config.yaml.template", "compose/conf/redscan-subfinder/app/provider-config.yaml")
     print(f"File compose/conf/redscan-subfinder/app/provider-config.yaml created")
 
