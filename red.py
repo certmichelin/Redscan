@@ -112,7 +112,8 @@ def reset():
 
 def run(mode):
     print("----- Run REDSCAN as Demo -----") if mode == "debug" else print("----- Run REDSCAN -----")
-    os.system('docker compose -f compose/dockprom/docker-compose.yml up -d') 
+    if mode != "light":
+        os.system('docker compose -f compose/dockprom/docker-compose.yml up -d') 
     os.system('docker compose -f compose/docker-compose.yml up') if mode == "debug" else os.system('docker compose -f compose/docker-compose.yml up -d')
 
 def stop():
@@ -143,7 +144,7 @@ Under Apache 2.0 License, see https://github.com/certmichelin/Redscan
     parser = argparse.ArgumentParser(description="Redscan - A scalable and flexible security scanning solution")
     parser.add_argument('--init', action="store", dest="config_file", default=None, help="Init Redscan the environment, wordlists and variables using a configuration file. 'demo' value could be used for demo purpose.")
     parser.add_argument('--reset', action="store_true", dest="reset", default=None, help="Reset Redscan. It will reset everything.")
-    parser.add_argument('--run', action="store", dest="run", choices=['normal', 'debug'], help="Run Redscan. If debug is selected, it will run redscan with console output.")
+    parser.add_argument('--run', action="store", dest="run", choices=['normal', 'debug', 'light'], help="Run Redscan. If debug is selected, it will run redscan with console output.")
     parser.add_argument('--stop', action="store_true", dest="stop", default=None, help="Stop redscan.")
     parser.add_argument('--down', action="store_true", dest="down", default=None, help="Stop & Remove all redscan containers.")
     params = parser.parse_args()
