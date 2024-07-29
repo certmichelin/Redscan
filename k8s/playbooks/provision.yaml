@@ -90,3 +90,73 @@
         tags:
           service: "{{item}}"
       with_items: "{{machines}}"
+
+    - name: Create a managed AKS cluster
+      azure_rm_aks:
+        name: "{{az_aks}}"
+        subscription_id: "{{az_subscription_id}}"
+        auth_source: "{{az_auth_source}}"
+        location: "{{az_location}}"
+        resource_group: "{{az_resourcegroup}}"
+        dns_prefix: "{{az_aks}}"
+        kubernetes_version: "{{az_k8s_version}}"
+        node_resource_group: "{{az_aks_node_resourcegroup}}"
+        linux_profile:
+          admin_username: "{{az_vm_user}}"
+          ssh_key: "{{lookup('file', '../target/ssh/redscan.pub')}}"
+        agent_pool_profiles:
+          - name: default
+            mode: System
+            count: "{{az_k8s_node_count}}"
+            vm_size: "{{az_node_size_large}}"
+
+    - name: Get facts of cluster virtual network
+      azure_rm_virtualnetwork_info:
+        subscription_id: "{{az_subscription_id}}"
+        resource_group: "{{az_aks_node_resourcegroup}}"
+      register: az_aks_infos
+
+    - name: Check if peering already exists in node resource group
+      azure_rm_virtualnetworkpeering_info:
+        subscription_id: "{{az_subscription_id}}"
+        resource_group: "{{az_aks_node_resourcegroup}}"
+        virtual_network: "{{az_aks_infos.virtualnetworks[0].name}}"
+      register: az_aks_peering_services
+
+    - name: Create virtual network peering in node virtual network
+      azure_rm_virtualnetworkpeering:
+        subscription_id: "{{az_subscription_id}}"
+        auth_source: "{{az_auth_source}}"
+        resource_group: "{{az_aks_node_resourcegroup}}"
+        virtual_network: "{{az_aks_infos.virtualnetworks[0].name}}"
+        name: "{{az_resourcegroup}}-services-communication"
+        remote_virtual_network:
+          resource_group: "{{az_resourcegroup}}"
+          name: "{{az_virtualnetwork}}"
+        allow_virtual_network_access: true
+        allow_forwarded_traffic: true
+      when: az_aks_peering_services.vnetpeerings | length == 0
+
+    - name: Check if peering already exists in standalone resource group
+      azure_rm_virtualnetworkpeering_info:
+        subscription_id: "{{az_subscription_id}}"
+        resource_group: "{{az_resourcegroup}}"
+        virtual_network: "{{az_virtualnetwork}}"
+      register: az_aks_peering_aks
+
+    - name: Connect virtual network peering to standalone virtual network
+      azure_rm_virtualnetworkpeering:
+        subscription_id: "{{az_subscription_id}}"
+        auth_source: "{{az_auth_source}}"
+        resource_group: "{{az_resourcegroup}}"
+        virtual_network: "{{az_virtualnetwork}}"
+        name: "{{az_resourcegroup}}-aks-communication"
+        remote_virtual_network:
+          resource_group: "{{az_aks_node_resourcegroup}}"
+          name: "{{az_aks_infos.virtualnetworks[0].name}}"
+        allow_virtual_network_access: true
+        allow_forwarded_traffic: true
+      when: az_aks_peering_aks.vnetpeerings | length == 0
+
+
+      

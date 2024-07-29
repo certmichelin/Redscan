@@ -9,6 +9,8 @@ az_location: "francecentral"
 az_nsg_ip_source: "XXXXXXXXXXXXXXXXXXXX"
 
 # Name Convention
+az_aks: "{{az_resourcegroup}}-aks"
+az_aks_node_resourcegroup: "{{az_resourcegroup}}-nodes"
 az_auth_source: "cli"
 az_nic: "{{az_resourcegroup}}-nic"
 az_nsg: "{{az_resourcegroup}}-nsg"
@@ -20,10 +22,12 @@ az_vm_user: "redscan"
 
 #Assets resources
 az_disk_type: Standard_LRS
+az_k8s_version: 1.30.0
+az_k8s_node_count: 4
 az_node_image: 
-  offer: debian-10
+  offer: debian-11
   publisher: debian
-  sku: '10-gen2'
+  sku: '11-gen2'
   version: latest
 az_node_size_small: "Standard_B1ms"
 az_node_size_medium: "Standard_B2ms"
