@@ -1,0 +1,78 @@
+---
+# ----------------------------------------
+# Define Azure configurations
+# ----------------------------------------
+#Custom variables
+az_subscription_id: "XXXXXXXXXXXXXXXXXXXX"
+az_resourcegroup: "Redscan-K8S"
+az_location: "francecentral"
+az_nsg_ip_source: "XXXXXXXXXXXXXXXXXXXX"
+
+# Name Convention
+az_auth_source: "cli"
+az_nic: "{{az_resourcegroup}}-nic"
+az_nsg: "{{az_resourcegroup}}-nsg"
+az_nsg_rule: "redscan-k8s"
+az_pub_ip: "{{az_resourcegroup}}-pub-ip"
+az_subnet: "{{az_resourcegroup}}-subnet"
+az_virtualnetwork: "{{az_resourcegroup}}-vnet"
+az_vm_user: "redscan"
+
+#Assets resources
+az_disk_type: Standard_LRS
+az_node_image: 
+  offer: debian-10
+  publisher: debian
+  sku: '10-gen2'
+  version: latest
+az_node_size_small: "Standard_B1ms"
+az_node_size_medium: "Standard_B2ms"
+az_node_size_large: "Standard_B8ms"
+
+
+# ----------------------------------------
+# Define Standalone general resources
+# ----------------------------------------
+machines: 
+  apache: 
+    name: "apache"
+    ports:
+      - 22
+      - 80
+      - 443
+    size: "{{az_node_size_small}}"
+  keycloak_magellan: 
+    name: "keycloack-magellan"
+    ports:
+      - 22
+      - 8080
+      - 8443
+      - 9990
+      - 8888
+    size: "{{az_node_size_small}}"
+  es_kibana: 
+    name: "elastic-kibana"
+    ports:
+      - 22
+      - 5601
+      - 9200
+    size: "{{az_node_size_large}}"
+  rabbitmq: 
+    name: "rabbitmq"
+    ports:
+      - 22
+      - 15672
+    size: "{{az_node_size_large}}"
+  services:
+    name: "services"
+    ports:
+      - 22
+    size: "{{az_node_size_small}}"
+  mantisbt:
+    name: "mantisbt"
+    ports:
+      - 22
+      - 80
+      - 443
+    size: "{{az_node_size_large}}"
+
