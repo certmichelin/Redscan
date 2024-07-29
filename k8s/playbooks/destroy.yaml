@@ -1,0 +1,15 @@
+---
+- name: Delete Azure Resource Group
+  hosts: localhost
+  connection: local
+
+  vars_files:
+    - vars/redscan.yaml
+
+  tasks:
+    - name: Force delete resource group
+      azure_rm_resourcegroup:
+        name: "{{ az_resourcegroup }}"
+        subscription_id: "{{ az_subscription_id }}"
+        state: absent
+        force_delete_nonempty: true
