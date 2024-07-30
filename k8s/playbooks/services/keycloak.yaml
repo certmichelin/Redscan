@@ -1,0 +1,63 @@
+---
+- name: Installation and configuration of Keycloack server
+  hosts: _service_keycloak_magellan
+  become: yes
+
+  tasks:
+    - name: Include Redscan variables
+      include_vars: ../vars/redscan.yaml
+
+    - name: Update the software package repository
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+
+    - name: Include tasks for Docker installation
+      import_tasks:
+        file: ../tools/docker.yaml
+
+    - name: Pull the Keycloak image
+      docker_image:
+        name: "quay.io/keycloak/keycloak:{{keycloak_version}}"
+        source: pull
+
+    - name: Create keycloak conf folder
+      file:
+        path: /conf/keycloak
+        state: directory
+        owner: root
+        mode: '0755'
+
+    - name: Copy Keycloak default realm configuration
+      template:
+        src: ../conf/keycloak/realm-export.json.template
+        dest: /conf/keycloak/realm-export.json
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Deploy Keycloak docker container
+      docker_container:
+        image: "quay.io/keycloak/keycloak:{{keycloak_version}}"
+        name: keycloak
+        state: started
+        env:
+          KEYCLOAK_ADMIN={{keycloak_admin_username}}
+          KEYCLOAK_ADMIN_PASSWORD={{keycloak_admin_password}}
+          PROXY_ADDRESS_FORWARDING=true
+          KEYCLOAK_IMPORT="/opt/keycloak/data/import/realm-export.json -Dkeycloak.profile.feature.upload_scripts=enabled"
+          DB_VENDOR=h2
+        volumes:
+          - /conf/keycloak/realm-export.json:/opt/keycloak/data/import/realm-export.json
+        ports:
+          - "8080:8080"
+        command:
+          - start
+          - --import-realm
+          - --hostname-path=/auth
+          - --proxy edge
+          - --hostname-url https://{{redscan_hostname}}/auth/
+          - --hostname-admin-url https://{{redscan_hostname}}/auth/
+
+
+
