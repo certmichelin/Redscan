@@ -1,0 +1,104 @@
+---
+- name: Installation and configuration of Apache2 server
+  hosts: _service_apache
+  become: yes
+
+  vars:
+    apache_root: "/var/www/{{redscan_hostname}}"
+    cerbot_root: "/var/www/certbot"
+    packages_required:
+      - apache2
+      - libapache2-mod-auth-openidc
+      - certbot 
+      - python3-certbot-apache
+    modules_required:
+      - proxy_http
+      - ssl
+      - expires
+      - headers
+      - auth_openidc
+      - rewrite
+
+
+  tasks:
+    - name: Include Redscan variables
+      include_vars: ../vars/redscan.yaml
+
+    - name: Update the software package repository
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+    
+    - name: Install required packages
+      apt: name={{item}} state=present
+      with_items: "{{packages_required}}"
+  
+    - name: Enable Apache2 required modules
+      community.general.apache2_module:
+        state: present
+        name: "{{item}}"
+      with_items: "{{modules_required}}"
+
+    - name: Create document root
+      file:
+        path: "{{apache_root}}"
+        state: directory
+        owner: root
+        mode: '0755'
+
+    - name: Create certbot root
+      file:
+        path: "{{cerbot_root}}"
+        state: directory
+        owner: root
+        mode: '0755'
+
+    - name: Copy website files to document root
+      copy:
+        src: ../../../tools/Redscan-RProxy/htdocs/
+        dest: "{{apache_root}}"
+        mode: preserve
+
+    - name: Disable default Apache site
+      shell: /usr/sbin/a2dissite 000-default.conf
+
+    - name: Copy cerbot configuration file
+      template:
+        src: ../conf/apache/certbot.conf.j2
+        dest: "/etc/apache2/sites-available/certbot.conf"
+
+    - name: Enable new site
+      shell: /usr/sbin/a2ensite certbot
+
+    - name: Reload Apache
+      service:
+        name: apache2
+        state: reloaded
+
+    - name: Restart Apache
+      service:
+        name: apache2
+        state: restarted
+
+    - name: Execute certbot
+      shell: certbot certonly --apache -d {{redscan_hostname}} --non-interactive --agree-tos --register-unsafely-without-email
+
+    - name: Copy redscan configuration file
+      template:
+        src: ../conf/apache/redscan.conf.j2
+        dest: "/etc/apache2/sites-available/{{redscan_hostname}}.conf"
+
+    - name: Enable new site
+      shell: /usr/sbin/a2ensite {{redscan_hostname}}
+    
+    - name: Reload Apache
+      service:
+        name: apache2
+        state: reloaded
+
+    - name: Restart Apache
+      service:
+        name: apache2
+        state: restarted
+
+  
