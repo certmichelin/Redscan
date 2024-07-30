@@ -1,0 +1,47 @@
+---
+- name: Installation and configuration of Elasticsearch
+  hosts: _service_es_kibana
+  become: yes
+
+  tasks:
+    - name: Include Redscan variables
+      include_vars: ../vars/redscan.yaml
+
+    - name: Install Java
+      apt:
+        name: openjdk-11-jdk
+        state: present
+
+    - name: Install GPG
+      apt:
+        name: gnupg
+        state: present
+
+    - name: Add Elasticsearch repository key
+      apt_key:
+        url: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+        state: present
+
+    - name: Add Elasticsearch repository
+      apt_repository:
+        repo: deb https://artifacts.elastic.co/packages/8.x/apt stable main
+        state: present
+
+    - name: Install Elasticsearch
+      apt:
+        name: elasticsearch={{elastic_version}}
+        state: present
+
+    - name: Copy ElasticSearch configuration
+      template:
+        src: ../conf/elasticsearch/elasticsearch.yml.template
+        dest: /etc/elasticsearch/elasticsearch.yml
+        owner: elasticsearch
+        group: elasticsearch
+        mode: '0660'
+
+    - name: Enable and start Elasticsearch service
+      service:
+        name: elasticsearch
+        state: started
+        enabled: true
