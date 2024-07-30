@@ -54,6 +54,32 @@
             access: Allow
             priority: 100
             direction: Inbound
+      when: machines[item].name != 'apache'
+      with_items: "{{machines}}"
+
+    - name: Create NSG for Apache
+      azure_rm_securitygroup:
+        resource_group: "{{az_resourcegroup}}"
+        name: "{{az_nsg}}-{{machines[item].name}}"
+        subscription_id: "{{az_subscription_id}}"
+        auth_source: "{{az_auth_source}}"
+        purge_rules: yes
+        rules:
+          - name: "{{az_nsg_rule}}"
+            protocol: Tcp
+            destination_port_range: "{{machines[item].ports}}"
+            source_address_prefix : "{{az_nsg_ip_source}}"
+            access: Allow
+            priority: 100
+            direction: Inbound
+          - name: "certbot"
+            protocol: Tcp
+            destination_port_range: "80"
+            source_address_prefix : "*"
+            access: Allow
+            priority: 110
+            direction: Inbound
+      when: machines[item].name == 'apache'
       with_items: "{{machines}}"
 
     - name: Create virtual network interface cards
