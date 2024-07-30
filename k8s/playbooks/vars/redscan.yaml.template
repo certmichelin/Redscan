@@ -7,6 +7,9 @@ az_subscription_id: "XXXXXXXXXXXXXXXXXXXX"
 az_resourcegroup: "Redscan-K8S"
 az_location: "francecentral"
 az_nsg_ip_source: "XXXXXXXXXXXXXXXXXXXX"
+keycloak_secret: "XXXXXXXXXXXXXXXXXXXX"
+keycloak_passphrase: "XXXXXXXXXXXXXXXXXXXX"
+redscan_hostname: "redscan.myhostname.com"
 
 # Name Convention
 az_aks: "{{az_resourcegroup}}-aks"
