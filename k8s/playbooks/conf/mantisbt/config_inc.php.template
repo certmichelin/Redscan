@@ -1,0 +1,137 @@
+<?php
+# --- Database Configuration ---
+$g_hostname      = 'localhost';
+$g_db_username   = '{{mantisbt_db_user}}';
+$g_db_password   = '{{mantisbt_db_password}}';
+$g_database_name = 'bugtracker';
+$g_db_type       = 'mysqli';
+
+# --- Security ---
+$g_crypto_master_salt = '{{mantisbt_master_salt}}';	#  Random string of at least 16 chars, unique to the installation
+
+# --- Anonymous Access / Signup ---
+$g_allow_signup				= ON;
+$g_allow_anonymous_login	= OFF;
+$g_anonymous_account		= '';
+
+# --- Email Configuration ---
+$g_enable_email_notification = ON;
+$g_send_reset_password = ON;
+$g_log_level = LOG_EMAIL | LOG_EMAIL_RECIPIENT;
+$g_log_destination = '/var/log/mantisbt/mantisbt.log';
+$g_phpMailer_method	= PHPMAILER_METHOD_SMTP;
+$g_smtp_host = '{{mantisbt_smtp_host}}';
+$g_smtp_username = '{{mantisbt_smtp_username}}';
+$g_smtp_password = "{{mantisbt_smtp_password}}";
+$g_from_name = 'Mantis Bug Tracker';
+$g_smtp_connection_mode = '{{mantisbt_smtp_connection_mode}}';
+$g_smtp_port = {{mantisbt_smtp_port}};
+$g_administrator_email = '{{mantisbt_smtp_sender_email}}';
+$g_webmaster_email = '{{mantisbt_smtp_sender_email}}';
+$g_from_email = '{{mantisbt_smtp_sender_email}}';
+$g_return_path_email = '{{mantisbt_smtp_sender_email}}';
+$g_allow_blank_email = ON;
+
+# --- Attachments / File Uploads ---
+# $g_allow_file_upload	= ON;
+# $g_file_upload_method	= DATABASE; # or DISK
+# $g_absolute_path_default_upload_folder = ''; # used with DISK, must contain trailing \ or /.
+# $g_max_file_size		= 5000000;	# in bytes
+# $g_preview_attachments_inline_max_size = 256 * 1024;
+# $g_allowed_files		= '';		# extensions comma separated, e.g. 'php,html,java,exe,pl'
+# $g_disallowed_files		= '';		# extensions comma separated
+
+# --- Branding ---
+# $g_window_title			= 'MantisBT';
+# $g_logo_image			= 'images/mantis_logo.png';
+# $g_favicon_image		= 'images/favicon.ico';
+
+# --- Real names ---
+# $g_show_realname = OFF;
+# $g_show_user_realname_threshold = NOBODY;	# Set to access level (e.g. VIEWER, REPORTER, DEVELOPER, MANAGER, etc)
+
+# --- Others ---
+# $g_default_home_page = 'my_view_page.php';	# Set to name of page to go to after login
+# $g_short_path = "mantisbt/"
+
+
+//Force english as Mantis BT language
+$g_language_choices_arr = array( 'english');
+
+//Customize priority.
+$g_priority_enum_string = '1:P1,2:P2,3:P3,4:P4,5:P5';
+$g_default_bug_priority = 5;
+
+$g_status_icon_arr = array (
+    P4 => 'fa-chevron-down fa-lg green',
+	P3 => 'fa-minus fa-lg orange2',
+    P2 => 'fa-arrow-up fa-lg red',
+	P1 => 'fa-exclamation-triangle fa-lg red'
+);
+
+//Customize severity.
+$g_severity_enum_string  = '1:Critical,2:High,3:Medium,4:Low,5:Info';
+
+//Customize status.
+$g_status_enum_string = '10:new,40:confirmed,60:ongoing,70:toverify,90:closed';
+
+$g_status_colors['new']       = '#D77A6A';
+$g_status_colors['confirmed'] = '#D15B47';
+$g_status_colors['ongoing']   = '#FEE188';
+$g_status_colors['toverify']  = '#8EFE88';
+$g_status_colors['closed']    = '#0E8D00';
+
+//Customize workflow.
+$g_status_enum_workflow[NEW_]         ='40:confirmed,90:closed';
+$g_status_enum_workflow[CONFIRMED]    ='60:ongoing';
+$g_status_enum_workflow[ONGOING]      ='70:toverify,90:closed';
+$g_status_enum_workflow[TOVERIFY]     ='40:confirmed,90:closed';
+$g_status_enum_workflow[CLOSED]       ='10:new';
+
+//Customize resolution.
+$g_resolution_enum_string = '10:open,30:reopened,40:unable to duplicate,60:duplicate,90:wont fix,20:fixed';
+
+//Prune useless fields.
+$g_enable_profiles = OFF;
+$g_bug_view_page_fields = array(
+	'attachments',
+	'date_submitted',
+	'description',
+	'handler',
+	'id',
+	'last_updated',
+	'priority',
+	'resolution',
+	'status',
+	'summary',
+	'tags',
+);
+
+$g_bug_update_page_fields = array(
+	'attachments',
+	'date_submitted',
+	'description',
+	'id',
+	'last_updated',
+	'priority',
+	'resolution',
+	'status',
+	'summary',
+	'tags',
+);
+
+$g_bug_report_page_fields = array(
+    'category_id',
+	'attachments',
+	'date_submitted',
+	'description',
+	'id',
+	'last_updated',
+	'priority',
+	'resolution',
+	'status',
+	'summary',
+	'tags',
+);
+
+?>
