@@ -123,11 +123,6 @@
         write_priv: .*
         state: present
 
-    - name: Remove RabbitMQ guest user
-      community.rabbitmq.rabbitmq_user:
-        user: guest
-        state: absent
-
     - name: Copy configuration file
       copy:
         src: ../conf/rabbitmq/rabbitmq.conf
