@@ -36,7 +36,7 @@ LogLevel info
 		Require valid-user
 	</Location>
 
-	<Location /magellan>
+	<Location /magellan/>
 		AuthType openid-connect
 		Require valid-user
 
@@ -44,7 +44,7 @@ LogLevel info
 		ProxyPassReverse http://{{hostvars[groups['_service_keycloak_magellan'][0]]['private_ipv4_addresses'][0]}}:8888/magellan/
 	</Location>
 
-	<Location /mantisbt>
+	<Location /mantisbt/>
 		AuthType openid-connect
 		Require valid-user
 
