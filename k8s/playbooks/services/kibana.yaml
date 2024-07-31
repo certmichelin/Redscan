@@ -1,0 +1,65 @@
+---
+- name: Installation and configuration of Kibana
+  hosts: _service_es_kibana
+  become: yes
+
+  tasks:
+    - name: Include Redscan variables
+      include_vars: ../vars/redscan.yaml
+
+    - name: Install Java
+      apt:
+        name: openjdk-11-jdk
+        state: present
+
+    - name: Install GPG
+      apt:
+        name: gnupg
+        state: present
+
+    - name: Add Elasticsearch repository key
+      apt_key:
+        url: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+        state: present
+
+    - name: Add Elasticsearch repository
+      apt_repository:
+        repo: deb https://artifacts.elastic.co/packages/8.x/apt stable main
+        state: present
+
+    - name: Install Kibana
+      apt:
+        name: kibana={{kibana_version}}
+        state: present
+
+    - name: Copy configuration file
+      template:
+        src: ../conf/kibana/kibana.yml.template
+        dest: "/etc/kibana/kibana.yml"
+        owner: kibana
+        group: kibana
+        mode: "660"
+        force: yes
+
+    - name: Restart Kibana service
+      service:
+        name: kibana
+        state: restarted
+        enabled: true
+    
+    - name: Copy existing dashboards
+      template:
+        src: ../../../compose/data/kibana/export_kibana.ndjson
+        dest: "/etc/kibana/export_kibana.ndjson"
+        owner: root
+        group: kibana
+        mode: "660"
+        force: yes
+
+    - name: Import dashboards into Kibana via API
+      shell: "curl -X POST 'http://localhost:5601/api/saved_objects/_import' -H 'kbn-xsrf: true' --form file=@/etc/kibana/export_kibana.ndjson"
+      register: response
+      until: response is not failed
+      retries: 5
+      delay: 10
+      changed_when: false
