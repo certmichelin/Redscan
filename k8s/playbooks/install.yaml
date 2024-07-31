@@ -1,5 +1,6 @@
 ---
 
-#- import_playbook: services/apache.yaml
+- import_playbook: services/apache.yaml
 #- import_playbook: services/keycloak.yaml
-- import_playbook: services/elastic.yaml
+#- import_playbook: services/elastic.yaml
+#- import_playbook: services/kibana.yaml

@@ -13,8 +13,11 @@ LogLevel info
 	SSLCertificateFile /etc/letsencrypt/live/{{redscan_hostname}}/fullchain.pem
   	SSLCertificateKeyFile /etc/letsencrypt/live/{{redscan_hostname}}/privkey.pem
 
-	OIDCProviderMetadataURL https://{{redscan_hostname}}/auth/realms/Redscan/.well-known/openid-configuration
-	OIDCClientID proxy
+	OIDCProviderMetadataURL https://127.0.0.1/auth/realms/Redscan/.well-known/openid-configuration
+    OIDCOAuthVerifyJwksUri https://127.0.0.1/auth/realms/Redscan/protocol/openid-connect/certs
+    OIDCOAuthSSLValidateServer off
+        
+	OIDCClientID rproxy
 	OIDCClientSecret "{{keycloak_secret}}"
 	OIDCCryptoPassphrase "{{keycloak_passphrase}}"
 	OIDCSSLValidateServer Off
@@ -25,6 +28,9 @@ LogLevel info
 	ProxyPass /auth http://{{hostvars[groups['_service_keycloak_magellan'][0]]['private_ipv4_addresses'][0]}}:8080
 	ProxyPassReverse /auth http://{{hostvars[groups['_service_keycloak_magellan'][0]]['private_ipv4_addresses'][0]}}:8080
 	
+	ProxyPass /realms http://{{hostvars[groups['_service_keycloak_magellan'][0]]['private_ipv4_addresses'][0]}}:8080/realms
+	ProxyPassReverse /realms http://{{hostvars[groups['_service_keycloak_magellan'][0]]['private_ipv4_addresses'][0]}}:8080/realms
+
 	<Location /protected>
 		AuthType openid-connect
 		Require valid-user
@@ -32,8 +38,7 @@ LogLevel info
 
 	<Location /magellan>
 		AuthType openid-connect
-		Require claim "group:/admins"
-		Require claim "group:/users"
+		Require valid-user
 
 		ProxyPass http://{{hostvars[groups['_service_keycloak_magellan'][0]]['private_ipv4_addresses'][0]}}:8888/magellan/
 		ProxyPassReverse http://{{hostvars[groups['_service_keycloak_magellan'][0]]['private_ipv4_addresses'][0]}}:8888/magellan/
@@ -41,8 +46,7 @@ LogLevel info
 
 	<Location /mantisbt>
 		AuthType openid-connect
-		Require claim "group:/admins"
-		Require claim "group:/users"
+		Require valid-user
 
 		ProxyPass http://{{hostvars[groups['_service_mantisbt'][0]]['private_ipv4_addresses'][0]}}/mantisbt/
 		ProxyPassReverse http://{{hostvars[groups['_service_mantisbt'][0]]['private_ipv4_addresses'][0]}}/mantisbt/
@@ -50,7 +54,7 @@ LogLevel info
 
 	<Location /rabbitmq/>
 		AuthType openid-connect
-		Require claim "group:/admins"
+		Require valid-user
 
 		ProxyPass http://{{hostvars[groups['_service_rabbitmq'][0]]['private_ipv4_addresses'][0]}}:15672/ nocanon
 		ProxyPassReverse http://{{hostvars[groups['_service_rabbitmq'][0]]['private_ipv4_addresses'][0]}}:15672/
@@ -58,9 +62,7 @@ LogLevel info
 		
 	<Location /kibana>
 		AuthType openid-connect
-		Require claim "group:/admins"
-		Require claim "group:/users"
-		Require claim "group:/clients"
+		Require valid-user
 		
 		ProxyPass http://{{hostvars[groups['_service_es_kibana'][0]]['private_ipv4_addresses'][0]}}:5601
 		ProxyPassReverse http://{{hostvars[groups['_service_es_kibana'][0]]['private_ipv4_addresses'][0]}}:5601
