@@ -6,6 +6,7 @@ RUN apk add --no-cache nodejs npm chromium
 
 WORKDIR /usr/local/lib
 RUN npm i -g wappalyzer@6.10.66
+WORKDIR /
 #################################################################
 
 #Setup the default log4j2.conf.
