@@ -60,6 +60,7 @@ services:
     volumes:
       - ./logs:/logs
       - ./conf/redscan-iprangescanner:/conf
+      - ./data/wordlists:/wordlists
     depends_on:
       rabbitmq:
         condition: service_healthy
