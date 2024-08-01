@@ -46,20 +46,25 @@
         name: kibana
         state: restarted
         enabled: true
+
+    - name: Wait for Kibana to start
+      uri:
+        url: http://localhost:5601/api/status
+        method: GET
+        return_content: yes
+      register: kibana_response
+      until: kibana_response.status == 200
+      retries: 10
+      delay: 5
     
     - name: Copy existing dashboards
-      template:
+      copy:
         src: ../../../compose/data/kibana/export_kibana.ndjson
         dest: "/etc/kibana/export_kibana.ndjson"
         owner: root
         group: kibana
-        mode: "660"
+        mode: "755"
         force: yes
 
     - name: Import dashboards into Kibana via API
       shell: "curl -X POST 'http://localhost:5601/api/saved_objects/_import' -H 'kbn-xsrf: true' --form file=@/etc/kibana/export_kibana.ndjson"
-      register: response
-      until: response is not failed
-      retries: 5
-      delay: 10
-      changed_when: false

@@ -1,0 +1,57 @@
+---
+- name: Create pods in AKS
+  hosts: localhost
+  connection: local
+
+  vars:
+    general_configmap_name: "general-configmap"
+    
+    
+  tasks:
+    - name: Include Redscan variables
+      include_vars: ../vars/redscan.yaml
+
+    - name: Get AKS credentials
+      shell: az aks get-credentials --resource-group {{az_resourcegroup}} --name {{az_aks}}
+
+    - name: Create a k8s namespace
+      kubernetes.core.k8s:
+        name: "{{az_aks_namespace}}"
+        api_version: v1
+        kind: Namespace
+        state: present
+
+    - name: Render template for general environment variables.
+      set_fact:
+        general_configmap: "{{ lookup('template', '../conf/pods/general.yaml') }}"
+
+    - name: Create ConfigMap with general environment variables
+      k8s:
+        api_version: v1
+        kind: ConfigMap
+        name: "general-configmap"
+        namespace: "{{az_aks_namespace}}"
+        state: present
+        definition:
+          data :
+            env: "{{ general_configmap }}"
+
+    - name: Create worldlist Configmap
+      k8s:
+        api_version: v1
+        kind: ConfigMap
+        name: "general-wordlist-configmap-{{wordlist.split('/')[-1].split('.')[0]}}"
+        namespace: "{{az_aks_namespace}}"
+        state: present
+        definition:
+          data :
+            config_file: "{{ lookup('file', './../../target/wordlists/{{wordlist.split(\"/\")[-1]}}') }}"
+      loop: "{{ plugins_wordlists }}"
+      loop_control:
+        loop_var: wordlist
+
+    - name: Deploy pods
+      include_tasks: "deploy-pod.yaml"
+      vars:
+        plugin: "{{item}}"
+      with_items: "{{plugins}}"

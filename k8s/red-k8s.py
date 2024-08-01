@@ -59,7 +59,50 @@ def prepare_ansible_environment():
     except subprocess.CalledProcessError as e:
         print(f"An error occurred: {e}")
         return False
+    
 
+#
+# Install Kubernetes client.
+#
+def prepare_kubernetes_environment():
+    try:
+        # Install or upgrade ansible
+        subprocess.run(['pip', 'install', 'kubernetes'], check=True)    
+        print("Kubernetes installed successfully.")
+        return True
+    except subprocess.CalledProcessError as e:
+        print(f"An error occurred: {e}")
+        return False
+    
+
+#
+# Prepare wordlists.
+#
+def prepare_wordlists():
+    try:
+        if not os.path.exists("./target/wordlists"):
+            os.makedirs("./target/wordlists")
+
+        with open('playbooks/vars/redscan.yaml', 'r') as file:
+            redscan_vars = yaml.safe_load(file)
+            wordlists = redscan_vars.get('plugins_wordlists', [])
+            for wordlist in wordlists:
+                try:
+                    response = requests.get(wordlist)
+                    response.raise_for_status()  # Raise an error for bad status codes
+                    with open("target/wordlists/" + wordlist.split('/')[-1].replace("_","-"), 'wb') as file:
+                        file.write(response.content)
+                except requests.RequestException as e:
+                    print(f"An error occurred while downloading the azure requirement file")
+                    return False
+            print("Wordlists downloaded successfully.")
+            return True
+    except FileNotFoundError:
+        print("Error - redscan.yaml file not found.")
+        return False
+    except yaml.YAMLError:
+        print("Error - Failed to parse redscan.yml file.")
+        return False
 
 #
 # Prepare inventory file.
@@ -221,6 +264,12 @@ def prepare():
         success = False
     if not prepare_inventory():
         print("Error - Inventory file creation failed.")
+        success = False
+    if not prepare_kubernetes_environment():
+        print("Error - Kubernetes installation failed.")
+        success = False
+    if not prepare_wordlists():
+        print("Error - Wordlists preparation failed.")
         success = False
     return success
 

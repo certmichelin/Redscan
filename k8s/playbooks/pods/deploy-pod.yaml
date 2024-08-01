@@ -1,0 +1,52 @@
+  
+  - name: ({{plugin}}) Check if specific configuration folder exists
+    stat:
+      path: "../conf/pods/{{plugin}}/conf/"
+    register: conf_folder
+
+  - name: ({{plugin}}) Check if specific configuration file exists
+    find:
+      paths: "../conf/pods/{{plugin}}/conf/"
+      patterns:
+        - "*"
+    register: conf_files
+    when: conf_folder.stat.exists == True
+
+  - name: ({{plugin}}) Create specific configuration Configmap for each file
+    k8s:
+      api_version: v1
+      kind: ConfigMap
+      name: "{{plugin}}-configmap-{{file.path.split('/')[-1].split('.')[0]}}"
+      namespace: "{{az_aks_namespace}}"
+      state: present
+      definition:
+        data:
+          config_file: "{{ lookup('file', file.path) }}"
+    when: conf_folder.stat.exists == True and conf_files.matched > 0
+    loop: "{{ conf_files.files }}"
+    loop_control:
+      loop_var: file
+
+  - name: Render template for Log4j2 configuration
+    set_fact:
+      log4j_config: "{{ lookup('template', '../conf/pods/log4j2.xml') }}"
+
+  - name: ({{plugin}}) Create log4j configuration Configmap
+    k8s:
+      api_version: v1
+      kind: ConfigMap
+      name: "{{plugin}}-log4j-configmap"
+      namespace: "{{az_aks_namespace}}"
+      state: present
+      definition:
+        data :
+          log4j2.xml: "{{ log4j_config }}"
+
+  - name: ({{plugin}}) Create deployment from manifest files
+    kubernetes.core.k8s:
+      namespace: "{{az_aks_namespace}}"
+      state: present
+      template: ../conf/pods/manifests/{{plugin}}.yaml
+
+            
+    

@@ -8,3 +8,4 @@
 - import_playbook: services/mantisbt.yaml
 - import_playbook: services/services.yaml
 - import_playbook: services/magellan.yaml
+- import_playbook: pods/k8s.yaml

@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: "general-configmap"
+data:
+  SPRING_RABBITMQ_HOST: "{{hostvars[groups['_service_rabbitmq'][0]]['private_ipv4_addresses'][0]}}"
+  SPRING_RABBITMQ_PORT: "5672"
+  DATALAKE_ELASTIC_URL: "http://{{hostvars[groups['_service_es_kibana'][0]]['private_ipv4_addresses'][0]}}:9200"
+  CACHE_MANAGER_URL: "http://{{hostvars[groups['_service_services'][0]]['private_ipv4_addresses'][0]}}:8080"
+  DATALAKE_ELASTIC_USERNAME: ""
+  DATALAKE_ELASTIC_PASSWORD: ""
