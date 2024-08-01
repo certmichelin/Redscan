@@ -1,0 +1,135 @@
+---
+- name: Installation and configuration of RabbitMQ
+  hosts: _service_rabbitmq
+  become: yes
+
+  vars:
+    packages_required:
+      - gnupg
+      - curl
+      - apt-transport-https
+
+  tasks:
+
+    - name: Include Redscan variables
+      include_vars: ../vars/redscan.yaml
+
+    - name: Update the software package repository
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+        
+    - name: Install required packages
+      apt: name={{item}} state=present
+      with_items: "{{packages_required}}"
+
+    - name: Create GPG key directory
+      file:
+        path: /etc/apt/keyrings
+        state: directory
+
+    - name: Retrieve RabbitMQ signing key
+      get_url:
+        url: https://keys.openpgp.org/vks/v1/by-fingerprint/0A9AF2115F4687BD29803A206B73A36E6026DFCA
+        dest: /etc/apt/keyrings/signing-key
+        mode: '0644'
+        force: true
+      register: signing_key
+
+    - name: Remove old GPG key
+      file:
+        path: /etc/apt/keyrings/signing-key.gpg
+        state: absent
+      when: signing_key.changed
+
+    - name: De-armor RabbitMQ GPG key
+      command: gpg --dearmor /etc/apt/keyrings/signing-key
+      when: signing_key.changed
+
+    - name: Retrieve Cloudsmith Erlang repository signing key
+      get_url:
+        url: https://github.com/rabbitmq/signing-keys/releases/download/3.0/cloudsmith.rabbitmq-erlang.E495BB49CC4BBE5B.key
+        dest: /etc/apt/keyrings/erlang-repo
+        mode: '0644'
+        force: true
+      register: erlang_signing_key
+
+    - name: Remove old GPG key
+      file:
+        path: /etc/apt/keyrings/erlang-repo.gpg
+        state: absent
+      when: erlang_signing_key.changed
+
+    - name: De-armor Cloudsmith Erlang repository GPG key
+      command: gpg --dearmor /etc/apt/keyrings/erlang-repo
+      when: erlang_signing_key.changed
+    
+    - name: Add an apt key by id from a keyserver
+      ansible.builtin.apt_key:
+        keyserver: keyserver.ubuntu.com
+        id: 36A1D7869245C8950F966E92D8576A8BA88D21E9
+
+    - name: Retrieve Cloudsmith RabbitMQ repository signing key
+      get_url:
+        url: https://github.com/rabbitmq/signing-keys/releases/download/3.0/cloudsmith.rabbitmq-server.9F4587F226208342.key
+        dest: /etc/apt/keyrings/rabbitmq-repo
+        mode: '0644'
+        force: true
+      register: rabbitmq_signing_key
+
+    - name: Remove old GPG key
+      file:
+        path: /etc/apt/keyrings/rabbitmq-repo.gpg
+        state: absent
+      when: rabbitmq_signing_key.changed
+
+    - name: De-armor Cloudsmith RabbitMQ repository GPG key
+      command: gpg --dearmor /etc/apt/keyrings/rabbitmq-repo
+      when: rabbitmq_signing_key.changed
+
+    - name: Add RabbitMQ repositories
+      template:
+        src: ../conf/rabbitmq/rabbitmq.list
+        dest: "/etc/apt/sources.list.d/rabbitmq.list"
+        owner: root
+        mode: "660"
+        force: yes
+
+    - name: Update the software package repository
+      apt:
+        update_cache: yes
+
+    - name: Install Erlang and RabbitMQ
+      apt:
+        pkg:
+          - erlang={{erlang_version}}
+          - rabbitmq-server={{rabbitmq_version}}
+        state: present
+        update_cache: yes
+
+    - name: Start management UI
+      community.rabbitmq.rabbitmq_plugin:
+        names: rabbitmq_management
+        state: enabled
+
+    - name: Add RabbitMQ administrator
+      community.rabbitmq.rabbitmq_user:
+        user: "{{rabbitmq_admin_username}}"
+        password: "{{rabbitmq_admin_password}}"
+        vhost: /
+        tags: administrator
+        configure_priv: .*
+        read_priv: .*
+        write_priv: .*
+        state: present
+
+    - name: Copy configuration file
+      copy:
+        src: ../conf/rabbitmq/rabbitmq.conf
+        dest: /etc/rabbitmq/
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Restart the RabbitMQ server
+      service: name=rabbitmq-server state=restarted enabled=yes

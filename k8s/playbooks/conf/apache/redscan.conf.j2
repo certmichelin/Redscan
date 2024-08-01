@@ -1,0 +1,75 @@
+LogLevel info
+
+<VirtualHost *:443>   
+	ServerName {{redscan_hostname}}
+    DocumentRoot /var/www/{{redscan_hostname}}
+
+	RequestHeader add "X-forwarded-proto" "https" 
+	AllowEncodedSlashes NoDecode 
+	ProxyPreserveHost On
+    ProxyRequests Off   
+
+	SSLEngine on
+	SSLCertificateFile /etc/letsencrypt/live/{{redscan_hostname}}/fullchain.pem
+  	SSLCertificateKeyFile /etc/letsencrypt/live/{{redscan_hostname}}/privkey.pem
+
+	OIDCProviderMetadataURL https://127.0.0.1/auth/realms/Redscan/.well-known/openid-configuration
+    OIDCOAuthVerifyJwksUri https://127.0.0.1/auth/realms/Redscan/protocol/openid-connect/certs
+    OIDCOAuthSSLValidateServer off
+        
+	OIDCClientID rproxy
+	OIDCClientSecret "{{keycloak_secret}}"
+	OIDCCryptoPassphrase "{{keycloak_passphrase}}"
+	OIDCSSLValidateServer Off
+	OIDCRedirectURI /protected
+	OIDCRemoteUserClaim email
+	OIDCScope "openid email"
+	
+	ProxyPass /auth http://{{hostvars[groups['_service_keycloak_magellan'][0]]['private_ipv4_addresses'][0]}}:8080
+	ProxyPassReverse /auth http://{{hostvars[groups['_service_keycloak_magellan'][0]]['private_ipv4_addresses'][0]}}:8080
+	
+	ProxyPass /realms http://{{hostvars[groups['_service_keycloak_magellan'][0]]['private_ipv4_addresses'][0]}}:8080/realms
+	ProxyPassReverse /realms http://{{hostvars[groups['_service_keycloak_magellan'][0]]['private_ipv4_addresses'][0]}}:8080/realms
+
+	<Location /protected>
+		AuthType openid-connect
+		Require valid-user
+	</Location>
+
+	<Location /magellan/>
+		AuthType openid-connect
+		Require valid-user
+
+		ProxyPass http://{{hostvars[groups['_service_keycloak_magellan'][0]]['private_ipv4_addresses'][0]}}:8888/magellan/
+		ProxyPassReverse http://{{hostvars[groups['_service_keycloak_magellan'][0]]['private_ipv4_addresses'][0]}}:8888/magellan/
+	</Location>
+
+	<Location /mantisbt/>
+		AuthType openid-connect
+		Require valid-user
+
+		ProxyPass http://{{hostvars[groups['_service_mantisbt'][0]]['private_ipv4_addresses'][0]}}/mantisbt/
+		ProxyPassReverse http://{{hostvars[groups['_service_mantisbt'][0]]['private_ipv4_addresses'][0]}}/mantisbt/
+	</Location>
+
+	<Location /rabbitmq/>
+		AuthType openid-connect
+		Require valid-user
+
+		ProxyPass http://{{hostvars[groups['_service_rabbitmq'][0]]['private_ipv4_addresses'][0]}}:15672/ nocanon
+		ProxyPassReverse http://{{hostvars[groups['_service_rabbitmq'][0]]['private_ipv4_addresses'][0]}}:15672/
+	</Location>
+		
+	<Location /kibana>
+		AuthType openid-connect
+		Require valid-user
+		
+		ProxyPass http://{{hostvars[groups['_service_es_kibana'][0]]['private_ipv4_addresses'][0]}}:5601
+		ProxyPassReverse http://{{hostvars[groups['_service_es_kibana'][0]]['private_ipv4_addresses'][0]}}:5601
+	</Location>
+
+	RewriteEngine On
+    RewriteRule ^/error$ /error.html [R]
+    ErrorDocument 401 /error
+
+</VirtualHost>

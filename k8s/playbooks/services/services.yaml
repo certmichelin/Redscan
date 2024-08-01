@@ -1,0 +1,70 @@
+- name: Installation and configuration of services
+  hosts: _service_services
+  become: yes
+
+  vars:
+    services: 
+      alerts: 
+        docker_image: "deddobifu/redscan-alerts:{{alerts_version}}"
+        env:
+          TEAMS_WEBHOOK_URL: "{{alerts_teams_webhook_url}}"
+          SPRING_RABBITMQ_HOST: "{{hostvars[groups['_service_rabbitmq'][0]]['private_ipv4_addresses'][0]}}"
+          SPRING_RABBITMQ_PORT: "5672"
+          DATALAKE_ELASTIC_URL: "http://{{hostvars[groups['_service_es_kibana'][0]]['private_ipv4_addresses'][0]}}:9200"
+          CACHE_MANAGER_URL: "http://{{hostvars[groups['_service_services'][0]]['private_ipv4_addresses'][0]}}:8080"
+          MAIL_RECIPIENTS: "{{alerts_mail_recipients}}"
+          MAIL_SENDER: "{{alerts_smtp_username}}"
+          MAIL_PASSWORD: "{{alerts_smtp_password}}"
+          MAIL_HOST: "{{alerts_smtp_host}}"
+          MAIL_PORT: "{{alerts_smtp_port}}"
+        ports: []
+        volumes:
+          - /conf/alerts/:/conf/
+      cache: 
+        docker_image: "deddobifu/redscan-cache:{{cache_version}}"
+        env: {}
+        ports:
+          - 8080:8080
+        volumes:
+          - /conf/cache/:/conf/
+
+
+  tasks:
+    - name: Include Redscan variables
+      include_vars: ../vars/redscan.yaml
+
+    - name: Update the software package repository
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+
+    - name: Include tasks for Docker installation
+      import_tasks:
+        file: ../tools/docker.yaml
+
+    - name: Copy services settings file
+      template:
+        src: ../conf/services/log4j2.xml
+        dest: /conf/{{item}}/
+        owner: root
+        group: root
+        mode: '0644'
+      vars: 
+        service: "{{item}}"
+      with_items: "{{services}}"
+
+    - name: Pull the services images
+      docker_image:
+        name: "{{services[item].docker_image}}"
+        source: pull
+      with_items: "{{services}}"
+
+    - name: Deploy services docker containers
+      docker_container:
+        image: "{{services[item].docker_image}}"
+        name: "{{item}}"
+        state: started
+        volumes: "{{services[item].volumes}}"
+        ports: "{{services[item].ports}}"
+        env: "{{services[item].env}}"
+      with_items: "{{services}}"

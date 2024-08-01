@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: Deployment
+metadata:
+  name: "{{plugin}}"
+spec: 
+  selector:
+    matchLabels:
+      app: "{{plugin}}"
+  replicas: {{plugins[plugin].replicas | int}}
+  template:
+    metadata:
+      labels:
+        app: "{{plugin}}"
+    spec: 
+      containers: 
+      - image: {{plugins[plugin].image}}:{{plugins[plugin].version}}
+        name: "{{plugin}}"
+        envFrom:
+          - configMapRef: 
+              name: "general-configmap"
+        volumeMounts:
+          - name: log4j-config-volume
+            mountPath: /conf
+          - name: wordlist-volume
+            mountPath: /wordlists
+      volumes:
+        - name: log4j-config-volume
+          configMap:
+            name: "{{plugin}}-log4j-configmap"
+            items:
+            - key: log4j2.xml
+              path: log4j2.xml
+        - name: wordlist-volume
+          configMap:
+            name: "general-wordlist-configmap-nmap-ports-top1000"  
+            items:
+            - key: config_file
+              path: "nmap-ports-top1000.txt"

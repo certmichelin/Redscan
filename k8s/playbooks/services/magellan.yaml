@@ -1,0 +1,58 @@
+---
+- name: Installation and configuration of Keycloack server
+  hosts: _service_keycloak_magellan
+  become: yes
+
+  tasks:
+    - name: Include Redscan variables
+      include_vars: ../vars/redscan.yaml
+
+    - name: Update the software package repository
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+
+    - name: Include tasks for Docker installation
+      import_tasks:
+        file: ../tools/docker.yaml
+
+    - name: Copy Magellan settings file
+      template:
+        src: ../conf/magellan/log4j2.xml
+        dest: /conf/magellan/
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Pull the Magellan image
+      docker_image:
+        name: "deddobifu/redscan-magellan:{{magellan_version}}"
+        source: pull
+
+    - name: Deploy Magellan docker container
+      docker_container:
+        image: "deddobifu/redscan-magellan:{{magellan_version}}"
+        name: magellan
+        state: started
+        volumes:
+          - /conf/magellan/:/conf/
+        ports:
+          - "8888:8888"
+        env:
+          MAGELLAN_BRANDS_CRON: "{{magellan_brand_cron}}"
+          MAGELLAN_BRANDS_GOLD_SCAN_PERIOD: "{{magellan_brands_gold_scan_period}}"
+          MAGELLAN_BRANDS_SILVER_SCAN_PERIOD: "{{magellan_brands_silver_scan_period}}"
+          MAGELLAN_BRANDS_BRONZE_SCAN_PERIOD: "{{magellan_brands_bronze_scan_period}}"
+          MAGELLAN_IPRANGES_CRON: "{{magellan_ipranges_cron}}"
+          MAGELLAN_IPRANGES_GOLD_SCAN_PERIOD: "{{magellan_ipranges_gold_scan_period}}"
+          MAGELLAN_IPRANGES_SILVER_SCAN_PERIOD: "{{magellan_ipranges_silver_scan_period}}"
+          MAGELLAN_IPRANGES_BRONZE_SCAN_PERIOD: "{{magellan_ipranges_bronze_scan_period}}"
+          MAGELLAN_MASTERDOMAINS_CRON: "{{magellan_masterdomains_cron}}"
+          MAGELLAN_MASTERDOMAINS_GOLD_SCAN_PERIOD: "{{magellan_masterdomains_gold_scan_period}}"
+          MAGELLAN_MASTERDOMAINS_SILVER_SCAN_PERIOD: "{{magellan_masterdomains_silver_scan_period}}"
+          MAGELLAN_MASTERDOMAINS_BRONZE_SCAN_PERIOD: "{{magellan_masterdomains_bronze_scan_period}}"
+          DATALAKE_ELASTIC_URL: http://{{hostvars[groups['_service_es_kibana'][0]]['private_ipv4_addresses'][0]}}:9200
+          SPRING_RABBITMQ_HOST: "{{hostvars[groups['_service_rabbitmq'][0]]['private_ipv4_addresses'][0]}}"
+          SPRING_RABBITMQ_PORT: "5672"
+          DATALAKE_ELASTIC_USERNAME: ""
+          DATALAKE_ELASTIC_PASSWORD: ""

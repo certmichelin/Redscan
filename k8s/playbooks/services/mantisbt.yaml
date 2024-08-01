@@ -1,0 +1,159 @@
+---
+- name: Installation and configuration of MantisBT
+  hosts: _service_mantisbt
+  become: yes
+
+  vars:
+    packages_required:
+      - php
+      - php-mbstring
+      - php-soap
+      - mariadb-server
+      - mariadb-client
+      - python3-mysqldb
+      - php-mysql
+    modules_required:
+      - ssl
+      - rewrite
+    
+
+  tasks:
+    - name: Include Redscan variables
+      include_vars: ../vars/redscan.yaml
+
+    - name: Update the software package repository
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+
+    - name: Install required packages
+      apt: name={{item}} state=present
+      with_items: "{{packages_required}}"
+
+    - name: Download MantisBT
+      get_url:
+        url: "http://sourceforge.net/projects/mantisbt/files/mantis-stable/{{mantisbt_version}}/mantisbt-{{mantisbt_version}}.tar.gz/download"
+        dest: "/tmp/mantis-{{mantisbt_version}}.tar.gz"
+        timeout: 20
+      register: response
+      until: response is not failed
+      retries: 5
+      delay: 10
+      changed_when: false
+
+    - name: Create directory for MantisBT
+      file:
+        path: "/var/www/html"
+        state: directory
+
+    - name: Extract MantisBT
+      unarchive:
+        src: "/tmp/mantis-{{mantisbt_version}}.tar.gz"
+        dest: "/var/www/html"
+        copy: no
+        mode: 0755
+        owner: root
+        group: root
+
+    - name: Drop bugtracker database if exists
+      mysql_db:
+        name: "bugtracker"
+        state: absent
+
+    - name: Create MantisBT database
+      mysql_db:
+        name: "bugtracker"
+        state: present
+      register: mantis_db_created
+
+    - name: Copy database install script
+      template:
+        src: ../conf/mantisbt/bugtracker.sql.template
+        dest: "/tmp/mantis_install.sql"
+
+    - name: Install MantisBT database
+      mysql_db:
+        name: "bugtracker"
+        state: import
+        target: "/tmp/mantis_install.sql"
+      when: mantis_db_created.changed
+
+    - name: Create MantisBT database user
+      mysql_user:
+        name: "{{mantisbt_db_user}}"
+        password: "{{mantisbt_db_password}}"
+        priv: "bugtracker.*:ALL"
+        state: present
+      when: mantis_db_created.changed
+
+    - name: Copy global configuration file
+      template:
+        src: ../conf/mantisbt/config_inc.php.template
+        dest: "/var/www/html/mantisbt-{{mantisbt_version}}/config/config_inc.php"
+        mode: 0755
+        owner: root
+        group: root
+
+    - name: Copy custom constants file
+      copy:
+        src: ../conf/mantisbt/custom_constants_inc.php
+        dest: "/var/www/html/mantisbt-{{mantisbt_version}}/config/custom_constants_inc.php"
+        mode: 0755
+        owner: root
+        group: root
+
+    - name: Copy custom constants file
+      copy:
+        src: ../conf/mantisbt/custom_strings_inc.php
+        dest: "/var/www/html/mantisbt-{{mantisbt_version}}/config/custom_strings_inc.php"
+        mode: 0755
+        owner: root
+        group: root
+
+    - name: Create log directory
+      file:
+        path: "/var/logs/mantisbt"
+        state: directory
+
+    - name: Create log file
+      file:
+        path: "/var/logs/mantisbt/mantisbt.log"
+        state: touch
+        mode: 0666
+
+    - name: Install Apache2 modules
+      community.general.apache2_module:
+        state: present
+        name: "{{item}}"
+      with_items: "{{modules_required}}"
+
+    - name: Restart Apache
+      service:
+        name: apache2
+        state: restarted
+
+    - name: Copy Apache2 configuration file
+      template:
+        src: ../conf/mantisbt/mantisbt.conf.template
+        dest: /etc/apache2/sites-available/mantisbt.conf
+        mode: 0755
+        owner: root
+        group: root
+
+    - name: Remove admin directory
+      file:
+        path: "/var/www/html/mantisbt-{{mantisbt_version}}/admin"
+        state: absent
+
+    - name: Disable default web interface
+      command: "a2dissite 000-default.conf"
+
+    - name: Enable MantisBT web interface
+      command: "a2ensite mantisbt.conf"
+
+    - name: Restart Apache
+      service:
+        name: apache2
+        state: restarted
+
+

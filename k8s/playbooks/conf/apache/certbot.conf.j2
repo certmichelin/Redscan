@@ -1,0 +1,7 @@
+<VirtualHost *:80>
+  ServerName {{redscan_hostname}}
+  
+  ErrorLog ${APACHE_LOG_DIR}/certbot_error.log
+  CustomLog ${APACHE_LOG_DIR}/certbot_access.log combined
+  DocumentRoot /var/www/certbot
+</VirtualHost>

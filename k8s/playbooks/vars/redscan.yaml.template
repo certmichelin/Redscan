@@ -1,0 +1,135 @@
+---
+# ----------------------------------------
+# Define Azure configurations
+# ----------------------------------------
+#Custom variables
+az_subscription_id: "XXXXXXXXXXXXXXXXXXXX"
+az_resourcegroup: "Redscan-K8S"
+az_location: "francecentral"
+az_nsg_ip_source: "XXXXXXXXXXXXXXXXXXXX"
+redscan_hostname: "XXXXXXXXXXXXXXXXXXXX"
+
+# Name Convention
+az_aks: "{{az_resourcegroup}}-aks"
+az_aks_node_resourcegroup: "{{az_resourcegroup}}-nodes"
+az_auth_source: "cli"
+az_nic: "{{az_resourcegroup}}-nic"
+az_nsg: "{{az_resourcegroup}}-nsg"
+az_nsg_rule: "redscan-k8s"
+az_pub_ip: "{{az_resourcegroup}}-pub-ip"
+az_subnet: "{{az_resourcegroup}}-subnet"
+az_virtualnetwork: "{{az_resourcegroup}}-vnet"
+az_vm_user: "redscan"
+
+#Assets resources
+az_disk_type: Standard_LRS
+az_k8s_version: 1.30.0
+az_k8s_node_count: 4
+az_node_image: 
+  offer: debian-11
+  publisher: debian
+  sku: '11-gen2'
+  version: latest
+az_node_size_small: "Standard_B1ms"
+az_node_size_medium: "Standard_B2ms"
+az_node_size_large: "Standard_B8ms"
+
+# ----------------------------------------
+# Define Services configurations
+# ----------------------------------------
+alerts_version: "1.0.1"
+cache_version: "1.0.0"
+elastic_version: "8.14.3"
+erlang_version: "1:26.2.5.2-1"
+kibana_version: "8.14.3"
+magellan_version: "1.0.0"
+mantisbt_version: "2.26.2"
+rabbitmq_version: "3.12.13-1"
+
+alerts_teams_webhook_url: "https://outlook.office.com/webhook/XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/IncomingWebhook/XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"  
+alerts_mail_recipients: "XXXXXXXXXXXXXXXXXXXX@XXXXXXXXXXXXXXXXXXXX.com"
+alerts_smtp_host: "XXXXXXXXXXXXXXXXXXXX"
+alerts_smtp_port: "587"
+alerts_smtp_username: "dXXXXXXXXXXXXXXXXXXXX"
+alerts_smtp_password: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+
+keycloak_secret: "XXXXXXXXXXXXXXXXXXXX"
+keycloak_passphrase: "XXXXXXXXXXXXXXXXXXXX"
+keycloak_version: "21.1.1"
+keycloak_admin_username: "XXXXXXXXXXXXXXXXXXXX"
+keycloak_admin_password: "XXXXXXXXXXXXXXXXXXXX"
+
+magellan_brand_cron: "0 0 * * * *"
+magellan_brands_gold_scan_period: "7"
+magellan_brands_silver_scan_period: "14"
+magellan_brands_bronze_scan_period: "30"
+magellan_ipranges_cron: "0 0 * * * *"
+magellan_ipranges_gold_scan_period: "7"
+magellan_ipranges_silver_scan_period: "14"
+magellan_ipranges_bronze_scan_period: "30"
+magellan_masterdomains_cron: "0 30 * * * ?"
+magellan_masterdomains_gold_scan_period: "7"
+magellan_masterdomains_silver_scan_period: "14"
+magellan_masterdomains_bronze_scan_period: "30"
+
+mantisbt_admin_username: "XXXXXXXXXXXXXXXXXXXX"
+mantisbt_admin_email: "XXXXXXXXXXXXXXXXXXXX"
+mantisbt_admin_password: "XXXXXXXXXXXXXXXXXXXX"
+mantisbt_db_user: "XXXXXXXXXXXXXXXXXXXX"
+mantisbt_db_password: "XXXXXXXXXXXXXXXXXXXX"
+mantisbt_master_salt: "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+mantisbt_smtp_host: "XXXXXXXXXXXXXXXXXXXX"
+mantisbt_smtp_port: "587"
+mantisbt_smtp_username: "XXXXXXXXXXXXXXXXXXXX"
+mantisbt_smtp_password: ""
+mantisbt_smtp_connection_mode: "tls"
+mantisbt_smtp_sender_email: "XXXXXXXXXXXXXXXXXXXX"
+
+rabbitmq_admin_username: "XXXXXXXXXXXXXXXXXXXX"
+rabbitmq_admin_password: "XXXXXXXXXXXXXXXXXXXX"
+
+# ----------------------------------------
+# Define Standalone general resources
+# ----------------------------------------
+machines: 
+  apache: 
+    name: "apache"
+    ports:
+      - 22
+      - 80
+      - 443
+    size: "{{az_node_size_small}}"
+  keycloak_magellan: 
+    name: "keycloack-magellan"
+    ports:
+      - 22
+      - 8080
+      - 8443
+      - 9990
+      - 8888
+    size: "{{az_node_size_small}}"
+  es_kibana: 
+    name: "elastic-kibana"
+    ports:
+      - 22
+      - 5601
+      - 9200
+    size: "{{az_node_size_large}}"
+  rabbitmq: 
+    name: "rabbitmq"
+    ports:
+      - 22
+      - 15672
+    size: "{{az_node_size_large}}"
+  services:
+    name: "services"
+    ports:
+      - 22
+    size: "{{az_node_size_small}}"
+  mantisbt:
+    name: "mantisbt"
+    ports:
+      - 22
+      - 80
+      - 443
+    size: "{{az_node_size_large}}"

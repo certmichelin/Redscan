@@ -1,0 +1,188 @@
+---
+- name: Create standalone resources for Redscan-K8S
+  hosts: localhost
+  connection: local
+
+  vars_files:
+    - vars/redscan.yaml
+
+  tasks:
+    - name: Create resource group
+      azure_rm_resourcegroup:
+        name: "{{az_resourcegroup}}"
+        subscription_id: "{{az_subscription_id}}"
+        location: "{{az_location}}"
+
+    - name: Create virtual network
+      azure_rm_virtualnetwork:
+        resource_group: "{{az_resourcegroup}}"
+        name: "{{az_virtualnetwork}}"
+        subscription_id: "{{az_subscription_id}}"
+        auth_source: "{{az_auth_source}}"
+        address_prefixes: "10.0.0.0/16"
+
+    - name: Add subnet
+      azure_rm_subnet:
+        resource_group: "{{az_resourcegroup}}"
+        name: "{{az_subnet}}"
+        address_prefix: "10.0.0.0/24"
+        subscription_id: "{{az_subscription_id}}"
+        auth_source: "{{az_auth_source}}"
+        virtual_network: "{{az_virtualnetwork}}"
+
+    - name: Create public IP addresses
+      azure_rm_publicipaddress:
+        resource_group: "{{az_resourcegroup}}"
+        allocation_method: Static
+        subscription_id: "{{az_subscription_id}}"
+        auth_source: "{{az_auth_source}}"
+        name: "{{az_pub_ip}}-{{machines[item].name}}"
+      with_items: "{{machines}}"
+
+    - name: Create NSGs
+      azure_rm_securitygroup:
+        resource_group: "{{az_resourcegroup}}"
+        name: "{{az_nsg}}-{{machines[item].name}}"
+        subscription_id: "{{az_subscription_id}}"
+        auth_source: "{{az_auth_source}}"
+        purge_rules: yes
+        rules:
+          - name: "{{az_nsg_rule}}"
+            protocol: Tcp
+            destination_port_range: "{{machines[item].ports}}"
+            source_address_prefix : "{{az_nsg_ip_source}}"
+            access: Allow
+            priority: 100
+            direction: Inbound
+      when: machines[item].name != 'apache'
+      with_items: "{{machines}}"
+
+    - name: Create NSG for Apache
+      azure_rm_securitygroup:
+        resource_group: "{{az_resourcegroup}}"
+        name: "{{az_nsg}}-{{machines[item].name}}"
+        subscription_id: "{{az_subscription_id}}"
+        auth_source: "{{az_auth_source}}"
+        purge_rules: yes
+        rules:
+          - name: "{{az_nsg_rule}}"
+            protocol: Tcp
+            destination_port_range: "{{machines[item].ports}}"
+            source_address_prefix : "{{az_nsg_ip_source}}"
+            access: Allow
+            priority: 100
+            direction: Inbound
+          - name: "certbot"
+            protocol: Tcp
+            destination_port_range: "80"
+            source_address_prefix : "*"
+            access: Allow
+            priority: 110
+            direction: Inbound
+      when: machines[item].name == 'apache'
+      with_items: "{{machines}}"
+
+    - name: Create virtual network interface cards
+      azure_rm_networkinterface:
+        resource_group: "{{az_resourcegroup}}"
+        name: "{{az_nic}}-{{machines[item].name}}"
+        subscription_id: "{{az_subscription_id}}"
+        auth_source: "{{az_auth_source}}"
+        location: "{{az_location}}"
+        subnet: "{{az_subnet}}"
+        virtual_network: "{{az_virtualnetwork}}"
+        security_group_name: "{{az_nsg}}-{{machines[item].name}}"
+        ip_configurations:
+          - name: primary
+            public_ip_address_name: "{{az_pub_ip}}-{{machines[item].name}}"
+            primary: true
+      with_items: "{{machines}}"
+
+    - name: Create VM
+      azure_rm_virtualmachine:
+        resource_group: "{{az_resourcegroup}}"
+        name: "{{az_resourcegroup}}-{{machines[item].name}}"
+        subscription_id: "{{az_subscription_id}}"
+        auth_source: "{{az_auth_source}}"
+        vm_size: "{{machines[item].size}}"
+        managed_disk_type: "{{az_disk_type}}"
+        admin_username: "{{az_vm_user}}"
+        ssh_password_enabled: false
+        ssh_public_keys:
+          - path: /home/{{az_vm_user}}/.ssh/authorized_keys
+            key_data: "{{lookup('file', '../target/ssh/redscan.pub')}}"
+        network_interfaces: "{{az_nic}}-{{machines[item].name}}"
+        image: "{{az_node_image}}"
+        tags:
+          service: "{{item}}"
+      with_items: "{{machines}}"
+
+    - name: Create a managed AKS cluster
+      azure_rm_aks:
+        name: "{{az_aks}}"
+        subscription_id: "{{az_subscription_id}}"
+        auth_source: "{{az_auth_source}}"
+        location: "{{az_location}}"
+        resource_group: "{{az_resourcegroup}}"
+        dns_prefix: "{{az_aks}}"
+        kubernetes_version: "{{az_k8s_version}}"
+        node_resource_group: "{{az_aks_node_resourcegroup}}"
+        linux_profile:
+          admin_username: "{{az_vm_user}}"
+          ssh_key: "{{lookup('file', '../target/ssh/redscan.pub')}}"
+        agent_pool_profiles:
+          - name: default
+            mode: System
+            count: "{{az_k8s_node_count}}"
+            vm_size: "{{az_node_size_large}}"
+
+    - name: Get facts of cluster virtual network
+      azure_rm_virtualnetwork_info:
+        subscription_id: "{{az_subscription_id}}"
+        resource_group: "{{az_aks_node_resourcegroup}}"
+      register: az_aks_infos
+
+    - name: Check if peering already exists in node resource group
+      azure_rm_virtualnetworkpeering_info:
+        subscription_id: "{{az_subscription_id}}"
+        resource_group: "{{az_aks_node_resourcegroup}}"
+        virtual_network: "{{az_aks_infos.virtualnetworks[0].name}}"
+      register: az_aks_peering_services
+
+    - name: Create virtual network peering in node virtual network
+      azure_rm_virtualnetworkpeering:
+        subscription_id: "{{az_subscription_id}}"
+        auth_source: "{{az_auth_source}}"
+        resource_group: "{{az_aks_node_resourcegroup}}"
+        virtual_network: "{{az_aks_infos.virtualnetworks[0].name}}"
+        name: "{{az_resourcegroup}}-services-communication"
+        remote_virtual_network:
+          resource_group: "{{az_resourcegroup}}"
+          name: "{{az_virtualnetwork}}"
+        allow_virtual_network_access: true
+        allow_forwarded_traffic: true
+      when: az_aks_peering_services.vnetpeerings | length == 0
+
+    - name: Check if peering already exists in standalone resource group
+      azure_rm_virtualnetworkpeering_info:
+        subscription_id: "{{az_subscription_id}}"
+        resource_group: "{{az_resourcegroup}}"
+        virtual_network: "{{az_virtualnetwork}}"
+      register: az_aks_peering_aks
+
+    - name: Connect virtual network peering to standalone virtual network
+      azure_rm_virtualnetworkpeering:
+        subscription_id: "{{az_subscription_id}}"
+        auth_source: "{{az_auth_source}}"
+        resource_group: "{{az_resourcegroup}}"
+        virtual_network: "{{az_virtualnetwork}}"
+        name: "{{az_resourcegroup}}-aks-communication"
+        remote_virtual_network:
+          resource_group: "{{az_aks_node_resourcegroup}}"
+          name: "{{az_aks_infos.virtualnetworks[0].name}}"
+        allow_virtual_network_access: true
+        allow_forwarded_traffic: true
+      when: az_aks_peering_aks.vnetpeerings | length == 0
+
+
+      

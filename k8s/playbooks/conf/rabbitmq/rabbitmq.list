@@ -1,0 +1,9 @@
+deb [signed-by=/etc/apt/keyrings/erlang-repo.gpg] https://ppa1.novemberain.com/rabbitmq/rabbitmq-erlang/deb/debian buster main
+deb-src [signed-by=/etc/apt/keyrings/erlang-repo.gpg] https://ppa1.novemberain.com/rabbitmq/rabbitmq-erlang/deb/debian buster main
+deb [signed-by=/etc/apt/keyrings/erlang-repo.gpg] https://ppa2.novemberain.com/rabbitmq/rabbitmq-erlang/deb/debian buster main
+deb-src [signed-by=/etc/apt/keyrings/erlang-repo.gpg] https://ppa2.novemberain.com/rabbitmq/rabbitmq-erlang/deb/debian buster main
+
+deb [signed-by=/etc/apt/keyrings/rabbitmq-repo.gpg] https://ppa1.novemberain.com/rabbitmq/rabbitmq-server/deb/debian buster main
+deb-src [signed-by=/etc/apt/keyrings/rabbitmq-repo.gpg] https://ppa1.novemberain.com/rabbitmq/rabbitmq-server/deb/debian buster main
+deb [signed-by=/etc/apt/keyrings/rabbitmq-repo.gpg] https://ppa2.novemberain.com/rabbitmq/rabbitmq-server/deb/debian buster main
+deb-src [signed-by=/etc/apt/keyrings/rabbitmq-repo.gpg] https://ppa2.novemberain.com/rabbitmq/rabbitmq-server/deb/debian buster main

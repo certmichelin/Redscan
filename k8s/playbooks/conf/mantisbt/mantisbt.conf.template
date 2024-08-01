@@ -1,0 +1,12 @@
+<VirtualHost *:80>
+    DocumentRoot "/var/www/html/mantisbt-{{mantisbt_version}}"
+    Alias /mantisbt "/var/www/html/mantisbt-{{mantisbt_version}}"
+    ErrorLog "/var/log/apache2/mantisbt-error_log"
+    CustomLog "/var/log/apache2/mantisbt-access_log" combined
+    <Directory "/var/www/html/mantisbt-{{mantisbt_version}}">
+        DirectoryIndex index.php index.html
+        Options FollowSymLinks
+        AllowOverride All
+        Require all granted
+    </Directory>
+</VirtualHost>

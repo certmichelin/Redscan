@@ -10,3 +10,7 @@ compose/conf/keycloak/realm-export.json
 compose/conf/redscan-rproxy/redscan.conf
 compose/conf/redscan-subfinder/app/provider-config.yaml
 compose/dockprom
+k8s/logs/*.log
+k8s/playbooks/vars/redscan.yaml
+k8s/target
+k8s/venv

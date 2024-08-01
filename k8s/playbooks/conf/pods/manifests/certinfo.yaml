@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: Deployment
+metadata:
+  name: "{{plugin}}"
+spec: 
+  selector:
+    matchLabels:
+      app: "{{plugin}}"
+  replicas: {{plugins[plugin].replicas | int}}
+  template:
+    metadata:
+      labels:
+        app: "{{plugin}}"
+    spec:  
+      containers: 
+      - image: {{plugins[plugin].image}}:{{plugins[plugin].version}}
+        name: "{{plugin}}"
+        envFrom:
+          - configMapRef: 
+              name: "general-configmap"
+        volumeMounts:
+          - name: log4j-config-volume
+            mountPath: /conf
+      volumes:
+        - name: log4j-config-volume
+          configMap:
+            name: "{{plugin}}-log4j-configmap"
+            items:
+            - key: log4j2.xml
+              path: log4j2.xml         
