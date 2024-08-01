@@ -11,6 +11,7 @@ redscan_hostname: "XXXXXXXXXXXXXXXXXXXX"
 
 # Name Convention
 az_aks: "{{az_resourcegroup}}-aks"
+az_aks_namespace: "redscan-k8s"
 az_aks_node_resourcegroup: "{{az_resourcegroup}}-nodes"
 az_auth_source: "cli"
 az_nic: "{{az_resourcegroup}}-nic"
@@ -89,6 +90,168 @@ rabbitmq_admin_username: "XXXXXXXXXXXXXXXXXXXX"
 rabbitmq_admin_password: "XXXXXXXXXXXXXXXXXXXX"
 
 # ----------------------------------------
+# Define Plugins configurations
+# ----------------------------------------
+nuclei_miscellaneous_exclude_list: "options-method,robots-txt-endpoint,robots-txt,http-trace,external-service-interaction"
+nuclei_misconfiguration_exclude_list: "http-missing-security-headers,httponly-cookie-detect,xss-deprecated-header,aspx-debug-mode"
+nuclei_technologies_exclude_list: "tech-detect,waf-detect,favicon-detect"
+shodan_api_key: "XXXXXXX"
+
+plugins_wordlists:
+  - "https://raw.githubusercontent.com/danielmiessler/SecLists/master/Discovery/Infrastructure/nmap-ports-top1000.txt"
+
+plugins:
+  certinfo:
+    name: certinfo
+    image: "deddobifu/redscan-certinfo"
+    version: "1.0.0"
+    replicas: 1
+
+  cloudenum: 
+    name: cloudenum
+    image: "deddobifu/redscan-cloudenum"
+    version: "1.0.0"
+    replicas: 3
+
+  cname: 
+    name: cname
+    image: "deddobifu/redscan-cname"
+    version: "1.0.0"
+    replicas: 1
+
+  exploretld:
+    name: exploretld
+    image: "deddobifu/redscan-exploretld"
+    version: "1.0.0"
+    replicas: 3
+
+  gospider:
+    name: gospider
+    image: "deddobifu/redscan-gospider"
+    version: "1.0.1"
+    replicas: 3
+
+  ip:
+    name: ip
+    image: "deddobifu/redscan-ip"
+    version: "1.0.0"
+    replicas: 1
+
+  iprangescanner:
+    name: iprangescanner
+    image: "deddobifu/redscan-iprangescanner"
+    version: "1.0.0"
+    replicas: 10
+
+  masscan:
+    name: masscan
+    image: "deddobifu/redscan-masscan"
+    version: "1.0.0"
+    replicas: 4
+
+  nmapservice:
+    name: nmapservice
+    image: "deddobifu/redscan-nmapservice"
+    version: "1.0.1"
+    replicas: 50
+
+  nuclei-cve: 
+    name: nuclei-cve
+    image: "deddobifu/redscan-nuclei-cve"
+    version: "1.0.0"
+    replicas: 10
+
+  nuclei-defaultlogins:
+    name: nuclei-defaultlogins
+    image: "deddobifu/redscan-nuclei-defaultlogins"
+    version: "1.0.0"
+    replicas: 10
+  
+  nuclei-exposedpanels:
+    name: nuclei-exposedpanels
+    image: "deddobifu/redscan-nuclei-exposedpanels"
+    version: "1.0.0"
+    replicas: 10
+
+  nuclei-exposure: 
+    name: nuclei-exposure
+    image: "deddobifu/redscan-nuclei-exposure"
+    version: "1.0.0"
+    replicas: 10
+  
+  nuclei-miscellaneous:
+    name: nuclei-miscellaneous
+    image: "deddobifu/redscan-nuclei-miscellaneous"
+    version: "1.0.0"
+    replicas: 10
+
+  nuclei-misconfiguration: 
+    name: nuclei-miconfiguration
+    image: "deddobifu/redscan-nuclei-misconfiguration"
+    version: "1.0.0"
+    replicas: 10
+
+  nuclei-technologies: 
+    name: nuclei-technologies
+    image: "deddobifu/redscan-nuclei-technologies"
+    version: "1.0.0"
+    replicas: 10
+  
+  nuclei-vulnerability: 
+    name: nuclei-vulnerability
+    image: "deddobifu/redscan-nuclei-vulnerability"
+    version: "1.0.0"
+    replicas: 10
+
+  puppeteer:
+    name: puppeteer
+    image: "deddobifu/redscan-puppeteer"
+    version: "1.0.0"
+    replicas: 3
+
+  saas-explorer:
+    name: saas-explorer
+    image: "deddobifu/redscan-saas-explorer"
+    version: "1.0.0"
+    replicas: 1
+
+  shodan:
+    name: shodan
+    image: "deddobifu/redscan-shodan"
+    version: "1.0.0"
+    replicas: 4
+
+  sslscan:
+    name: sslscan
+    image: "deddobifu/redscan-sslscan"
+    version: "1.0.0"
+    replicas: 3
+
+  subfinder:
+    name: subfinder
+    image: "deddobifu/redscan-subfinder"
+    version: "1.0.0"
+    replicas: 4
+  
+  subjack:
+    name: subjack
+    image: "deddobifu/redscan-subjack"
+    version: "1.0.0"
+    replicas: 3
+
+  vulnerability:
+    name: vulnerability
+    image: deddobifu/redscan-vulnerability
+    version: "1.0.0"
+    replicas: 1
+  
+  wappalyzer:
+    name: wappalyzer
+    image: deddobifu/redscan-wappalyzer
+    version: "1.0.0"
+    replicas: 3
+    
+# ----------------------------------------
 # Define Standalone general resources
 # ----------------------------------------
 machines: 
@@ -133,3 +296,4 @@ machines:
       - 80
       - 443
     size: "{{az_node_size_large}}"
+
