@@ -11,13 +11,15 @@ This setup combines the flexibility and scalability of Kubernetes orchestration 
 Together, this hybrid approach optimizes resource utilization, enhances scalability, and maintains high performance for Redscan’s security scanning and monitoring functions in the Azure environment.
 
 ````
-#Replace custom values in /playbooks/var/redscan.yaml.template
+#Copy /playbooks/var/redscan.yaml.template to /playbooks/var/redscan.yaml and remplace values.
 python -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 python red-k8s.py --prepare
 python red-k8s.py --check
 python red-k8s.py --provision
+#Change dns configuration to link hostname to apache public ip
+python red-k8s.py --install
 ````
 
 <br/>
