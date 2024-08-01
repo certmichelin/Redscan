@@ -31,10 +31,7 @@ def init(config_file):
     print("----- Init WORDLISTS FILES -----") 
     fileToDownload = {
         #Suffix wordlist
-        'https://raw.githubusercontent.com/publicsuffix/list/master/public_suffix_list.dat' : 'public_suffix_list.dat',
-        'https://raw.githubusercontent.com/danielmiessler/SecLists/master/Discovery/Infrastructure/nmap-ports-top1000.txt' : 'nmap-ports-top1000.txt',
-        'https://raw.githubusercontent.com/danielmiessler/SecLists/master/Discovery/DNS/deepmagic.com-prefixes-top50000.txt' : 'deepmagic.com-prefixes-top50000.txt',
-        'https://raw.githubusercontent.com/danielmiessler/SecLists/master/Discovery/DNS/subdomains-top1million-5000.txt' : 'subdomains-top1million-5000.txt',
+        'https://raw.githubusercontent.com/danielmiessler/SecLists/master/Discovery/Infrastructure/nmap-ports-top1000.txt' : 'nmap-ports-top1000.txt'
     }    
     for url in fileToDownload.keys():
         with urllib.request.urlopen(url) as response, open('./compose/data/wordlists/'+fileToDownload[url], 'wb') as out_file:
