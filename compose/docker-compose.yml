@@ -351,7 +351,7 @@ services:
         condition: service_healthy
 
   redscan-wappalyzer:
-    image: deddobifu/redscan-wappalyzer:1.0.0
+    image: deddobifu/redscan-wappalyzer:1.0.1
     env_file:
       - data/environments/red.env
     volumes:

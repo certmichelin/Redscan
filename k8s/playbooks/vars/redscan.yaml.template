@@ -248,7 +248,7 @@ plugins:
   wappalyzer:
     name: wappalyzer
     image: deddobifu/redscan-wappalyzer
-    version: "1.0.0"
+    version: "1.0.1"
     replicas: 3
     
 # ----------------------------------------
