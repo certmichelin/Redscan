@@ -44,7 +44,7 @@ elastic_version: "8.14.3"
 erlang_version: "1:26.2.5.2-1"
 kibana_version: "8.14.3"
 magellan_version: "1.0.0"
-mantisbt_version: "2.26.2"
+mantisbt_version: "2.27.0"
 rabbitmq_version: "3.12.13-1"
 
 alerts_teams_webhook_url: "https://outlook.office.com/webhook/XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/IncomingWebhook/XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"  

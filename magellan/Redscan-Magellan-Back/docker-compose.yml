@@ -50,7 +50,7 @@ services:
       - --hostname-admin-url https://localhost/auth/
 
   mantisbt:
-    image: deddobifu/redscan-mantisbt:1.0.1
+    image: deddobifu/redscan-mantisbt:1.0.2
     env_file:
       - resources/mantis/mantisbt.env
     depends_on:
