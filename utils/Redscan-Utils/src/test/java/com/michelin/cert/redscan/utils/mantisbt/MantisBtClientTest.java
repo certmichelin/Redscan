@@ -43,7 +43,7 @@ public class MantisBtClientTest {
   @Test
   public void testAll() {
     System.out.println("MantisBtClient:GetMantisVersion");
-    String expResult = "2.26.2";
+    String expResult = "2.27.0";
     String result = client.getMantisVersion();
     assertEquals(expResult, result);
 
@@ -65,6 +65,13 @@ public class MantisBtClientTest {
     assertNotNull(issues);
     assertEquals(0, issues.length);
 
+    System.out.println("MantisBtClient:SearchIssues");
+    IssueData[] searchResults = client.searchIssues("Critical");
+    assertNotNull(searchResults);
+    assertNotEquals(0, searchResults.length);
+    searchResults = client.searchIssues("fbfkdjhfjkdshfjkd");
+    assertNotNull(searchResults);
+    assertEquals(0, searchResults.length);
     
     System.out.println("MantisBtClient:AddComment");
     BigInteger addComment = client.addComment(issueCreated, "Test comment");

@@ -614,7 +614,7 @@ public abstract class DatalakeStorageItem {
 
   /**
    * Create DatalakeStorageItem instance from Datalake data. Be careful to
-   * verify if the JSON object parameter is not null. If object is null =>
+   * verify if the JSON object parameter is not null. If object is null then
    * return null.
    *
    * @param <T> DatalakeStorageItem children.

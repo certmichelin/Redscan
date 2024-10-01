@@ -145,6 +145,25 @@ public class MantisBtClient {
     }
     return issueDatas;
   }
+  
+  /**
+   * Search MantisBT issues.
+   *
+   * @param searchString String to search in MantisBT issues.
+   * @return MantisBT issues matching the search query.
+   */
+  public IssueData[] searchIssues(String searchString) {
+    LogManager.getLogger(MantisBtClient.class).info(String.format("Search issues : %s", searchString));
+    IssueData[] issueDatas = null;
+    try {
+      FilterSearchData filter = new FilterSearchData();
+      filter.setSearch(searchString);
+      issueDatas = getClient().mc_filter_search_issues(username, password, filter, BigInteger.valueOf(1), BigInteger.valueOf(-1));
+    } catch (Exception ex) {
+      LogManager.getLogger(MantisBtClient.class).error(String.format("Exception : %s", ex.getMessage()));
+    }
+    return issueDatas;
+  }
 
   /**
    * Delete MantisBT issue.

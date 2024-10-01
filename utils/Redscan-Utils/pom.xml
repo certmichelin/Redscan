@@ -4,7 +4,7 @@
     <groupId>red.deddobifu</groupId>
     <artifactId>redscan-utils</artifactId>
     <packaging>jar</packaging>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
     <url>https://github.com/certmichelin/Redscan</url>
     <description>Redscan utils is the main component used by REDSCAN scanners, it will include all commons features to interacts with REDSCAN ecosystem such as ElasticSearch etc...</description>
 
