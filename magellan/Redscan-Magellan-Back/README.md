@@ -9,15 +9,25 @@
 
 ### Objective
 
-Manage the brands & master domains.
+Magellan-Back project handle all external required interactions between end users and Redscan.
 
 ### Description
 
-REST API used to manage the brands.
+Redscan REST API.
 
 ### How to develop
 
+```bash
+docker compose up
 ```
-docker run -d -p 15671:5672 -p 15672:15672 --name redscan-rabbit-dev rabbitmq:3-management
-docker run -d -p 9201:9200 -p 9300:9300 -e "discovery.type=single-node" --name redscan-elasticsearch-dev docker.elastic.co/elasticsearch/elasticsearch:7.15.0
+
+```http
+POST /auth/realms/Redscan/protocol/openid-connect/token HTTP/1.1
+Host: localhost
+Accept: */*
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 66
+Connection: keep-alive
+
+grant_type=password&client_id=magellan&username=demo&password=demo
 ```

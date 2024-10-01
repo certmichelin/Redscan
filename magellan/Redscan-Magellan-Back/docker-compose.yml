@@ -3,6 +3,46 @@
 #
 version: "3.8"
 services:
+
+  redscan-saas-explorer:
+    image: deddobifu/redscan-saas-explorer:1.0.0
+    environment:
+      - SPRING_RABBITMQ_HOST=rabbitmq
+      - SPRING_RABBITMQ_PORT=5672
+      - DATALAKE_ELASTIC_URL=http://elasticsearch:9200
+      - DATALAKE_ELASTIC_USERNAME=
+      - DATALAKE_ELASTIC_PASSWORD=
+      - CACHE_MANAGER_URL=http://redscan-cache:8080
+    volumes:
+      - ./logs:/logs
+      - ./resources/redscan-saas-explorer:/conf
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+
+  redscan-vulnerability:
+    image: deddobifu/redscan-vulnerability:1.0.0
+    environment:
+      - SPRING_RABBITMQ_HOST=rabbitmq
+      - SPRING_RABBITMQ_PORT=5672
+      - DATALAKE_ELASTIC_URL=http://elasticsearch:9200
+      - DATALAKE_ELASTIC_USERNAME=
+      - DATALAKE_ELASTIC_PASSWORD=
+      - CACHE_MANAGER_URL=http://redscan-cache:8080
+      - MANTIS_API_URL=http://mantisbt:80/api/soap/mantisconnect.php
+      - MANTIS_API_USERNAME=administrator
+      - MANTIS_API_PASSWORD=redscan
+    volumes:
+      - ./logs:/logs
+      - ./resources/redscan-vulnerability:/conf
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+
   elasticsearch:
     image: elasticsearch:8.14.1
     ports:
@@ -24,6 +64,10 @@ services:
 
   rabbitmq:
     image: rabbitmq:3.12.13-management
+    ports:
+      # - "exposé:inner"
+      - "5672:5672"
+      - "15672:15672"
     environment:
       - RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS=-rabbitmq_management path_prefix "/rabbitmq"
     healthcheck:
@@ -51,6 +95,8 @@ services:
 
   mantisbt:
     image: deddobifu/redscan-mantisbt:1.0.2
+    ports:
+      - "8890:80"
     env_file:
       - resources/mantis/mantisbt.env
     depends_on:
