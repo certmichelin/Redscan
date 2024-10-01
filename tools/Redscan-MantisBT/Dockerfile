@@ -9,8 +9,8 @@ RUN docker-php-ext-install gd mbstring mysqli soap
 RUN rm -rf /var/lib/apt/lists/*
 RUN a2enmod rewrite
 
-ENV MANTIS_VER 2.26.2
-ENV MANTIS_MD5 aee69ef61f342c394eccdb581688c751
+ENV MANTIS_VER 2.27.0
+ENV MANTIS_MD5 c7b99d6b46de8e0597713571c570bac5
 ENV MANTIS_URL https://sourceforge.net/projects/mantisbt/files/mantis-stable/${MANTIS_VER}/mantisbt-${MANTIS_VER}.tar.gz
 ENV MANTIS_FILE mantisbt.tar.gz
 
